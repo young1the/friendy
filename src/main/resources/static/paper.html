@@ -1,0 +1,607 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+	<head> 
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>AI Admin</title>
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/admin.js"></script>		
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/admin.css">
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700,900&display=swap" rel="stylesheet">
+	</head>
+<body>
+	 
+	<div id="wrap">
+		<!-- 상단 공통 영역 -->
+		<div data-include-path="include/html/inc_header.html"></div>
+		<!-- 상단 공통 영역 -->
+		<div class="container">
+			<h2 class="page_tit">기출 시험지 관리</h2>
+			
+			<!-- 컨텐츠 영역 -->
+			<div id="content_wide">
+                <div class="con_case">
+					<div class="tabmenu">
+						<ul>
+							<li id="tab1" class="tab_btn">
+								<input type="radio" checked name="tabmenu" id="tmenu1" class="tab">
+								<label class="tlabel1 label" for="tmenu1">중등</label>
+								<div class="tab_con">
+									<p class="info mt15">* 중등 기출 시험지 업로드 현황을 확인할 수 있습니다.</p>
+									<!-- 검색박스 -->
+									<div class="search_box mt20">
+										<div class="terms_list justify_between">
+											<div class="terms">
+												<h4>지역</h4>
+												<select class="select_box">
+													<option value="">전체</option>
+													<option value="">서울</option>
+													<option value="">경기도</option>																
+													<option value="">부산광역시</option>																
+												</select>
+												<select class="select_box ml05 w140">
+													<option value="">구/군</option>
+													<option value="">강남구</option>
+													<option value="">서초구</option>																
+													<option value="">금천구</option>																
+												</select>
+											</div>
+											<div class="terms">
+												<h4>기출년도</h4>
+												<select class="select_box">
+													<option value="">2021년</option>
+													<option value="">2020년</option>
+													<option value="">2019년</option>																
+													<option value="">2018년</option>																
+												</select>
+											</div>
+											<div class="terms">
+												<h4>학년</h4>
+												<div class="radio_box">
+													<input type="radio" id="g1" name="grade" value="전체" checked><label for="g1"> 전체</label>
+													<input type="radio" id="g2" name="grade" value="1학년" ><label for="g2"> 1학년</label>
+													<input type="radio" id="g3" name="grade" value="2학년" ><label for="g3"> 2학년</label>
+													<input type="radio" id="g4" name="grade" value="3학년" ><label for="g4"> 3학년</label>
+												</div>
+												
+											</div>
+											<div class="terms">
+												<h4>학기</h4>
+												<div class="check_box">
+													<input type="checkbox" id="box5">
+													<label for="box5" class="mr15">1학기</label>
+													<input type="checkbox" id="box6">
+													<label for="box6">2학기</label>
+												</div>
+											</div>
+										</div>
+
+										<div class="terms_list justify_between mt30">
+											<div class="terms">
+												<h4>시험종류</h4>
+												<div class="check_box">
+													<input type="checkbox" id="box7">
+													<label for="box7" class="mr15">중간고사</label>
+													<input type="checkbox" id="box8">
+													<label for="box8">기말고사</label>
+												</div>
+											</div>
+											<div class="terms">
+												<h4>과목</h4>
+												<select class="select_box">
+													<option value="">전체</option>
+													<option value="">과목1</option>
+													<option value="">과목2</option>															
+												</select>
+											</div>											
+											<div class="terms">
+												<h4>업로드 상태</h4>
+												<div class="radio_box">
+													<input type="radio" id="u1" name="upload" value="전체" checked> <label for="u1"> 전체</label>
+													<input type="radio" id="u2" name="upload" value="완료"> <label for="u2"> 완료</label>
+													<input type="radio" id="u3" name="upload" value="제외"> <label for="u3"> 제외</label>
+												</div>
+											</div>
+											<div class="terms">
+												<h4>지역</h4>
+												<select class="select_box">
+													<option value="">전체</option>
+													<option value="">서울</option>
+													<option value="">경기도</option>																
+													<option value="">부산광역시</option>																
+												</select>
+												<input type="text" class="ml05 w140" placeholder="검색어">
+											</div>
+										</div>
+										<div class="btn_wrap mt40 justify_center">
+											<a class="btn2 w180 btn_color2" href="#none">검색</a>
+											<a class="btn2 w80 btn_line ml15" href="#none">초기화</a>
+										</div>
+
+									</div>
+									<!-- 검색결과 -->
+									<div class="justify_between">
+										<p class="total mt10">총 <span>00개</span></p>
+										<div>
+											<a class="btn w120 btn_color3" href="#none">엑셀파일 다운로드</a>
+											<a class="btn w120 btn_color2" href="#none">시험지 업로드</a>
+										</div>
+									</div>
+									<table class="tbl_list mt15">
+										<caption></caption>
+										<colgroup>
+											<col width="4%">
+											<col width="7%">
+											<col width="7%">
+											<col width="7%">
+											<col width="7%">
+											<col width="7%">
+											<col />
+											<col width="10%">
+											<col width="10%">
+											<col width="13%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th scope="col"class="first">NO</th>
+												<th scope="col">기출년도</th>
+												<th scope="col">학년</th>
+												<th scope="col">학기</th>
+												<th scope="col">시험 종류</th>
+												<th scope="col">과목</th>
+												<th scope="col">학교명</th>
+												<th scope="col">업로드 상태</th>
+												<th scope="col">등록자</th>
+												<th scope="col">등록일</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="first">1</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">2</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">3</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">4</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">5</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">6</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">7</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">8</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">9</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">10</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울중학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- 페이징 -->
+									<div class="paging mt32">
+										<a href="javascript:void(0);" class="pprev">
+											<<
+										</a>
+										<a href="javascript:void(0);" class="prev">
+											<
+										</a>									
+										<a href="javascript:void(0);" class="on">1</a>
+										<a href="javascript:void(0);">2</a>
+										<a href="javascript:void(0);">3</a>
+										<a href="javascript:void(0);">4</a>
+										<a href="javascript:void(0);">5</a>
+										<a href="javascript:void(0);">6</a>
+										<a href="javascript:void(0);">7</a>
+										<a href="javascript:void(0);">8</a>																												
+										<a href="javascript:void(0);">9</a>
+										<a href="javascript:void(0);">10</a>												
+				
+										<a href="javascript:void(0);" class="next">
+											>
+										</a>
+										<a href="javascript:void(0);" class="nnext">
+											>>
+										</a>										
+									</div>
+								</div>
+							</li>
+							<li id="tab1" class="tab_btn">
+								<input type="radio" name="tabmenu" id="tmenu2" class="tab">
+								<label class="tlabel2 label" for="tmenu2">고등</label>
+								<div class="tab_con">
+									<p class="info mt15">* 고등 기출 시험지 업로드 현황을 확인할 수 있습니다.</p>
+									<!-- 검색박스 -->
+									<div class="search_box mt20">
+										<div class="terms_list justify_between">
+											<div class="terms">
+												<h4>지역</h4>
+												<select class="select_box">
+													<option value="">전체</option>
+													<option value="">서울</option>
+													<option value="">경기도</option>																
+													<option value="">부산광역시</option>																
+												</select>
+												<select class="select_box ml05 w140">
+													<option value="">구/군</option>
+													<option value="">강남구</option>
+													<option value="">서초구</option>																
+													<option value="">금천구</option>																
+												</select>
+											</div>
+											<div class="terms">
+												<h4>기출년도</h4>
+												<select class="select_box">
+													<option value="">2021년</option>
+													<option value="">2020년</option>
+													<option value="">2019년</option>																
+													<option value="">2018년</option>																
+												</select>
+											</div>
+											<div class="terms">
+												<h4>학년</h4>
+												<div class="radio_box">
+													<input type="radio" id="g11" name="grade2" value="전체" checked><label for="g11"> 전체</label>
+													<input type="radio" id="g21" name="grade2" value="1학년" ><label for="g21"> 1학년</label>
+													<input type="radio" id="g31" name="grade2" value="2학년" ><label for="g31"> 2학년</label>
+													<input type="radio" id="g41" name="grade2" value="3학년" ><label for="g41"> 3학년</label>
+												</div>
+											</div>
+											<div class="terms">
+												<h4>학기</h4>
+												<div class="check_box">
+													<input type="checkbox" id="box1">
+													<label for="box1" class="mr15">1학기</label>
+													<input type="checkbox" id="box2">
+													<label for="box2">2학기</label>
+												</div>
+											</div>
+										</div>
+
+										<div class="terms_list justify_between mt30">
+											<div class="terms">
+												<h4>시험종류</h4>
+												<div class="check_box">
+													<input type="checkbox" id="box3">
+													<label for="box3" class="mr15">중간고사</label>
+													<input type="checkbox" id="box4">
+													<label for="box4">기말고사</label>
+												</div>
+											</div>
+											<div class="terms">
+												<h4>과목</h4>
+												<select class="select_box">
+													<option value="">전체</option>
+													<option value="">과목1</option>
+													<option value="">과목2</option>															
+												</select>
+											</div>											
+											<div class="terms">
+												<h4>업로드 상태</h4>
+												<div class="radio_box">
+													<input type="radio" id="u4" name="upload2" value="전체" checked> <label for="u4">전체</label>
+													<input type="radio" id="u5" name="upload2" value="완료"> <label for="u5">완료</label>
+													<input type="radio" id="u6" name="upload2" value="제외"> <label for="u6">제외</label>
+												</div>
+											</div>
+											<div class="terms">
+												<h4>지역</h4>
+												<select class="select_box">
+													<option value="">전체</option>
+													<option value="">서울</option>
+													<option value="">경기도</option>																
+													<option value="">부산광역시</option>																
+												</select>
+												<input type="text" class="ml05 w140" placeholder="검색어">
+											</div>
+										</div>
+										<div class="btn_wrap mt40 justify_center">
+											<a class="btn2 w180 btn_color2" href="#none">검색</a>
+											<a class="btn2 w80 btn_line ml15" href="#none">초기화</a>
+										</div>
+
+									</div>
+									<!-- 검색결과 -->
+									<div class="justify_between">
+										<p class="total mt10">총 <span>00개</span></p>
+										<div>
+											<a class="btn w120 btn_color3" href="#none">엑셀파일 다운로드</a>
+											<a class="btn w120 btn_color2" href="#none">시험지 업로드</a>
+										</div>
+									</div>
+									<table class="tbl_list mt15">
+										<caption></caption>
+										<colgroup>
+											<col width="4%">
+											<col width="7%">
+											<col width="7%">
+											<col width="7%">
+											<col width="7%">
+											<col width="7%">
+											<col />
+											<col width="10%">
+											<col width="10%">
+											<col width="13%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th scope="col"class="first">NO</th>
+												<th scope="col">기출년도</th>
+												<th scope="col">학년</th>
+												<th scope="col">학기</th>
+												<th scope="col">시험 종류</th>
+												<th scope="col">과목</th>
+												<th scope="col">학교명</th>
+												<th scope="col">업로드 상태</th>
+												<th scope="col">등록자</th>
+												<th scope="col">등록일</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="first">1</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">2</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">3</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">4</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">5</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">6</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">7</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">8</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">9</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+											<tr>
+												<td class="first">10</td>
+												<td>2021</td>
+												<td>3학년</td>
+												<td>1학기</td>
+												<td>중간</td>
+												<td>수학</td>
+												<td class="school">서울고등학교</td>
+												<td>완료</td>
+												<td>홍길동</td>
+												<td>2021.00.00</td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- 페이징 -->
+									<div class="paging mt32">
+										<a href="javascript:void(0);" class="pprev">
+											<<
+										</a>
+										<a href="javascript:void(0);" class="prev">
+											<
+										</a>									
+										<a href="javascript:void(0);" class="on">1</a>
+										<a href="javascript:void(0);">2</a>
+										<a href="javascript:void(0);">3</a>
+										<a href="javascript:void(0);">4</a>
+										<a href="javascript:void(0);">5</a>
+										<a href="javascript:void(0);">6</a>
+										<a href="javascript:void(0);">7</a>
+										<a href="javascript:void(0);">8</a>																												
+										<a href="javascript:void(0);">9</a>
+										<a href="javascript:void(0);">10</a>												
+				
+										<a href="javascript:void(0);" class="next">
+											>
+										</a>
+										<a href="javascript:void(0);" class="nnext">
+											>>
+										</a>										
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+
+                </div>
+				
+			</div>
+
+
+		</div>
+
+	</div>
+	<script>
+	
+	</script>
+</body>
+</html>

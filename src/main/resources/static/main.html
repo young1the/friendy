@@ -1,0 +1,529 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+	<head> 
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>AI Admin</title>
+		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="js/admin.js"></script>
+		<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>			
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/admin.css">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700,900&display=swap" rel="stylesheet">
+	</head>
+<body>
+<div class="header-wrap">
+	<div class="header">
+		<div class="top">
+			<div class="logo">
+				<h1><img src="/images/logo.svg" alt="천재교육" /></h1>
+			</div>
+			<div class="btn_wrap justify_between">
+				<a href="#none" class="name">김천재</a>
+				<div class="box">
+					<select class="select_box">
+						<option value="">총괄관리자</option>
+						<option value="">수집담당자</option>
+						<option value="">문제운영자</option>
+						<option value="">문제검수자</option>
+					</select>
+				</div>
+
+				<a href="#none" class="btn_default btn_gray right">로그아웃</a>
+			</div>
+		</div>
+		<div class="nav_bar">
+			<ul class="menu">
+				<li><a href="/paper/list">기출 시험지 관리</a></li>
+				<li><a href="">OCR 변환</a></li>
+				<li><a href="#none">유사 문제 관리</a></li>
+				<li><a href="#none">서비스 관리</a></li>
+				<li><a href="/user/adminList">시스템 관리</a></li>
+			</ul>
+			<div class="nav_box">
+				<ul>
+					<li><a href="/paper/list">기출 시험지 관리</a></li>
+					<li><a href="/paper/registration">시험지 업로드</a></li>
+				</ul>
+				<ul>
+					<li><a href="/item/ocrList">OCR 변환 관리</a></li>
+				</ul>
+				<ul>
+					<li><a href="#none">유사 문제 관리</a></li>
+					<li><a href="#none">검수 관리</a></li>
+				</ul>
+				<ul>
+					<li><a href="#none">서비스 관리</a></li>
+					<li><a href="/analyze/frequencyList">빈출도 분석</a></li>
+					<li><a href="#none">보충 필요 문제</a></li>
+				</ul>
+				<ul>
+					<li><a href="/user/adminList">계정 관리</a></li>
+					<li><a href="#none">코드 관리</a></li>
+					<li><a href="#none">학교 정보 관리</a></li>
+					<li><a href="#none">작업 현황 / 배정 관리</a></li>
+				</ul>
+			</div>
+			<div class="dim"></div>
+		</div>
+
+	</div>
+</div>
+	<div id="wrap">
+		<!-- 상단 공통 영역 -->
+		<div data-include-path="include/html/inc_header.html"></div>
+		<!-- 상단 공통 영역 -->
+		<div class="container">
+			<h1 class="page_tit">2021.00.00</h1>
+			
+			<!-- 컨텐츠 영역 -->
+			<div id="content_wide">
+                <div class="con_case">
+					<!-- 진행상태-->
+					<div class="process_box justify_between mb40">
+						<div class="process">
+							<p class="tit">업로드 완료 시험지</p>
+							<p class="num">00</p>
+						</div>
+
+						<div class="process">
+							<p class="tit">OCR 변환 대기</p>
+							<p class="num">00</p>
+						</div>
+						<div class="process">
+							<p class="tit">유사문제 선정 대기</p>
+							<p class="num">00</p>
+						</div>
+						<div class="process">
+							<p class="tit">검수 대기</p>
+							<p class="num">00</p>
+						</div>
+						<div class="process">
+							<p class="tit">서비스 준비 완료</p>
+							<p class="num">00</p>
+						</div>
+					</div>
+                    <!-- 검색박스 -->
+                    <div class="search_box">
+						<div class="justify_between">
+							<div class="terms">
+								<h4>기간</h4>
+								<p>
+									<input class="w90 underline" type="text" id="from" placeholder="0000.00.00" autocomplete="off"> ~ 
+									<input class="w90 underline" type="text" id="to" placeholder="0000.00.00" autocomplete="off">
+								</p>
+							</div>
+							<div class="terms">
+								<h4>학교급</h4>
+								<select class="select_box">
+									<option value="">전체</option>
+									<option value="">중등</option>
+									<option value="">고등</option>																
+								</select>
+							</div>
+							<div class="terms">
+								<h4>학년</h4>
+								<select class="select_box">
+									<option value="">전체</option>
+									<option value="">1학년</option>
+									<option value="">2학년</option>																
+									<option value="">3학년</option>																
+								</select>
+							</div>
+							<div class="terms">
+								<h4>학기</h4>
+								<select class="select_box">
+									<option value="">전체</option>
+									<option value="">1학기</option>
+									<option value="">2학기</option>																
+								</select>
+							</div>
+							<div class="terms">
+								<h4>시험종류</h4>
+								<select class="select_box">
+									<option value="">전체</option>
+									<option value="">중간고사</option>
+									<option value="">기말고사</option>																
+								</select>
+							</div>
+							<div class="terms">
+								<h4>과목</h4>
+								<select class="select_box">
+									<option value="">전체</option>
+									<option value="">과목</option>														
+								</select>
+							</div>
+						</div>
+						<div class="btn_wrap mt40 justify_center">
+							<a class="btn2 w180 btn_color2" href="#none">검색</a>
+						</div>
+					</div>
+                    <!-- 검색결과 -->
+					<div class="justify_between">
+						<p></p>
+						<a class="btn w120 btn_color3" href="#none">엑셀파일 다운로드</a>
+					</div>
+                    <table class="tbl_list mt15 mb40 main_table">
+						<caption></caption>
+						<colgroup>
+							<col width="15%">
+							<col width="12%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							<col width="10%">
+							
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" rowspan="3" class="first">지역구분</th>
+								<th scope="col" rowspan="3" class="lh20">지역별 학교수<br>(20년 기준)</th>
+								<th scope="col" colspan="7">지역 학교별 업로드 현황</th>
+								<th scope="col" colspan="4">작업현황</th>
+							</tr>
+							<tr>							
+								<th scope="col" rowspan="2">2018년</th>
+								<th scope="col" rowspan="2">2018년</th>
+								<th scope="col" rowspan="2">2018년</th>
+								<th scope="col" rowspan="2">2018년</th>
+								<th scope="col" rowspan="2">2018년</th>
+								<th scope="col" colspan="2">총합</th>
+								<th scope="col" rowspan="2" class="lh20">OCR 변환<br>완료</th>
+								<th scope="col" rowspan="2" class="lh20">유사문제<br>선정 완료</th>
+								<th scope="col" rowspan="2">검수 완료</th>
+								<th scope="col" rowspan="2">완료율</th>
+							</tr>
+							<tr>
+								<th scope="col">총 건수</th>
+								<th scope="col">백분율</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="first">강원도</td>
+								<td>163</td>
+								<td>163</td>								
+								<td>163</td>
+								<td>163</td>
+								<td>163</td>
+								<td>163</td>
+								<td class="point">163</td>
+								<td class="point">1%</td>
+								<td>163</td>
+								<td>163</td>
+								<td>163</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">경기도</td>
+								<td>640</td>
+								<td>640</td>								
+								<td>640</td>
+								<td>640</td>
+								<td>640</td>
+								<td>640</td>
+								<td class="point">640</td>
+								<td class="point">1%</td>
+								<td>640</td>
+								<td>640</td>
+								<td>640</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">경상남도</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">경상북도</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">광주광역시</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">대구광역시</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">대전광역시</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">부산광역시</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">서울특별시</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">세종특별자치시</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">울산광역시</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">인천광역시</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">전라남도</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">전라북도</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">제주특별자치도</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">충청남도</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+							<tr>
+								<td class="first">충청북도</td>
+								<td>226</td>
+								<td>226</td>								
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td class="point">226</td>
+								<td class="point">1%</td>
+								<td>226</td>
+								<td>226</td>
+								<td>226</td>
+								<td>00%</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td class="first">총계</td>
+								<td>33,333</td>
+								<td>33,333</td>								
+								<td>33,333</td>
+								<td>33,333</td>
+								<td>33,333</td>
+								<td>33,333</td>
+								<td class="point">33,333</td>
+								<td class="point">1%</td>
+								<td>33,333</td>
+								<td>33,333</td>
+								<td>33,333</td>
+								<td>33,333</td>
+							</tr>
+						</tfoot>
+					</table>
+                    
+                </div>
+				
+			</div>
+
+
+		</div>
+
+	</div>
+	<script>
+	$( function() {
+		var dateFormat = "yy.mm.dd",
+      from = $( "#from" )
+        .datepicker({
+          defaultDate: "+1d",
+          changeMonth: true,
+          numberOfMonths: 1,
+		  dateFormat: 'yy.mm.dd'
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+		to = $( "#to" ).datepicker({
+			defaultDate: "+1d",
+			changeMonth: true,
+			numberOfMonths: 1,
+			dateFormat: 'yy.mm.dd'
+		})
+		.on( "change", function() {
+			from.datepicker( "option", "maxDate", getDate( this ) );
+		});
+ 
+		function getDate( element ) {
+		var date;
+		try {
+			date = $.datepicker.parseDate( dateFormat, element.value );
+		} catch( error ) {
+			date = null;
+		}
+	
+		return date;
+		}
+	} );
+	</script>
+</body>
+</html>

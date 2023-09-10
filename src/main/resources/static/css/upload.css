@@ -1,0 +1,305 @@
+
+:root {
+    --dark-green: #24A1483D;
+    --medium-green: #24A148FF;
+    --light-green: #DEFBE6FF;
+}
+
+body {
+    position: relative;
+}
+canvas {
+    margin: 5px;
+}
+
+/* 양식에 나오는 파일 이름 */
+
+ul#file-upload > li {
+    display: flex;
+    justify-content: flex-start;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+.file-entry-wrap > span {
+    margin-left: 5px;
+}
+
+/*ul#file-upload > li:hover {*/
+/*    cursor: default;*/
+/*    opacity: 1.0;*/
+/*}*/
+ul#file-upload > li .show-when-mouseover {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+ul#file-upload > li:hover .show-when-mouseover {
+    cursor: pointer;
+    color: var(--medium-green);
+    opacity: 0.8;
+}
+
+.icon.show-when-mouseover:active {
+    transform: scale(0.9);
+    transition: 0.1s transform ease;
+}
+
+/* thumbnail drag-drop */
+.sortable-ghost {
+    opacity: 0.4;
+    border: 1px dashed var(--medium-green);
+}
+.sortable-drag {
+    cursor: grab;
+    border: 1px solid red;
+}
+
+.sortable-chosen.sortable-ghost:active {
+    cursor: grabbing;
+}
+
+/* 파일 업로드 하는 영역 */
+.navigation .file_box {
+    border: solid 1px black;
+}
+
+.hovered {
+    background-color: #333;
+    border-color: white;
+    border-style: dashed;
+}
+
+/*******************************/
+/* image modal part (for zoom) */
+/*******************************/
+.paper_img > canvas {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.paper_img > canvas:hover {
+    opacity: .9;
+    border: 1px solid rgba(255, 0, 0, .7);
+    transform: scale(1.05);
+    transition: all .1s ease;
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.default-cursor {
+    cursor: default;
+}
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    /*-khtml-user-select: none; !* Konqueror HTML *!*/
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+/* zoomed-in image modal */
+#image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+#image-modal-content {
+    background-color: #fefefe;
+    text-align: center;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%;
+    border-radius: 5px;
+}
+
+#image-modal-content > canvas {
+    margin: auto auto;
+    width: 100%;
+    padding: 20px;
+}
+
+#pdf-canvas-page-number {
+    font-size: 18px;
+}
+
+#exam-year, #subject {
+    text-align: center;
+}
+
+.radio-wrapper:hover {
+    font-weight: bold;
+}
+
+
+a.btn:hover:not(.disabled),
+a.btn3:hover:not(.disabled),
+a.btn4:hover:not(.disabled),
+button.btn2:hover:not(.disabled),
+button.btn4:hover:not(.disabled) {
+    cursor: pointer;
+    transform: scale(.98);
+    transition: all ease-in-out .2s;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+
+a.btn.disabled,
+a.btn3.disabled {
+    cursor: not-allowed;
+    box-shadow: rgb(0,0,0) 0 0 0;
+    border: #aaa 1px solid;
+    color: #aaa;
+    background-color: #eee;
+}
+
+a.btn.trigger:hover {
+    background-color: #00bf79;
+    color: #fff;
+}
+
+.wrap {
+    min-width: 1240px;
+}
+
+#school-list-table { padding: 12px 29px 0; width: 100%;}
+.school-entity-wrapper { display: flex;
+    /*align-items: center; */
+    padding: 10px 16px 10px 20px; background: #eeeeee; min-height: 72px; border-radius: 4px; margin-bottom: 4px; font-size: 16px; line-height: 26px;}
+.school-entity-wrapper:hover { cursor: pointer; background: var(--light-green); color: var(--medium-green); transform: scale(1.01); transition: all ease-in-out 0.2s; box-shadow: var(--dark-green) 0 3px 8px; }
+
+.page-nav-elem:hover {
+    cursor: pointer;
+    /*color: #00bf79;*/
+    font-weight: bold;
+    transform: scale(1.1);
+    transition: all ease-in-out 0.2s;
+}
+
+.full-scale-page-canvas {
+    border: 1px solid red;
+}
+
+/* full scale image 좌/우측 화살표 (페이지 이동 용) */
+.page-nav {
+    position: fixed;
+    width: 10%;
+    height: 10%;
+    z-index: 10;
+    opacity: 0.3;
+    transition: all 200ms ease;
+}
+
+.page-nav:active {
+    transform: scale(0.98);
+    transition: 0.1s ease;
+}
+.page-nav:hover {
+    opacity: 1;
+    font-size: 100px;
+}
+.page-nav.prev{
+    font-size: 200px;
+    position: fixed;
+    left: 10vw;
+    top: 50vh;
+    transform: translate(-50%, -50%);
+}
+
+.page-nav.prev::before {
+    content: "<";
+}
+.page-nav.next {
+    font-size: 200px;
+    position: fixed;
+    right: 10vw;
+    top: 50vh;
+    transform: translate(75%, -50%);
+}
+.page-nav.next::before {
+    content: ">";
+}
+
+.long-btn {
+    height: 64px;
+    transition: height 0.2s ease;
+}
+
+#item_cnt {
+    height: 32px;
+    text-align: center;
+    color: var(--medium-green);
+    border-color: var(--medium-green);
+}
+
+/* 스낵바 모듈 */
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s , fadeout 2.5s 3s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+#show-paper-list-btn {
+    margin-bottom: -40px;
+    margin-right: -12px;
+}
+
+.navigation {
+    transition: background-color ease 2s;
+}
+.navigation.alert {
+    /*content: '';*/
+    /*z-index: 1;*/
+    background-color: rgba(0,0,0,0.4);
+}

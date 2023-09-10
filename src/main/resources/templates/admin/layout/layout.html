@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <title>관리자페이지</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <th:block th:replace="~{admin/fragments/css :: css}"></th:block>
+</head>
+<body>
+    <header th:replace="~{admin/fragments/header :: header}"></header>
+    <th:block layout:fragment="content"></th:block>
+</body>
+    <th:block th:replace="~{admin/fragments/js :: js}"></th:block>
+</html>

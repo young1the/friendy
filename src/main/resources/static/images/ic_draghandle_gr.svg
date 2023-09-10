@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-2{fill:#24a148}
+        </style>
+    </defs>
+    <g id="ic_draghandle" transform="translate(-14023 -5868)">
+        <path id="사각형_1420" data-name="사각형 1420" transform="translate(14023 5868)" style="fill:none" d="M0 0h24v24H0z"/>
+        <path id="사각형_1421" data-name="사각형 1421" class="cls-2" transform="translate(14025 5874)" d="M0 0h20v2H0z"/>
+        <path id="사각형_1422" data-name="사각형 1422" class="cls-2" transform="translate(14025 5879)" d="M0 0h20v2H0z"/>
+        <path id="사각형_1423" data-name="사각형 1423" class="cls-2" transform="translate(14025 5884)" d="M0 0h20v2H0z"/>
+    </g>
+</svg>
