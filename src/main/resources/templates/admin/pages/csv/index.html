@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/layout}"
+      layout:fragment="content"
+>
+<style>
+    .uploadForm {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        width: 40%;
+        background-color: #ffffff;
+        padding: 20px 30px;
+        margin-bottom: 30px;
+        border-radius: 4px;
+        border: 1px solid #cccccc;
+    }
+
+    .uploadForm__button {
+        padding-left: 16px;
+        padding-right: 16px;
+        cursor: pointer;
+    }
+</style>
+<div class="container">
+    <h2 class="page_tit">학교 기본 정보 CSV 관리 페이지</h2>
+    <div id="content_wide">
+        <form class="uploadForm">
+            <label class="uploadForm__label">
+                <input type="file" name="csvFile"/>
+            </label>
+            <button type="submit" class="uploadForm__button btn btn_color2">전송하기</button>
+        </form>
+        <table class="tbl_list mt15">
+            <caption></caption>
+            <colgroup>
+                <col width="10%">
+                <col width="50%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th scope="col" class="first">NO</th>
+                <th scope="col">파일명</th>
+                <th scope="col">등록자</th>
+                <th scope="col">등록일</th>
+                <th scope="col">상태</th>
+                <th scope="col">적용일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="first">1</td>
+                <td>2022년도_학교기본정보(초)_전체</td>
+                <td>조영일</td>
+                <td>20230911</td>
+                <td>pending</td>
+                <td>.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</html>
