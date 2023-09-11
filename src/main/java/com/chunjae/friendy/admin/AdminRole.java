@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity(name = "admin_role")
 public class AdminRole {
 
     @Id

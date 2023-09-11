@@ -1,6 +1,7 @@
 package com.chunjae.friendy.admin;
 
 import jakarta.persistence.*;
+import com.chunjae.friendy.admin.AdminRole;
 
 @Entity (name = "admin")
 public class Admin {
@@ -9,7 +10,10 @@ public class Admin {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long idx;
 
-        // role
+        @ManyToOne
+        @JoinColumn(name = "admin_role")
+        private AdminRole adminRoleIndex;
+
 
         @Column(nullable = false, length = 20)
         private String id;
@@ -21,6 +25,6 @@ public class Admin {
         private String name;
 
         @Column(nullable = false, length = 10)
-        private String emp_number;
+        private String empNumber;
 
 }
