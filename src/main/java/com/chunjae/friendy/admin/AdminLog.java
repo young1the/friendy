@@ -11,10 +11,10 @@ public class AdminLog {
         @Id
         @ManyToOne
         @JoinColumn(name = "admin")
-        private Admin admin_idx;
+        private Admin adminIdx;
 
         @Column(nullable = false)
-        private LocalDate access_date;
+        private LocalDate accessDate;
 
         @Column(nullable = false, length = 15)
         private String ipv4;
