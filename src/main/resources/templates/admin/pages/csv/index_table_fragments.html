@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<table th:fragment="table(title)" class="tbl_list mt15">
+    <colgroup>
+        <col width="10%">
+        <col width="50%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th scope="col" class="first">NO</th>
+        <th scope="col">파일명</th>
+        <th scope="col">등록자</th>
+        <th scope="col">등록일</th>
+        <th scope="col">상태</th>
+        <th scope="col">적용일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="first">1</td>
+        <td th:text="${title}">2022년도_학교기본정보(초)_전체</td>
+        <td>조영일</td>
+        <td>20230911</td>
+        <td>pending</td>
+        <td>.</td>
+    </tr>
+    </tbody>
+</table>
+</html>
