@@ -11,7 +11,7 @@ public class Admin {
         private Long idx;
 
         @ManyToOne
-        @JoinColumn(name = "admin_role")
+        @JoinColumn(name = "admin_role_idx")
         private AdminRole adminRoleIndex;
 
 

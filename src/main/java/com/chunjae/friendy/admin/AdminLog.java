@@ -10,7 +10,7 @@ public class AdminLog {
 
         @Id
         @ManyToOne
-        @JoinColumn(name = "admin")
+        @JoinColumn(name = "admin_idx")
         private Admin adminIdx;
 
         @Column(nullable = false)

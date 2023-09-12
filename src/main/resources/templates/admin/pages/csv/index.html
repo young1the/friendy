@@ -7,7 +7,6 @@
 <style>
     .uploadForm {
         width: 100%;
-        height: 200px;
         background-color: #ffffff;
         padding: 20px 30px;
         margin-bottom: 30px;
@@ -52,26 +51,20 @@
 <div class="container">
     <h2 class="page_tit">학교 기본 정보 CSV 관리 페이지</h2>
     <div id="content_wide">
-        <form class="uploadForm">
-            <div class="dropZone">
-                <label class="uploadForm__label">
-                    <input type="file" name="csvFile"/>
-                </label>
-            </div>
+        <form class="uploadForm" enctype="multipart/form-data" action="/admin/csv/upload" method="post">
+            <label id="dropZone" class="dropZone">
+                <input id="csvFile" type="file" name="csvFile"/>
+            </label>
             <div class="controlZone">
                 <button type="submit" class="controlZone__button btn_color2">전송하기</button>
             </div>
-            <div id="dropZone" class="dropZone">
-                <label class="uploadForm__label">
-                    <input id="csvFile" type="file" name="csvFile"/>
-                </label>
-            </div>
         </form>
-        <th:block th:replace="~{admin/pages/csv/index_table_fragments(title='tableTitle')}">
+        <th:block th:replace="~{admin/pages/csv/index_table_fragments(files=${files})}">
         </th:block>
     </div>
 </div>
 <script>
+
     function dropHandler(event) {
         console.log("File(s) dropped");
 
@@ -100,9 +93,6 @@
 
     function dragOverHandler(event) {
         event.preventDefault();
-        const dropZone = document.getElementById("dropZone");
-        if (dropZone.classList.contains("dropZone--active"))
-            dropZone.classList.remove("dropZone--active");
     }
 
     function dragEnterHandler(ev) {

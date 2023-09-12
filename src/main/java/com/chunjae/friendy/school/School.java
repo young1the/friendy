@@ -1,7 +1,9 @@
 package com.chunjae.friendy.school;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity(name = "school")
 public class School {
 
@@ -16,7 +18,7 @@ public class School {
     private String districtEduOffice;
     
     @Column(nullable = false, unique = true, length = 10)
-   private String SchoolCode;
+   private String schoolCode;
     
     @Column(nullable = false, length = 50)
     private String name;
@@ -27,23 +29,26 @@ public class School {
     @Column(nullable = false, length = 5)
     private String establishment;
 
-    @Column(nullable = false)
-    private char dayNight;
+    @Column(nullable = false, length = 3)
+    private String dayNight;
 
-    @Column(length = 15)
+    @Column(length = 20)
     private String tel;
 
-    @Column(length = 15)
+    @Column(length = 20)
     private String fax;
 
     @Column
     private String url;
 
-    @Column(nullable = false)
-    private char gender;
+    @Column(nullable = false, length = 5)
+    private String gender;
 
-    @Column(nullable = false, unique = true)
-    private char deletedYn;
+    @Column(nullable = false, length = 2)
+    private String deletedYn;
 
 
+    public void setDeletedYn(String deletedYn) {
+        this.deletedYn = deletedYn;
+    }
 }

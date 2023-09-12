@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 >
-<table th:fragment="table(title)" class="tbl_list mt15">
+<style>
+    .buttonContainer {
+        display: flex;
+        justify-content: space-evenly;
+        /*flex-direction: column;*/
+    }
+
+    .buttonContainer__button {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+</style>
+<table th:fragment="files(files)" class="tbl_list mt15">
     <colgroup>
         <col width="10%">
-        <col width="50%">
-        <col width="10%">
-        <col width="10%">
-        <col width="10%">
-        <col width="10%">
+        <col width="40%">
+        <col width="15%">
+        <col width="15%">
+        <col width="20%">
     </colgroup>
     <thead>
     <tr>
@@ -16,19 +27,62 @@
         <th scope="col">파일명</th>
         <th scope="col">등록자</th>
         <th scope="col">등록일</th>
-        <th scope="col">상태</th>
-        <th scope="col">적용일</th>
+        <th scope="col">다운로드</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td class="first">1</td>
-        <td th:text="${title}">2022년도_학교기본정보(초)_전체</td>
-        <td>조영일</td>
-        <td>20230911</td>
-        <td>pending</td>
-        <td>.</td>
-    </tr>
+    <th:block th:each="file : ${files}">
+        <tr>
+            <td class="first"><a th:href="${file}" th:text="${file.idx}"/></td>
+            <td th:text="${file.fileName}"></td>
+            <td>.</td>
+            <td th:text="${#temporals.format(file.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2023-09-12 12:53</td>
+            <td>
+                <ul class="buttonContainer">
+                    <li>
+                        <button type="button" th:attr="onclick=|applyFileHandler('${file.fileName}')|"
+                                class="buttonContainer__button btn btn_ty4">
+                            적용
+                        </button>
+                    </li>
+                    <li>
+                        <a th:href="${file.fileName}" class="buttonContainer__button btn">다운로드</a>
+                    </li>
+                    <li>
+                        <button type="button" th:attr="onclick=|deleteFileHandler('${file.fileName}')|"
+                                class="buttonContainer__button btn btn_ty2">
+                            삭제
+                        </button>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </th:block>
     </tbody>
 </table>
+<script>
+    async function deleteFileHandler(fileName) {
+        const response = await fetch(fileName, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        if (response.ok) {
+            window.location.reload();
+        }
+    }
+
+    async function applyFileHandler(fileName) {
+        const response = await fetch(fileName, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        if (response.ok) {
+            window.location.reload();
+        }
+    }
+</script>
 </html>
