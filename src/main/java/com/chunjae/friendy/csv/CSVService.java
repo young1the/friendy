@@ -7,7 +7,6 @@ import com.chunjae.friendy.school.School;
 import com.chunjae.friendy.school.SchoolAddress;
 import com.chunjae.friendy.school.SchoolAddressRepository;
 import com.chunjae.friendy.school.SchoolRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -43,6 +42,9 @@ public class CSVService {
         this.schoolAddressRepository = schoolAddressRepository;
     }
 
+    public CSVFile findByCurrentData() {
+        return csvFileRepository.findByCurrentDataEquals('Y');
+    }
 
     private void storeToLocal(MultipartFile file) {
         try {
@@ -109,6 +111,7 @@ public class CSVService {
     }
 
     public void apply(String filename) {
+
         CSVFile csvFile = csvFileRepository.findByFileName(filename);
         if (csvFile == null) {
             throw new StorageFileNotFoundException("no file found");
@@ -117,6 +120,16 @@ public class CSVService {
         if (!Files.exists(file)) {
             throw new StorageFileNotFoundException("no file found");
         }
+
+        schoolAddressRepository.unsetForeignKeyCheck();
+        schoolRepository.unsetForeignKeyCheck();
+        schoolAddressRepository.truncateTable();
+        schoolRepository.truncateTable();
+        CSVFile current = findByCurrentData();
+        if (current != null) {
+            csvFileRepository.updateCSVFileByIdx(current.getIdx(), 'N');
+        }
+
         try (BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
             String firstLine = reader.readLine();
             CSVParser csvParser = new CSVParser(firstLine);
@@ -130,7 +143,7 @@ public class CSVService {
                 schoolAddress.setSchoolIdx(school);
                 schoolAddressRepository.save(pair.getSecond());
             }
-            csvFile.setCurrentData('Y');
+            csvFileRepository.updateCSVFileByIdx(csvFile.getIdx(), 'Y');
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/csv")
@@ -30,7 +29,9 @@ public class CSVController {
     @GetMapping("/")
     public String index(Model model) {
         List<CSVFile> csvFileList = csvService.loadAll();
+        CSVFile currentFile = csvService.findByCurrentData();
         model.addAttribute("files", csvFileList);
+        model.addAttribute("currentFile", currentFile);
         return "admin/pages/csv/index";
     }
 

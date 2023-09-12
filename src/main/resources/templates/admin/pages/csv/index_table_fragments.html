@@ -11,15 +11,17 @@
     .buttonContainer__button {
         padding-right: 8px;
         padding-left: 8px;
+        cursor: pointer;
     }
 </style>
 <table th:fragment="files(files)" class="tbl_list mt15">
     <colgroup>
         <col width="10%">
         <col width="40%">
+        <col width="10%">
         <col width="15%">
+        <col width="10%">
         <col width="15%">
-        <col width="20%">
     </colgroup>
     <thead>
     <tr>
@@ -27,6 +29,7 @@
         <th scope="col">파일명</th>
         <th scope="col">등록자</th>
         <th scope="col">등록일</th>
+        <th scope="col">현재데이터</th>
         <th scope="col">다운로드</th>
     </tr>
     </thead>
@@ -38,13 +41,14 @@
             <td>.</td>
             <td th:text="${#temporals.format(file.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2023-09-12 12:53</td>
             <td>
+                <button th:if="${#strings.equals(file.currentData, 'N')}" type="button"
+                        th:attr="onclick=|applyFileHandler('${file.fileName}')|"
+                        class="buttonContainer__button btn btn_ty4">
+                    적용
+                </button>
+            </td>
+            <td>
                 <ul class="buttonContainer">
-                    <li>
-                        <button type="button" th:attr="onclick=|applyFileHandler('${file.fileName}')|"
-                                class="buttonContainer__button btn btn_ty4">
-                            적용
-                        </button>
-                    </li>
                     <li>
                         <a th:href="${file.fileName}" class="buttonContainer__button btn">다운로드</a>
                     </li>

@@ -59,6 +59,10 @@
                 <button type="submit" class="controlZone__button btn_color2">전송하기</button>
             </div>
         </form>
+        <p>
+            현재 적용된 CSV File :
+        <strong th:if="${currentFile!=null}" th:text="${currentFile.fileName}"></strong>
+        </p>
         <th:block th:replace="~{admin/pages/csv/index_table_fragments(files=${files})}">
         </th:block>
     </div>
