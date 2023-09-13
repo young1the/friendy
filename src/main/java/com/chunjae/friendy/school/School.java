@@ -22,7 +22,7 @@ public class School {
     private String districtEduOffice;
 
     @Column(nullable = false, unique = true, length = 10)
-    private String SchoolCode;
+    private String schoolCode;
 
     @Column(nullable = false, length = 50)
     private String name;

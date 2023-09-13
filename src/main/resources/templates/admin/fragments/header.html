@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--xmlns:sec="http://www.w3.org/1999/xhtml"-->
 <header th:fragment="header">
     <div class="header-wrap">
     <div class="header">
@@ -8,8 +9,8 @@
                 <h1><img src="/images/logo.svg" alt="천재교육"/></h1>
             </div>
             <div class="btn_wrap justify_between">
-                <a href="#none" class="name">김천재</a>
-                <div class="box">
+                <a sec:authorize="isAuthenticated()"  href="#none" class="name"><span th:text="${#authentication.name}"></span></a>
+                <div class="box" sec:authorize="isAuthenticated()" >
                     <select class="select_box">
                         <option value="">총괄관리자</option>
                         <option value="">수집담당자</option>
@@ -18,7 +19,8 @@
                     </select>
                 </div>
 
-                <a href="#none" class="btn_default btn_gray right">로그아웃</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn_default btn_gray right">로그아웃</a>
+                <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn_default btn_gray right">로그인</a>
             </div>
         </div>
         <div class="nav_bar">
