@@ -1,8 +1,12 @@
-package com.chunjae.friendy.admin;
+package com.chunjae.friendy.admin.entity;
 
 import jakarta.persistence.*;
-import com.chunjae.friendy.admin.AdminRole;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity (name = "admin")
 public class Admin {
 
@@ -14,9 +18,8 @@ public class Admin {
         @JoinColumn(name = "admin_role")
         private AdminRole adminRoleIndex;
 
-
-        @Column(nullable = false, length = 20)
-        private String id;
+        @Column(nullable = false, length = 20, name = "id")
+        private String username;
 
         @Column(nullable = false)
         private String password;
