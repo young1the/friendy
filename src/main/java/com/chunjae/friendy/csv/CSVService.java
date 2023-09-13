@@ -7,6 +7,7 @@ import com.chunjae.friendy.school.School;
 import com.chunjae.friendy.school.SchoolAddress;
 import com.chunjae.friendy.school.SchoolAddressRepository;
 import com.chunjae.friendy.school.SchoolRepository;
+import lombok.Cleanup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -110,43 +111,53 @@ public class CSVService {
         csvFileRepository.deleteByFileName(filename);
     }
 
-    public void apply(String filename) {
-
-        CSVFile csvFile = csvFileRepository.findByFileName(filename);
-        if (csvFile == null) {
-            throw new StorageFileNotFoundException("no file found");
-        }
-        Path file = load(filename);
-        if (!Files.exists(file)) {
-            throw new StorageFileNotFoundException("no file found");
-        }
-
+    public void truncateSchoolData() {
         schoolAddressRepository.unsetForeignKeyCheck();
         schoolRepository.unsetForeignKeyCheck();
         schoolAddressRepository.truncateTable();
         schoolRepository.truncateTable();
         CSVFile current = findByCurrentData();
         if (current != null) {
-            csvFileRepository.updateCSVFileByIdx(current.getIdx(), 'N');
-        }
-
-        try (BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
-            String firstLine = reader.readLine();
-            CSVParser csvParser = new CSVParser(firstLine);
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                Pair<School, SchoolAddress> pair = csvParser.getSchoolPair(line);
-                School school = pair.getFirst();
-                SchoolAddress schoolAddress = pair.getSecond();
-                school.setDeletedYn("N");
-                school = schoolRepository.save(school);
-                schoolAddress.setSchoolIdx(school);
-                schoolAddressRepository.save(pair.getSecond());
-            }
-            csvFileRepository.updateCSVFileByIdx(csvFile.getIdx(), 'Y');
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            csvFileRepository.updateCSVFileCurrentDataByIdx(current.getIdx(), 'N');
         }
     }
 
+    public void saveSchoolPair(Pair<School, SchoolAddress> pair) {
+        School school = pair.getFirst();
+        SchoolAddress schoolAddress = pair.getSecond();
+        school.setDeletedYn("N");
+        school = schoolRepository.save(school);
+        schoolAddress.setSchoolIdx(school);
+        schoolAddressRepository.save(pair.getSecond());
+    }
+
+    public void saveCSVFileToDatabase(Path file) throws IOException, NoSuchFieldException, IllegalAccessException {
+        @Cleanup BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8);
+        String firstLine = reader.readLine();
+        CSVParser csvParser = new CSVParser(firstLine);
+        String line = "";
+        while ((line = reader.readLine()) != null) {
+            Pair<School, SchoolAddress> pair = csvParser.getSchoolPair(line);
+            saveSchoolPair(pair);
+        }
+    }
+
+    public boolean isFileExists(Path filename, CSVFile csvFile) {
+        if (csvFile == null || !Files.exists(filename)) {
+            return false;
+        }
+        return true;
+    }
+
+    public void apply(String filename) throws IOException, NoSuchFieldException, IllegalAccessException {
+        Path path = load(filename);
+        CSVFile csvFile = csvFileRepository.findByFileName(filename);
+        if (!isFileExists(path, csvFile)) {
+            throw new StorageFileNotFoundException("no file found");
+        }
+        saveCSVFileToDatabase(path);
+        truncateSchoolData();
+        csvFileRepository.updateCSVFileCurrentDataByIdx(csvFile.getIdx(), 'Y');
+    }
 }
+

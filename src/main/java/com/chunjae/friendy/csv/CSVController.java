@@ -26,7 +26,7 @@ public class CSVController {
         this.csvService = csvService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String index(Model model) {
         List<CSVFile> csvFileList = csvService.loadAll();
         CSVFile currentFile = csvService.findByCurrentData();
@@ -38,13 +38,19 @@ public class CSVController {
     @PostMapping("/upload")
     public String addCSVFile(@RequestParam("csvFile") MultipartFile file) throws StorageException {
         csvService.store(file);
-        return "redirect:/admin/csv/";
+        return "redirect:/admin/csv";
     }
 
     @PostMapping("/{filename:.+}")
     public ResponseEntity<Void> applyCSVFile(@PathVariable String filename) throws IOException {
-        csvService.apply(filename);
-        return ResponseEntity.ok().build();
+        try {
+            System.out.println("come");
+            csvService.apply(filename);
+            System.out.println("done");
+            return ResponseEntity.ok().build();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 
@@ -58,11 +64,10 @@ public class CSVController {
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws IOException {
         Resource resource = csvService.loadAsResource(filename);
-        String encodedFileName = new String(resource.getFilename().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+        String encodedFileName = new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDispositionFormData("attachment", encodedFileName);
         headers.setContentLength(resource.contentLength());
-
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(resource);

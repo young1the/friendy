@@ -9,11 +9,17 @@ import java.util.List;
 
 public interface CSVFileRepository extends JpaRepository<CSVFile, Long> {
     List<CSVFile> findAllByOrderByCreatedAtDesc();
+
     void deleteByFileName(String fileName);
 
     @Modifying(clearAutomatically = true)
     @Query("update csv_file c set c.currentData = :currentData where c.idx = :idx")
-    void updateCSVFileByIdx(@Param(value = "idx") Long idx, @Param(value = "currentData")char currentData);
+    void updateCSVFileCurrentDataByIdx(@Param(value = "idx") Long idx, @Param(value = "currentData") char currentData);
+
+    @Modifying(clearAutomatically = true)
+    @Query("update csv_file c set c.currentData = :currentData where c.fileName = :fileName")
+    void updateCSVFileCurrentDataByFileName(@Param(value = "fileName") String fileName, @Param(value = "currentData") char currentData);
+
 
     CSVFile findByCurrentDataEquals(char currentData);
 

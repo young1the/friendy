@@ -33,6 +33,9 @@
 
     .dropZone {
         flex: 3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .dropZone--active {
@@ -47,13 +50,17 @@
         align-content: center;
     }
 
+    .dropZone__span--hide {
+        display: none;
+    }
+
 </style>
 <div class="container">
     <h2 class="page_tit">학교 기본 정보 CSV 관리 페이지</h2>
     <div id="content_wide">
         <form class="uploadForm" enctype="multipart/form-data" action="/admin/csv/upload" method="post">
             <label id="dropZone" class="dropZone">
-                <input id="csvFile" type="file" name="csvFile"/>
+                <input id="csvFile" type="file" name="csvFile" accept="text/csv"/>
             </label>
             <div class="controlZone">
                 <button type="submit" class="controlZone__button btn_color2">전송하기</button>
@@ -68,10 +75,7 @@
     </div>
 </div>
 <script>
-
     function dropHandler(event) {
-        console.log("File(s) dropped");
-
         // Prevent default behavior (Prevent file from being opened)
         event.preventDefault();
 
@@ -81,10 +85,15 @@
                 // If dropped items aren't files, reject them
                 if (item.kind === "file") {
                     const file = item.getAsFile();
-                    console.log(`… file[${i}].name = ${file.name}`);
-                    // const csvFile = document.querySelector("input[type='file']");
+                    const extensionIdx = file.name.lastIndexOf(".");
+                    if (extensionIdx < 0) { return ; }
+                    const extension = file.name.slice(extensionIdx);
+                    if (extension !== ".csv") { return ; }
                     const csvFile = document.getElementById("csvFile");
                     csvFile.files = event.dataTransfer.files;
+                    const dropZone = document.getElementById("dropZone");
+                    if (dropZone.classList.contains("dropZone--active"))
+                        dropZone.classList.remove("dropZone--active");
                 }
             });
         } else {
@@ -111,7 +120,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-        console.log("docment onlaod")
         const dropZone = document.getElementById("dropZone");
         dropZone.addEventListener("drop", dropHandler);
         dropZone.addEventListener("dragover", dragOverHandler);

@@ -13,8 +13,12 @@
         padding-left: 8px;
         cursor: pointer;
     }
+
+    .buttonContainer__button--disable {
+        cursor: not-allowed !important;
+    }
 </style>
-<table th:fragment="files(files)" class="tbl_list mt15">
+<table th:fragment="files(files)" class="tbl_list mt15" id="table">
     <colgroup>
         <col width="10%">
         <col width="40%">
@@ -46,6 +50,10 @@
                         class="buttonContainer__button btn btn_ty4">
                     적용
                 </button>
+                <button th:if="${#strings.equals(file.currentData, 'Y')}" type="button"
+                        class="buttonContainer__button buttonContainer__button--disable btn btn_color2">
+                    적용중
+                </button>
             </td>
             <td>
                 <ul class="buttonContainer">
@@ -66,24 +74,28 @@
 </table>
 <script>
     async function deleteFileHandler(fileName) {
-        const response = await fetch(fileName, {
+        $('#table').loading('start');
+        const response = await fetch(`/admin/csv/${fileName}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
             },
         })
+        $('#table').loading('stop');
         if (response.ok) {
             window.location.reload();
         }
     }
 
     async function applyFileHandler(fileName) {
-        const response = await fetch(fileName, {
+        $('#table').loading('start');
+        const response = await fetch(`/admin/csv/${fileName}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
         })
+        $('#table').loading('stop');
         if (response.ok) {
             window.location.reload();
         }

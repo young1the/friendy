@@ -13,7 +13,7 @@ public class CSVParser {
     private Map<String, String> schoolAddressMap;
     private final List<String> thead;
 
-    public CSVParser(String line) throws Exception {
+    public CSVParser(String line) {
         this.thead = this.parseCSVLine(line);
         this.schoolMap = getSchoolMap();
         this.schoolAddressMap = getSchoolAddressMap();
@@ -46,7 +46,7 @@ public class CSVParser {
         return map;
     }
 
-    public List<String> parseCSVLine(String line) throws Exception {
+    public List<String> parseCSVLine(String line) {
         List<String> parsed = new LinkedList<>();
         StringBuilder stringBuilder = new StringBuilder();
         boolean isQuoteClosed = true;
@@ -73,7 +73,7 @@ public class CSVParser {
         field.set(target, newValue);
     }
 
-    public Pair<School, SchoolAddress> getSchoolPair(String line) throws Exception {
+    public Pair<School, SchoolAddress> getSchoolPair(String line) throws NoSuchFieldException, IllegalAccessException {
         School school = new School();
         SchoolAddress schoolAddress = new SchoolAddress();
         List<String> row = parseCSVLine(line);
