@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/layout}"
+      layout:fragment="content"
+>
+
+<!--content-->
+<main>
+    <div class="my-3 border-bottom">
+        <div th:align="center">
+            <h2>관리자 회원가입</h2>
+        </div>
+    </div>
+    <form th:name="signupForm" th:action="@{/signup}" method="post" th:align="center">
+        <div class="mb-3">
+            <label for="username" class="form-label">사용자ID</label>
+            <input type="text" name="username" id="username" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password1" class="form-label">비밀번호</label>
+            <input type="password" name="password1" id="password1" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password2" class="form-label">비밀번호 확인</label>
+            <input type="password" name="password2" id="password2" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">이름</label>
+            <input type="text" name="name" id="name" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="empNumber" class="form-label">사원번호</label>
+            <input type="text" name="empNumber" id="empNumber" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="adminRole" class="form-label">담당 카테고리</label>
+            <select name="adminRole" id="adminRole" class="form-control">
+                <option th:value="1">총괄관리자</option>
+                <option th:value="2">수집담당자</option>
+                <option th:value="3">문제운영자</option>
+                <option th:value="4">문제검수자</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" th:onclick="validationForm()">회원가입</button>
+    </form>
+</main>
+
+<script>
+    function validationForm(){
+        let id = document.getElementById('username').value;
+        let pwd1 = document.getElementById('password1').value;
+        let pwd2 = document.getElementById('password2').value;
+        let name = document.getElementById('name').value;
+
+        if(id === null || id.trim() === '') {
+            alert("아이디를 입력하세요");
+            return false;
+        }
+
+        if(pwd1 === null || pwd1.trim() === '') {
+            alert("비밀번호를 입력하세요");
+            return false;
+        }
+
+        if(pwd2 === null || pwd2.trim() === '') {
+            alert("비밀번호 확인을 입력하세요");
+            return false;
+        }
+
+        if(pwd1 !== pwd2){
+            alert("비밀번호가 서로 다릅니다. 다시 확인하세요.");
+            return false;
+        }
+
+        if(name === null || name.trim() === '') {
+            alert("이름을 입력하세요");
+            return false;
+        }
+
+        if(confirm("회원가입 하시겠습니까?")){
+            signupForm.submit();
+        }else{
+            return false;
+        }
+
+    }
+</script>
+</html>

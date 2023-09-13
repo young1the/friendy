@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/layout}"
+      layout:fragment="content"
+>
+<style>
+    .uploadForm {
+        width: 100%;
+        background-color: #ffffff;
+        padding: 20px 30px;
+        margin-bottom: 30px;
+        border-radius: 4px;
+        border: 1px solid #cccccc;
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        gap: 40px
+    }
+
+    .controlZone__button {
+        font-size: 20px;
+        padding-left: 16px;
+        padding-right: 16px;
+        cursor: pointer;
+    }
+
+    .dropZone, .controlZone {
+        padding: 20px 30px;
+        border-radius: 4px;
+        border: 1px solid #cccccc;
+    }
+
+    .dropZone {
+        flex: 3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dropZone--active {
+        background: #ddd;
+    }
+
+    .controlZone {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .dropZone__span--hide {
+        display: none;
+    }
+
+</style>
+<div class="container">
+    <h2 class="page_tit">학교 기본 정보 CSV 관리 페이지</h2>
+    <div id="content_wide">
+        <form class="uploadForm" enctype="multipart/form-data" action="/admin/csv/upload" method="post">
+            <label id="dropZone" class="dropZone">
+                <input id="csvFile" type="file" name="csvFile" accept="text/csv"/>
+            </label>
+            <div class="controlZone">
+                <button type="submit" class="controlZone__button btn_color2">전송하기</button>
+            </div>
+        </form>
+        <p>
+            현재 적용된 CSV File :
+        <strong th:if="${currentFile!=null}" th:text="${currentFile.fileName}"></strong>
+        </p>
+        <th:block th:replace="~{admin/pages/csv/index_table_fragments(files=${files})}">
+        </th:block>
+    </div>
+</div>
+<script>
+    function dropHandler(event) {
+        // Prevent default behavior (Prevent file from being opened)
+        event.preventDefault();
+
+        if (event.dataTransfer.items) {
+            // Use DataTransferItemList interface to access the file(s)
+            [...event.dataTransfer.items].forEach((item, i) => {
+                // If dropped items aren't files, reject them
+                if (item.kind === "file") {
+                    const file = item.getAsFile();
+                    const extensionIdx = file.name.lastIndexOf(".");
+                    if (extensionIdx < 0) { return ; }
+                    const extension = file.name.slice(extensionIdx);
+                    if (extension !== ".csv") { return ; }
+                    const csvFile = document.getElementById("csvFile");
+                    csvFile.files = event.dataTransfer.files;
+                    const dropZone = document.getElementById("dropZone");
+                    if (dropZone.classList.contains("dropZone--active"))
+                        dropZone.classList.remove("dropZone--active");
+                }
+            });
+        } else {
+            // Use DataTransfer interface to access the file(s)
+            [...event.dataTransfer.files].forEach((file, i) => {
+                console.log(`… file[${i}].name = ${file.name}`);
+            });
+        }
+    }
+
+    function dragOverHandler(event) {
+        event.preventDefault();
+    }
+
+    function dragEnterHandler(ev) {
+        const dropZone = document.getElementById("dropZone");
+        dropZone.classList.add("dropZone--active");
+    }
+
+    function dragLeaveHandler(ev) {
+        const dropZone = document.getElementById("dropZone");
+        if (dropZone.classList.contains("dropZone--active"))
+            dropZone.classList.remove("dropZone--active");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const dropZone = document.getElementById("dropZone");
+        dropZone.addEventListener("drop", dropHandler);
+        dropZone.addEventListener("dragover", dragOverHandler);
+        dropZone.addEventListener("dragenter", dragEnterHandler);
+        dropZone.addEventListener("dragleave", dragLeaveHandler);
+    });
+</script>
+</html>
