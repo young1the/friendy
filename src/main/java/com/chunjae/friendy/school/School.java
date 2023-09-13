@@ -18,7 +18,7 @@ public class School {
     private String districtEduOffice;
     
     @Column(nullable = false, unique = true, length = 10)
-   private String SchoolCode;
+   private String schoolCode;
     
     @Column(nullable = false, length = 50)
     private String name;
@@ -29,20 +29,20 @@ public class School {
     @Column(nullable = false, length = 5)
     private String establishment;
 
-    @Column(nullable = false)
-    private char dayNight;
+    @Column(nullable = false, length = 3)
+    private String dayNight;
 
-    @Column(length = 15)
+    @Column(length = 20)
     private String tel;
 
-    @Column(length = 15)
+    @Column(length = 20)
     private String fax;
 
     @Column
     private String url;
 
-    @Column(nullable = false)
-    private char gender;
+    @Column(nullable = false, length = 5)
+    private String gender;
 
     @Column(nullable = false)
     private char deletedYn;
