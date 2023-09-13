@@ -1,6 +1,5 @@
 package com.chunjae.friendy.csv;
 
-import com.chunjae.friendy.admin.Admin;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
