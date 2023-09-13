@@ -2,8 +2,10 @@ package com.chunjae.friendy.school;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity (name = "school_address")
 public class SchoolAddress {
 

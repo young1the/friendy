@@ -125,9 +125,9 @@ public class CSVService {
     public void saveSchoolPair(Pair<School, SchoolAddress> pair) {
         School school = pair.getFirst();
         SchoolAddress schoolAddress = pair.getSecond();
-        school.setDeletedYn("N");
+        school.setDeletedYn('N');
         school = schoolRepository.save(school);
-        schoolAddress.setSchoolIdx(school);
+        schoolAddress.setSchool(school);
         schoolAddressRepository.save(pair.getSecond());
     }
 
