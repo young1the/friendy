@@ -1,4 +1,4 @@
-package com.chunjae.friendy.admin;
+package com.chunjae.friendy.admin.entity;
 
 import jakarta.persistence.*;
 

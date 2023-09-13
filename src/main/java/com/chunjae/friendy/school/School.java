@@ -44,11 +44,11 @@ public class School {
     @Column(nullable = false, length = 5)
     private String gender;
 
-    @Column(nullable = false, length = 2)
-    private String deletedYn;
+    @Column(nullable = false)
+    private char deletedYn;
 
+    // 학교 엔티티와 주소 엔티티 간의 일대일 관계 매핑
+    @OneToOne(mappedBy = "school", cascade = CascadeType.ALL)
+    private SchoolAddress address;
 
-    public void setDeletedYn(String deletedYn) {
-        this.deletedYn = deletedYn;
-    }
 }

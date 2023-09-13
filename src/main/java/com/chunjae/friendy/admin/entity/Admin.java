@@ -1,7 +1,12 @@
-package com.chunjae.friendy.admin;
+package com.chunjae.friendy.admin.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity (name = "admin")
 public class Admin {
 
@@ -9,10 +14,12 @@ public class Admin {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long idx;
 
-        // role
+        @ManyToOne
+        @JoinColumn(name = "admin_role")
+        private AdminRole adminRoleIndex;
 
-        @Column(nullable = false, length = 20)
-        private String id;
+        @Column(nullable = false, length = 20, name = "id")
+        private String username;
 
         @Column(nullable = false)
         private String password;
