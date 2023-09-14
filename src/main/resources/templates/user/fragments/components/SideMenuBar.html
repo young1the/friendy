@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:fragment="SideMenuBar()">
+    <md-list>
+        <md-list-item>
+            <svg slot="start" data-variant="icon" viewBox="0 0 160 200">
+                <path d="M11.336 2.253a1 1 0 0 1 1.328 0l9 8a1 1 0 0 1-1.328 1.494L20 11.45V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7.55l-.336.297a1 1 0 0 1-1.328-1.494l9-8zM6 9.67V19h3v-5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v5h3V9.671l-6-5.333-6 5.333zM13 19v-4h-2v4h2z"
+                      fill="#0D0D0D"/>
+            </svg>
+        </md-list-item>
+        <md-list-item headline="Lit">
+            <svg slot="start" data-variant="icon" viewBox="0 0 160 200">
+                <path
+                        d="m160 80v80l-40-40zm-40 40v80l40-40zm0-80v80l-40-40zm-40 40v80l40-40zm-40-40v80l40-40zm40-40v80l-40-40zm-40 120v80l-40-40zm-40-40v80l40-40z"/>
+            </svg>
+        </md-list-item>
+        <div style="margin-left: 8px; margin-right: 8px">
+            <md-divider></md-divider>
+        </div>
+        <md-list-item headline="Polymer">
+            <md-icon slot="start" data-variant="icon">polymer</md-icon>
+        </md-list-item>
+        <md-list-item headline="Angular">
+            <svg slot="start" data-variant="icon" viewBox="0 0 250 250">
+                <polygon points="108,135.4 125,135.4 125,135.4 125,135.4 142,135.4 125,94.5"/>
+                <path d="M125,30L125,30L125,30L31.9,63.2l14.2,123.1L125,230l0,0l0,0l78.9-43.7l14.2-123.1L125,30z M183.1,182.6h-21.7h0 l-11.7-29.2H125h0h0h-24.7l-11.7,29.2h0H66.9h0L125,52.1l0,0l0,0l0,0l0,0L183.1,182.6L183.1,182.6z"/>
+            </svg>
+        </md-list-item>
+    </md-list>
+</th:block>
+</html>

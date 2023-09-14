@@ -1,5 +1,7 @@
 HELP.md
 storage/
+src/main/resources/static/user/node_modules
+
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar

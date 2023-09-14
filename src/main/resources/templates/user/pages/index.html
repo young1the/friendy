@@ -4,8 +4,9 @@
       layout:decorate="~{user/layout/layout}"
       layout:fragment="content"
 >
-<div id="map" style="width:100%;height:400px;"></div>
-
+<main>
+    <div id="map" style="margin-top: 16px;width:100%;height:400px;"></div>
+</main>
 <script>
     var map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(37.5666805, 126.9784147),
@@ -37,7 +38,7 @@
         infowindow.open(map, center);
     }
 
-    $(window).on("load", function () {
+    document.addEventListener("DOMContentLoaded") (function () {
         if (navigator.geolocation) {
             /**
              * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
