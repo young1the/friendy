@@ -1,6 +1,5 @@
-package com.chunjae.friendy.school.search;
+package com.chunjae.friendy.search;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

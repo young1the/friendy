@@ -1,4 +1,4 @@
-package com.chunjae.friendy.school.search;
+package com.chunjae.friendy.search;
 
 import com.chunjae.friendy.school.*;
 import org.springframework.stereotype.Service;
