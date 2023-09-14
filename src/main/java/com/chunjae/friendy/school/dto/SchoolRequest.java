@@ -9,8 +9,9 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class SchoolAddRequest {
+public class SchoolRequest {
 
+    private String idx;
     private String schoolCode;
     private String name;
     private String levelCode;
@@ -28,5 +29,6 @@ public class SchoolAddRequest {
     private String url;
     private String fax;
     private String gender;
+    private String district;
 
 }

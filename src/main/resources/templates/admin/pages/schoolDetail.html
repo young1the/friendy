@@ -1,65 +1,96 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/layout}"
       layout:fragment="content"
 >
 <!--content-->
 <main>
-  <div class="container" th:if="${school}">
-  <h1 class="page_tit">학교 상세 보기</h1>
-  <table class="tbl_list mt15 mb40 main_table" border="1" align="center">
-    <caption></caption>
-    <tr>
-      <th>정보공시 학교 코드</th>
-      <td th:text="${school.schoolCode}"></td>
-      <th>학교명</th>
-      <td th:text="${school.name}"></td>
-    </tr>
-    <tr>
-      <th>시도교육청</th>
-      <td th:text="${school.cityEduOffice}"></td>
-      <th>지역교육청</th>
-      <td th:text="${school.districtEduOffice}"></td>
-    </tr>
-    <tr>
-      <th>설립 구분</th>
-      <td th:text="${school.establishment}"></td>
-      <th>주야 구분</th>
-      <td th:text="${school.dayNight}"></td>
-    </tr>
-    <!--<tr>
-      <th>시도명</th>
-      <td th:text="${school.dayNight}"></td>
-      <th>시군구명</th>
-      <td th:text="${school.dayNight}"></td>
-    </tr>-->
-    <tr th:if="${school.address}">
-      <th>도로명 주소</th>
-      <td th:text="${school.address.roadAddress}"></td>
-      <th>우편번호</th>
-      <td th:text="${school.address.roadZipCode}"></td>
-    </tr>
-    <tr>
-      <th>전화번호</th>
-      <td th:text="${school.tel}"></td>
-      <th>홈페이지 주소 </th>
-      <td th:text="${school.url}"></td>
-    </tr>
-    <tr>
-      <th>팩스번호</th>
-      <td th:text="${school.fax}"></td>
-      <th>남녀공학 구분</th>
-      <td th:text="${school.gender}"></td>
-    </tr>
-  </table>
-  </div>
-  <div class="container" align="center" id="map" style="width: 80%; height: 400px;">
-  <script type="text/javascript" th:src="'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapApiKey}"></script>
-    </script>
-  <script>
-    var latitude = [[${location.latitude}]];
-    var longitude = [[${location.longitude}]]
+  <div class="infoWrapper" th:if="${school}">
+    <h1 class="page_tit">학교 상세 보기</h1>
+    <hr/>
+    <div class="infoContainer">
+      <div class="info-row">
+        <span class="info-label">정보공시 학교 코드</span>
+        <span class="info-value" th:text="${school.schoolCode}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">학교명</span>
+        <span class="info-value" th:text="${school.name}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">학교급코드</span>
+        <span class="info-value" th:text="${school.levelCode}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">시도교육청</span>
+        <span class="info-value" th:text="${school.cityEduOffice}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">지역교육청</span>
+        <span class="info-value" th:text="${school.districtEduOffice}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">설립 구분</span>
+        <span class="info-value" th:text="${school.establishment}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">주야 구분</span>
+        <span class="info-value" th:text="${school.dayNight}"></span>
+      </div>
+      <div class="info-row" th:if="${school.address}">
+        <span class="info-label">도로명 주소</span>
+        <span class="info-value" th:text="${school.address.roadAddress}"></span>
+      </div>
+      <div class="info-row" th:if="${school.address}">
+        <span class="info-label">우편번호</span>
+        <span class="info-value" th:text="${school.address.roadZipCode}"></span>
+      </div>
+      <div class="info-row" th:if="${school.address}">
+        <span class="info-label">상세주소</span>
+        <span class="info-value" th:text="${school.address.roadAddressDetail}"></span>
+      </div>
+      <div class="info-row" th:if="${school.address}">
+        <span class="info-label">위도</span>
+        <span class="info-value" th:text="${school.address.latitude}"></span>
+      </div>
+      <div class="info-row" th:if="${school.address}">
+        <span class="info-label">경도</span>
+        <span class="info-value" th:text="${school.address.longitude}"></span>
+      </div>
+      <div class="info-row" th:if="${school.address}">
+        <span class="info-label">법정동코드</span>
+        <span class="info-value" th:text="${school.address.boundaryCode}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">전화번호</span>
+        <span class="info-value" th:text="${school.tel}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">홈페이지 주소</span>
+        <span class="info-value" th:text="${school.url}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">팩스번호</span>
+        <span class="info-value" th:text="${school.fax}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">남녀공학 구분</span>
+        <span class="info-value" th:text="${school.gender}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">지역</span>
+        <span class="info-value" th:text="${school.district}"></span>
+      </div>
+
+    </div>
+    </div>
+  <div class="container" align="center" id="map" style="width: 100%; height: 400px;">
+    <script type="text/javascript" th:src="'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapApiKey}"></script>
+    <script>
+      var latitude = [[${location.latitude}]];
+      var longitude = [[${location.longitude}]]
 
     var map = new naver.maps.Map('map', {
       center: new naver.maps.LatLng(latitude, longitude),
@@ -71,34 +102,40 @@
       zoom: 15
     });
 
-    // 마커 찍기
-    var marker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(latitude, longitude),
-      map: map
-    });
+      // 마커 찍기
+      var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(latitude, longitude),
+        map: map
+      });
 
-    // 정보 창을 만들어 학교명과 주소를 표시
-    var infoWindow = new naver.maps.InfoWindow({
-      content:'<div>' +
-              '<strong>학교명:</strong> [[${school.name}]]<br>' +
-              '<strong>주소:</strong> [[${school.address.getRoadAddress()}]]' +
-              '</div>'
-    });
+      // 정보 창을 만들어 학교명과 주소를 표시
+      var infoWindow = new naver.maps.InfoWindow({
+        content:'<div>' +
+                '<strong>학교명:</strong> [[${school.name}]]<br>' +
+                '<strong>주소:</strong> [[${school.address.getRoadAddress()}]]' +
+                '</div>'
+      });
 
-    // 마커를 클릭하면 정보 창 열기
-    naver.maps.Event.addListener(marker, "click", function (e) {
-      infoWindow.open(map, marker);
-    });
+      // 마커를 클릭하면 정보 창 열기
+      naver.maps.Event.addListener(marker, "click", function () {
+        infoWindow.open(map, marker);
+      });
 
-    // 지도를 클릭하면 정보 창 닫기
-    naver.maps.Event.addListener(map, "click", function (e) {
-      infoWindow.close();
-    });
+      // 지도를 클릭하면 정보 창 닫기
+      naver.maps.Event.addListener(map, "click", function () {
+        infoWindow.close();
+      });
 
-  </script>
+      const idx = [[${school.idx}]];
+      console.log(idx);
+
+    </script>
   </div>
   <div class="btn_wrap mt40 justify_center">
-    <a class="btn2 w180 btn_color2" href="#none">이전 페이지로</a>
+    <a class="btn2 w180 btn_color2" href="#none">이전 페이지로</a>&nbsp;&nbsp;
+    <a class="btn2 w180 btn_color2" th:href="@{/school/update-form(idx=${school.idx})}">학교 정보 수정</a>
+   &nbsp;
+    <a class="btn2 w180 btn_color2" th:href="@{/school/delete(idx=${school.idx})}">학교 정보 삭제</a>
   </div>
   <br><br>
 </main>
