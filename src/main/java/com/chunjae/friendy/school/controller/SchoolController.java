@@ -1,13 +1,19 @@
-package com.chunjae.friendy.school;
+package com.chunjae.friendy.school.controller;
 
 
+import com.chunjae.friendy.school.dto.SchoolAddRequest;
+import com.chunjae.friendy.school.entity.School;
+import com.chunjae.friendy.school.service.SchoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,4 +43,15 @@ public class SchoolController {
 
         return "admin/pages/schoolDetail";
     }
+
+    @GetMapping("/add")
+    public String add(){ return "admin/pages/schoolAdd"; }
+
+    @PostMapping("/add")
+    public String add(SchoolAddRequest schoolAddRequest, Model model) {
+        School school = schoolService.addSchool(schoolAddRequest);
+        model.addAttribute("school", school);
+        return "redirect:/school/add";
+    }
+
 }

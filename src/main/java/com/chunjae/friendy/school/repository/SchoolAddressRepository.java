@@ -1,5 +1,6 @@
-package com.chunjae.friendy.school;
+package com.chunjae.friendy.school.repository;
 
+import com.chunjae.friendy.school.entity.SchoolAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

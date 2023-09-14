@@ -1,4 +1,4 @@
-package com.chunjae.friendy.school;
+package com.chunjae.friendy.school.entity;
 
 import com.chunjae.friendy.admin.entity.Admin;
 import jakarta.persistence.*;

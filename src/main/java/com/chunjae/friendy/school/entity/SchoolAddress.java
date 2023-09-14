@@ -1,4 +1,4 @@
-package com.chunjae.friendy.school;
+package com.chunjae.friendy.school.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,8 +10,7 @@ import lombok.Setter;
 public class SchoolAddress {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long school_idx;
 
     @Column(nullable = false)
     private String roadAddress;
@@ -33,6 +32,7 @@ public class SchoolAddress {
 
     // 학교와 주소 간의 일대일 관계 매핑
     @OneToOne
+    @MapsId
     @JoinColumn(name = "school_idx")
     private School school;
 

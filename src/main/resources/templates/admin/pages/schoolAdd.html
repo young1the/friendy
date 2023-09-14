@@ -1,68 +1,85 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/layout}"
       layout:fragment="content"
 >
-<head>
-    <meta charset="UTF-8">
-    <title>학교 정보 입력</title>
-</head>
-<body>
-<form th:action="@{/submit}" method="post" th:object="${school}">
+<main>
+<form action="/school/add" method="post">
+    <tr>
+        <th><label for="schoolCode">정보공시 학교 코드</label></th>
+        <td><input type="text" id="schoolCode" name="schoolCode"></td>
+
+        <th><label for="name">학교명:</label></th>
+        <td><input type="text" id="name" name="name"></td>
+    </tr>
     <div>
-        <label for="schoolCode">정보공시 학교 코드:</label>
-        <input type="text" id="schoolCode" name="schoolCode" th:field="*{schoolCode}">
-    </div>
-    <div>
-        <label for="name">학교명:</label>
-        <input type="text" id="name" name="name" th:field="*{name}">
+        <label for="levelCode">학교급코드:</label>
+        <input type="text" id="levelCode" name="levelCode">
     </div>
     <div>
         <label for="cityEduOffice">시도교육청:</label>
-        <input type="text" id="cityEduOffice" name="cityEduOffice" th:field="*{cityEduOffice}">
+        <input type="text" id="cityEduOffice" name="cityEduOffice">
     </div>
     <div>
         <label for="districtEduOffice">지역교육청:</label>
-        <input type="text" id="districtEduOffice" name="districtEduOffice" th:field="*{districtEduOffice}">
+        <input type="text" id="districtEduOffice" name="districtEduOffice">
     </div>
     <div>
         <label for="establishment">설립 구분:</label>
-        <input type="text" id="establishment" name="establishment" th:field="*{establishment}">
+        <input type="text" id="establishment" name="establishment">
     </div>
     <div>
         <label for="dayNight">주야 구분:</label>
-        <input type="text" id="dayNight" name="dayNight" th:field="*{dayNight}">
+        <input type="text" id="dayNight" name="dayNight">
     </div>
     <div>
-        <label for="address.roadAddress">도로명 주소</label>
-        <input type="text" id="roadAddress" name="school.address.roadAddress" th:field="*{school.address.roadAddress}">
+        <label for="roadAddress">도로명 주소</label>
+        <input type="text" id="roadAddress" name="roadAddress">
     </div>
     <div>
-        <label for="address.roadZipCode">우편번호</label>
-        <input type="text" id="roadZipCode" name="school.address.roadZipCode" th:field="*{school.address.roadZipCode}">
+        <label for="roadZipCode">우편번호</label>
+        <input type="text" id="roadZipCode" name="roadZipCode">
     </div>
-
-
+    <div>
+        <label for="roadAddressDetail">상세주소</label>
+        <input type="text" id="roadAddressDetail" name="roadAddressDetail">
+    </div>
+    <div>
+        <label for="latitude">위도</label>
+        <input type="text" id="latitude" name="latitude">
+    </div>
+    <div>
+        <label for="longitude">경도</label>
+        <input type="text" id="longitude" name="longitude">
+    </div>
+    <div>
+        <label for="boundaryCode">법정동코드</label>
+        <input type="text" id="boundaryCode" name="boundaryCode">
+    </div>
     <div>
         <label for="tel">전화번호</label>
-        <input type="text" id="tel" name="tel" th:field="*{tel}">
+        <input type="text" id="tel" name="tel">
     </div>
     <div>
         <label for="url">홈페이지 주소</label>
-        <input type="text" id="url" name="url" th:field="*{url}">
+        <input type="text" id="url" name="url">
     </div>
     <div>
         <label for="fax">팩스번호</label>
-        <input type="text" id="fax" name="fax" th:field="*{fax}">
+        <input type="text" id="fax" name="fax">
     </div>
     <div>
         <label for="gender">남녀공학 구분</label>
-        <input type="text" id="gender" name="gender" th:field="*{gender}">
+        <input type="text" id="gender" name="gender">
     </div>
     <div>
-        <button type="submit">등록</button>
+        <label for="deletedYn">삭제여부</label>
+        <input type="text" id="deletedYn" name="deletedYn">
+    </div>
+    <div>
+        <input type="submit" value="등록"/>
     </div>
 </form>
-</body>
+    </main>
 </html>
