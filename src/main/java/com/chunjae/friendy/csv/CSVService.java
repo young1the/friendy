@@ -1,12 +1,15 @@
 package com.chunjae.friendy.csv;
 
+import com.chunjae.friendy.csv.entity.CSVFile;
+import com.chunjae.friendy.csv.repository.CSVFileRepository;
+import com.chunjae.friendy.csv.utils.CSVParser;
 import com.chunjae.friendy.csv.utils.StorageException;
 import com.chunjae.friendy.csv.utils.StorageFileNotFoundException;
 import com.chunjae.friendy.csv.utils.StoragePath;
-import com.chunjae.friendy.school.School;
-import com.chunjae.friendy.school.SchoolAddress;
-import com.chunjae.friendy.school.SchoolAddressRepository;
-import com.chunjae.friendy.school.SchoolRepository;
+import com.chunjae.friendy.school.entity.School;
+import com.chunjae.friendy.school.entity.SchoolAddress;
+import com.chunjae.friendy.school.repository.SchoolAddressRepository;
+import com.chunjae.friendy.school.repository.SchoolRepository;
 import lombok.Cleanup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -74,7 +77,7 @@ public class CSVService {
         );
     }
 
-    void store(MultipartFile file) throws StorageException {
+    public void store(MultipartFile file) throws StorageException {
         if (file.isEmpty()) {
             throw new StorageException("Failed to store empty file.");
         }
@@ -82,7 +85,7 @@ public class CSVService {
         storeToDataBase(file);
     }
 
-    List<CSVFile> loadAll() {
+    public List<CSVFile> loadAll() {
         return csvFileRepository.findAllByOrderByCreatedAtDesc();
     }
 
@@ -90,7 +93,7 @@ public class CSVService {
         return storagePath.resolve(filename);
     }
 
-    Resource loadAsResource(String fileName) {
+    public Resource loadAsResource(String fileName) {
         try {
             Path file = load(fileName);
             Resource resource = new UrlResource(file.toUri());
@@ -111,27 +114,28 @@ public class CSVService {
         csvFileRepository.deleteByFileName(filename);
     }
 
-    public void truncateSchoolData() {
+    private void truncateSchoolData() {
         schoolAddressRepository.unsetForeignKeyCheck();
         schoolRepository.unsetForeignKeyCheck();
         schoolAddressRepository.truncateTable();
         schoolRepository.truncateTable();
+        schoolAddressRepository.setForeignKeyCheck();
+        schoolRepository.setForeignKeyCheck();
         CSVFile current = findByCurrentData();
         if (current != null) {
             csvFileRepository.updateCSVFileCurrentDataByIdx(current.getIdx(), 'N');
         }
     }
 
-    public void saveSchoolPair(Pair<School, SchoolAddress> pair) {
+    private void saveSchoolPair(Pair<School, SchoolAddress> pair) {
         School school = pair.getFirst();
         SchoolAddress schoolAddress = pair.getSecond();
-        school.setDeletedYn('N');
-        school = schoolRepository.save(school);
+        school.setAddress(schoolAddress);
         schoolAddress.setSchool(school);
-        schoolAddressRepository.save(pair.getSecond());
+        schoolRepository.save(school);
     }
 
-    public void saveCSVFileToDatabase(Path file) throws IOException, NoSuchFieldException, IllegalAccessException {
+    private void saveCSVFileInDatabase(Path file) throws IOException, NoSuchFieldException, IllegalAccessException {
         @Cleanup BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8);
         String firstLine = reader.readLine();
         CSVParser csvParser = new CSVParser(firstLine);
@@ -142,7 +146,7 @@ public class CSVService {
         }
     }
 
-    public boolean isFileExists(Path filename, CSVFile csvFile) {
+    private boolean isFileExists(Path filename, CSVFile csvFile) {
         if (csvFile == null || !Files.exists(filename)) {
             return false;
         }
@@ -155,8 +159,8 @@ public class CSVService {
         if (!isFileExists(path, csvFile)) {
             throw new StorageFileNotFoundException("no file found");
         }
-        saveCSVFileToDatabase(path);
         truncateSchoolData();
+        saveCSVFileInDatabase(path);
         csvFileRepository.updateCSVFileCurrentDataByIdx(csvFile.getIdx(), 'Y');
     }
 }

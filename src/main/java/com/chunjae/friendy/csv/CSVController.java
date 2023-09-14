@@ -1,5 +1,6 @@
 package com.chunjae.friendy.csv;
 
+import com.chunjae.friendy.csv.entity.CSVFile;
 import com.chunjae.friendy.csv.utils.StorageException;
 import com.chunjae.friendy.csv.utils.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,7 @@ public class CSVController {
     @PostMapping("/{filename:.+}")
     public ResponseEntity<Void> applyCSVFile(@PathVariable String filename) throws IOException {
         try {
-            System.out.println("come");
             csvService.apply(filename);
-            System.out.println("done");
             return ResponseEntity.ok().build();
         } catch (NoSuchFieldException | IllegalAccessException e) {
             return ResponseEntity.badRequest().build();

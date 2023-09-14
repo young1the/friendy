@@ -1,4 +1,4 @@
-package com.chunjae.friendy.csv;
+package com.chunjae.friendy.csv.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
