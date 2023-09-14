@@ -10,7 +10,12 @@ public class Coordinate {
     private final double latitude;
     private final double longitude;
 
-    Coordinate(String latitude, String longitude) {
+    /**
+     * 문자열로 위도와 경도를 입력해서 Coordinate 객체를 생성합니다.
+     * @param latitude : 위도
+     * @param longitude : 경도
+     */
+    public Coordinate(String latitude, String longitude) {
         this.latitude = Double.parseDouble(latitude);
         this.longitude = Double.parseDouble(longitude);
     }
