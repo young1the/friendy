@@ -46,8 +46,11 @@ public class School {
     @Column(nullable = false, length = 5)
     private String gender;
 
+    @Column(nullable = false, columnDefinition="char(2) default 'N'")
+    private char deletedYn = 'N';
+
     @Column(nullable = false)
-    private char deletedYn;
+    private String district;
 
     // 학교 엔티티와 주소 엔티티 간의 일대일 관계 매핑
     @OneToOne(mappedBy = "school", cascade = CascadeType.ALL)

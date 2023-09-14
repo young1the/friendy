@@ -1,4 +1,4 @@
-package com.chunjae.friendy.csv;
+package com.chunjae.friendy.csv.utils;
 
 import com.chunjae.friendy.school.entity.School;
 import com.chunjae.friendy.school.entity.SchoolAddress;
@@ -23,6 +23,7 @@ public class CSVParser {
         Map<String, String> map = new HashMap<>();
         map.put("시도교육청", "cityEduOffice");
         map.put("지역교육청", "districtEduOffice");
+        map.put("지역", "district");
         map.put("정보공시 학교코드", "schoolCode");
         map.put("학교명", "name");
         map.put("학교급코드", "levelCode");

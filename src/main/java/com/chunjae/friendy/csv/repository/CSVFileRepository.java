@@ -1,5 +1,6 @@
-package com.chunjae.friendy.csv;
+package com.chunjae.friendy.csv.repository;
 
+import com.chunjae.friendy.csv.entity.CSVFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
