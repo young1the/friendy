@@ -1,5 +1,7 @@
 package com.chunjae.friendy.school;
 
+import com.chunjae.friendy.school.entity.School;
+import com.chunjae.friendy.school.repository.SchoolRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

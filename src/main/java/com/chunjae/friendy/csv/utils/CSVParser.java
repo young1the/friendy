@@ -1,7 +1,7 @@
-package com.chunjae.friendy.csv;
+package com.chunjae.friendy.csv.utils;
 
-import com.chunjae.friendy.school.School;
-import com.chunjae.friendy.school.SchoolAddress;
+import com.chunjae.friendy.school.entity.School;
+import com.chunjae.friendy.school.entity.SchoolAddress;
 import org.springframework.data.util.Pair;
 
 import java.lang.reflect.Field;

@@ -1,5 +1,7 @@
 package com.chunjae.friendy.map;
 
+import com.chunjae.friendy.util.coordinate.Coordinate;
+import com.chunjae.friendy.util.coordinate.CoordinateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

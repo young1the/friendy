@@ -1,5 +1,6 @@
 package com.chunjae.friendy.school;
 
+import com.chunjae.friendy.school.entity.School;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

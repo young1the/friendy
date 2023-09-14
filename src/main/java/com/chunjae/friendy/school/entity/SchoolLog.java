@@ -1,6 +1,7 @@
-package com.chunjae.friendy.school;
+package com.chunjae.friendy.school.entity;
 
 import com.chunjae.friendy.admin.entity.Admin;
+import com.chunjae.friendy.school.entity.School;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
