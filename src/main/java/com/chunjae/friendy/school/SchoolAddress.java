@@ -1,13 +1,11 @@
 package com.chunjae.friendy.school;
 
-import groovy.util.logging.Slf4j;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Slf4j
 @Entity (name = "school_address")
 public class SchoolAddress {
 

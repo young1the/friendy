@@ -13,11 +13,11 @@ public class SchoolLog {
         private Long idx;
 
         @ManyToOne
-        @JoinColumn(name = "school")
+        @JoinColumn(name = "school_idx")
         private School schoolIdx;
 
         @ManyToOne
-        @JoinColumn(name = "admin")
+        @JoinColumn(name = "admin_idx")
         private Admin adminIdx;
 
         @Column(nullable = false)

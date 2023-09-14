@@ -1,13 +1,11 @@
 package com.chunjae.friendy.school;
 
-import groovy.util.logging.Slf4j;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Slf4j
 @Entity(name = "school")
 public class School {
 
@@ -33,20 +31,20 @@ public class School {
     @Column(nullable = false, length = 5)
     private String establishment;
 
-    @Column(nullable = false)
-    private char dayNight;
+    @Column(nullable = false, length = 3)
+    private String dayNight;
 
-    @Column(length = 15)
+    @Column(length = 20)
     private String tel;
 
-    @Column(length = 15)
+    @Column(length = 20)
     private String fax;
 
     @Column
     private String url;
 
-    @Column(nullable = false)
-    private char gender;
+    @Column(nullable = false, length = 5)
+    private String gender;
 
     @Column(nullable = false)
     private char deletedYn;
