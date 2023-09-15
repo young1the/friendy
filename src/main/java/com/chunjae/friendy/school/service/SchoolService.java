@@ -59,78 +59,64 @@ public class SchoolService {
         this.schoolRepository = schoolRepository;
         this.schoolAddressRepository = schoolAddressRepository;
     }
-    public School addSchool(SchoolRequest schoolRequest) {
-        // School 객체 생성
-        School school = new School();
-        school.setCityEduOffice(schoolRequest.getCityEduOffice());
-        school.setDistrictEduOffice(schoolRequest.getDistrictEduOffice());
-        school.setSchoolCode(schoolRequest.getSchoolCode());
-        school.setName(schoolRequest.getName());
-        school.setLevelCode(schoolRequest.getLevelCode());
-        school.setEstablishment(schoolRequest.getEstablishment());
-        school.setDayNight(schoolRequest.getDayNight());
-        school.setTel(schoolRequest.getTel());
-        school.setFax(schoolRequest.getFax());
-        school.setUrl(schoolRequest.getUrl());
-        school.setGender(schoolRequest.getGender());
-        school.setDistrict(schoolRequest.getDistrict());
+    private void mapSchoolByRequest(School school,SchoolRequest request) {
+        school.setCityEduOffice(request.getCityEduOffice());
+        school.setDistrictEduOffice(request.getDistrictEduOffice());
+        school.setSchoolCode(request.getSchoolCode());
+        school.setName(request.getName());
+        school.setLevelCode(request.getLevelCode());
+        school.setEstablishment(request.getEstablishment());
+        school.setDayNight(request.getDayNight());
+        school.setTel(request.getTel());
+        school.setFax(request.getFax());
+        school.setUrl(request.getUrl());
+        school.setGender(request.getGender());
+        school.setDistrict(request.getDistrict());
+    }
 
+    private void mapSchoolAddressByRequest(SchoolAddress schoolAddress, SchoolRequest request){
+        schoolAddress.setRoadAddress(request.getRoadAddress());
+        schoolAddress.setRoadAddressDetail(request.getRoadAddressDetail());
+        schoolAddress.setRoadZipCode(request.getRoadZipCode());
+        schoolAddress.setLatitude(request.getLatitude());
+        schoolAddress.setLongitude(request.getLongitude());
+        schoolAddress.setBoundaryCode(request.getBoundaryCode());
 
-        // SchoolAddress 객체 생성
-        SchoolAddress schoolAddress = new SchoolAddress();
-        schoolAddress.setRoadAddress(schoolRequest.getRoadAddress());
-        schoolAddress.setRoadAddressDetail(schoolRequest.getRoadAddressDetail());
-        schoolAddress.setRoadZipCode(schoolRequest.getRoadZipCode());
-        schoolAddress.setLatitude(schoolRequest.getLatitude());
-        schoolAddress.setLongitude(schoolRequest.getLongitude());
-        schoolAddress.setBoundaryCode(schoolRequest.getBoundaryCode());
+    }
 
-        // School과 SchoolAddress 관계 설정
+    private void setSchoolAddress(School school, SchoolAddress schoolAddress) {
         school.setAddress(schoolAddress);
         schoolAddress.setSchool(school);
-
-        // School과 SchoolAddress를 한 번에 저장
-        schoolRepository.save(school);
-
-
-        return school;
     }
-    public School update(Long idx, SchoolRequest updateRequest) {
+
+
+    public School addSchool(SchoolRequest schoolRequest) {
+
+        School school = new School();
+        SchoolAddress schoolAddress = new SchoolAddress();
+        mapSchoolByRequest(school, schoolRequest);
+        mapSchoolAddressByRequest(schoolAddress, schoolRequest);
+
+        setSchoolAddress(school, schoolAddress);
+
+        return schoolRepository.save(school);
+    }
+
+
+
+    public School update(Long idx, SchoolRequest schoolRequest) {
         Optional<School> schoolOptional = schoolRepository.findById(idx);
         if (schoolOptional.isPresent()) {
             School school = schoolOptional.get();
-
-            // 업데이트할 정보를 폼에서 받아와서 엔티티에 설정
-            school.setCityEduOffice(updateRequest.getCityEduOffice());
-            school.setDistrictEduOffice(updateRequest.getDistrictEduOffice());
-            school.setSchoolCode(updateRequest.getSchoolCode());
-            school.setName(updateRequest.getName());
-            school.setLevelCode(updateRequest.getLevelCode());
-            school.setEstablishment(updateRequest.getEstablishment());
-            school.setDayNight(updateRequest.getDayNight());
-            school.setTel(updateRequest.getTel());
-            school.setFax(updateRequest.getFax());
-            school.setUrl(updateRequest.getUrl());
-            school.setGender(updateRequest.getGender());
-            school.setDistrict(updateRequest.getDistrict());
-
-            // 주소 정보 업데이트
             SchoolAddress schoolAddress = school.getAddress();
-            schoolAddress.setRoadAddress(updateRequest.getRoadAddress());
-            schoolAddress.setRoadAddressDetail(updateRequest.getRoadAddressDetail());
-            schoolAddress.setRoadZipCode(updateRequest.getRoadZipCode());
-            schoolAddress.setLatitude(updateRequest.getLatitude());
-            schoolAddress.setLongitude(updateRequest.getLongitude());
-            schoolAddress.setBoundaryCode(updateRequest.getBoundaryCode());
 
-            // School과 SchoolAddress 관계 설정
-            school.setAddress(schoolAddress);
-            schoolAddress.setSchool(school);
+            mapSchoolByRequest(school, schoolRequest);
+            mapSchoolAddressByRequest(schoolAddress, schoolRequest);
 
-            // School 객체를 저장하여 업데이트
+            setSchoolAddress(school, schoolAddress);
+
             return schoolRepository.save(school);
         } else {
-            // 엔티티를 찾을 수 없을 때 예외 처리 또는 에러 처리
             throw new EntityNotFoundException("School not found with ID: " + idx);
         }
     }
