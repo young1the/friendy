@@ -10,12 +10,10 @@
     <th:block th:replace="~{user/fragments/meta/css :: css}"></th:block>
     <th:block th:replace="~{user/fragments/meta/js :: js}"></th:block>
 </head>
-<body style="display: flex;">
-<nav style="flex: 1;">
+<body>
+<nav>
     <th:block th:replace="~{user/fragments/components/SideMenuBar :: SideMenuBar}"></th:block>
 </nav>
-<div style="flex: 9;">
-    <th:block layout:fragment="content"></th:block>
-</div>
+<th:block layout:fragment="content"></th:block>
 </body>
 </html>

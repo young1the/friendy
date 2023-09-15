@@ -4,54 +4,114 @@
       layout:decorate="~{user/layout/layout}"
       layout:fragment="content"
 >
+<style>
+    .ken_success {
+        width: 100px;
+        height: 100px;
+        background: url("/user/images/ken_success.png");
+        background-size: cover;
+    }
+
+    .ken_failed {
+        width: 100px;
+        height: 100px;
+        background: url("/user/images/ken_failed.png");
+        background-size: cover;
+    }
+
+    .infoContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .currentPositionButton {
+        position: absolute;
+        bottom: 32px;
+        right: 32px;
+        z-index: 2000;
+    }
+
+</style>
 <main>
-    <div id="map" style="margin-top: 16px;width:100%;height:400px;"></div>
+    <div id="map" style="width:'calc(100vw-120px)'; height: 100vh; margin-left: 120px;"></div>
+    <div onclick="getGeolocation()" class="currentPositionButton">
+        <md-fab variant="primary" size="large" aria-label="Edit">
+            <md-icon slot="icon">my_location</md-icon>
+        </md-fab>
+    </div>
 </main>
 <script>
-    var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(37.5666805, 126.9784147),
-        zoom: 10,
-        mapTypeId: naver.maps.MapTypeId.NORMAL
-    });
+    function mapWrapper() {
+        const map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5666805, 126.9784147),
+            zoom: 10,
+            mapTypeId: naver.maps.MapTypeId.NORMAL
+        });
+        const infowindow = new naver.maps.InfoWindow();
 
-    var infowindow = new naver.maps.InfoWindow();
+        const successTemplate = `
+        <div class="infoContainer" onclick="closeInfo()">
+            <h2>위치를 찾았어요!</h2>
+            <div class="ken_success"></div>
+             <md-filled-button>찾기</md-filled-button>
+        </div>
+    `
 
-    function onSuccessGeolocation(position) {
-        var location = new naver.maps.LatLng(position.coords.latitude,
-            position.coords.longitude);
+        const failedTemplate = `
+        <div class="infoContainer" onclick="closeInfo()">
+            <h2>위치를 알 수 없어요</h2>
+            <div class="ken_failed"/>
+        </div>
+    `
 
-        map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-        map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
+        function closeInfo() {
+            infowindow.close();
+        }
 
-        infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
+        function onSuccessGeolocation(position) {
+            const location = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+            map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
+            infowindow.setContent(successTemplate);
+            infowindow.open(map, location);
+            console.log('Coordinates: ' + location.toString());
+        }
 
-        infowindow.open(map, location);
-        console.log('Coordinates: ' + location.toString());
-    }
-
-    function onErrorGeolocation() {
-        var center = map.getCenter();
-
-        infowindow.setContent('<div style="padding:20px;">' +
-            '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>' + "latitude: " + center.lat() + "<br />longitude: " + center.lng() + '</div>');
-
-        infowindow.open(map, center);
-    }
-
-    document.addEventListener("DOMContentLoaded") (function () {
-        if (navigator.geolocation) {
-            /**
-             * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
-             * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
-             * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
-             */
-            navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-        } else {
-            var center = map.getCenter();
-            infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+        function onErrorGeolocation() {
+            const center = map.getCenter();
+            infowindow.setContent(failedTemplate);
             infowindow.open(map, center);
         }
-    });
+
+        function getGeolocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+            } else {
+                const center = map.getCenter();
+                infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+                infowindow.open(map, center);
+            }
+        }
+
+        function windowOnLoadHandler() {
+            getGeolocation(map, infowindow);
+        }
+
+        window.onload = windowOnLoadHandler;
+
+        return {
+            getGeolocation,
+            closeInfo
+        };
+    }
+
+    const {
+        getGeolocation,
+        closeInfo
+    } = mapWrapper();
 
 </script>
 </html>

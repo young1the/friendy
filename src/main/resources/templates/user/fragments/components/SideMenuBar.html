@@ -2,31 +2,218 @@
 <html xmlns:th="http://www.thymeleaf.org"
 >
 <th:block th:fragment="SideMenuBar()">
-    <md-list>
-        <md-list-item>
-            <svg slot="start" data-variant="icon" viewBox="0 0 160 200">
-                <path d="M11.336 2.253a1 1 0 0 1 1.328 0l9 8a1 1 0 0 1-1.328 1.494L20 11.45V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7.55l-.336.297a1 1 0 0 1-1.328-1.494l9-8zM6 9.67V19h3v-5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v5h3V9.671l-6-5.333-6 5.333zM13 19v-4h-2v4h2z"
-                      fill="#0D0D0D"/>
-            </svg>
-        </md-list-item>
-        <md-list-item headline="Lit">
-            <svg slot="start" data-variant="icon" viewBox="0 0 160 200">
-                <path
-                        d="m160 80v80l-40-40zm-40 40v80l40-40zm0-80v80l-40-40zm-40 40v80l40-40zm-40-40v80l40-40zm40-40v80l-40-40zm-40 120v80l-40-40zm-40-40v80l40-40z"/>
-            </svg>
-        </md-list-item>
-        <div style="margin-left: 8px; margin-right: 8px">
-            <md-divider></md-divider>
+    <style>
+        :root {
+            --md-icon-font: 'Material Symbols Rounded';
+            --md-outlined-text-field-container-shape: 24px;
+            --md-filled-button-container-shape: 24px;
+            --md-filled-tonal-button-container-color: var(--md-ref-palette-primary50);
+            --md-filled-tonal-button-label-text-color: var(--md-ref-palette-primary100);
+        }
+
+        .sidebar {
+            position: fixed;
+            display: flex;
+            height: 100vh;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+            overflow: hidden;
+            border-right: 1px solid var(--md-sys-color-outline-variant);
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            z-index: 1;
+        }
+
+        .navWrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 16px;
+        }
+
+        .navContainer {
+            display: flex;
+            flex-direction: column;
+            padding-left: 16px;
+            padding-right: 16px;
+            align-items: center;
+            margin-top: 12px;
+            gap: 16px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 12px;
+            gap: 4px;
+            color: inherit;
+        }
+
+        .nav__span {
+            font-size: 12px;
+        }
+
+        .nav:hover {
+            background: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .offcanvas {
+            position: fixed;
+            height: 100vh;
+            transition: all 0.25s;
+            border-top-right-radius: 8px;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
+            padding: 16px;
+        }
+
+        #search, #history {
+            width: 0px;
+        }
+
+        .searchField {
+            margin-top: 16px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .searchField__input {
+            width: 100%;
+            font-size: 16px;
+            padding: 16px;
+            padding-left: 52px;
+            border: 2px solid var(--md-source);
+            border-radius: 8px;
+        }
+
+        .searchIcon {
+            position: absolute;
+            left: 16px;
+        }
+
+        .cancelIcon {
+            color: var(--md-sys-color-outline-variant-dark);
+            position: absolute;
+            right: 16px;
+        }
+
+        h1 {
+            font-weight: var(--md-sys-typescale-title-large-font-weight);
+            font-size: var(--md-sys-typescale-title-large-font-size);
+        }
+    </style>
+    <nav class="sidebar">
+        <div class="navbar">
+            <div class="navWrapper">
+                <div class="navContainer">
+                    <a class="nav" href="#" onclick="closeAllCanvas()">
+                        <md-icon>home</md-icon>
+                        <span class="nav__span">프렌디</span>
+                    </a>
+                    <md-divider></md-divider>
+                    <a class="nav" href="#" onclick="openOffCanvas('search')">
+                        <md-icon>Search</md-icon>
+                        <span class="nav__span">학교 검색</span>
+                    </a>
+                    <a class="nav" href="#" onclick="openOffCanvas('history')">
+                        <md-icon>history</md-icon>
+                        <span class="nav__span">검색기록</span>
+                    </a>
+                </div>
+                <div class="navContainer">
+                    <md-divider></md-divider>
+                    <a class="nav" href="/admin">
+                        <md-icon>code</md-icon>
+                        <span class="nav__span">프렌디</span>
+                    </a>
+                </div>
+            </div>
         </div>
-        <md-list-item headline="Polymer">
-            <md-icon slot="start" data-variant="icon">polymer</md-icon>
-        </md-list-item>
-        <md-list-item headline="Angular">
-            <svg slot="start" data-variant="icon" viewBox="0 0 250 250">
-                <polygon points="108,135.4 125,135.4 125,135.4 125,135.4 142,135.4 125,94.5"/>
-                <path d="M125,30L125,30L125,30L31.9,63.2l14.2,123.1L125,230l0,0l0,0l78.9-43.7l14.2-123.1L125,30z M183.1,182.6h-21.7h0 l-11.7-29.2H125h0h0h-24.7l-11.7,29.2h0H66.9h0L125,52.1l0,0l0,0l0,0l0,0L183.1,182.6L183.1,182.6z"/>
-            </svg>
-        </md-list-item>
-    </md-list>
+
+
+        <!--offcanvas-->
+        <div id="search" class="offcanvas">
+            <md-tabs>
+                <md-primary-tab inline-icon>
+                    <md-icon slot="icon">abc</md-icon>
+                    학교명
+                </md-primary-tab>
+                <md-primary-tab inline-icon>
+                    <md-icon slot="icon">explore</md-icon>
+                    지역
+                </md-primary-tab>
+            </md-tabs>
+            <div class="searchField">
+                <div class="searchIcon">
+                    <md-icon>Search</md-icon>
+                </div>
+                <input id="searchInput" class="searchField__input" type="text">
+                <div class="cancelIcon">
+                    <md-icon>cancel</md-icon>
+                </div>
+            </div>
+        </div>
+        <div id="history" class="offcanvas">
+            <md-list style="min-width: 100%;">
+                <md-list-item headline="검색기록" noninteractive>
+                    <md-icon style="cursor:pointer" slot="end">Delete</md-icon>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item headline="가디초">
+                </md-list-item>
+                <md-list-item headline="Elizabeth Mitchell">
+                </md-list-item>
+                <md-list-item headline="Andrew Jackubowicz">
+                </md-list-item>
+            </md-list>
+        </div>
+        <!--offcanvas-->
+    </nav>
+
+    <script>
+        function open(elem) {
+            elem.style.width = "420px";
+            elem.style.marginLeft = "120px";
+        }
+
+        function close(elem) {
+            elem.style.width = "0px";
+            elem.style.marginLeft = "0px";
+        }
+
+        function openOffCanvas(name) {
+            const offcanvas = document.getElementById(name);
+            closeAllCanvas();
+            const map = document.getElementById("map");
+            map.addEventListener('click', ()=>{
+               close(offcanvas);
+            })
+            open(offcanvas);
+        }
+
+        function closeAllCanvas() {
+            const others = document.getElementsByClassName("offcanvas");
+            for (const other of others) {
+                close(other);
+            }
+        }
+
+    </script>
+
 </th:block>
 </html>
