@@ -18,4 +18,6 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
     void unsetForeignKeyCheck();
     @Query(value = "SET FOREIGN_KEY_CHECKS = 1", nativeQuery = true)
     void setForeignKeyCheck();
+
+    School findByIdx(Long idx);
 }
