@@ -2,10 +2,10 @@
   "name": "friendy",
   "version": "1.0.0",
   "description": "friendy front",
-  "main": "index.js",
+  "main": "js/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "roll" : "npx rollup -p @rollup/plugin-node-resolve index.js > bundle.js"
+    "roll" : "npx rollup -p @rollup/plugin-node-resolve ./js/index.js > ./js/bundle.js"
   },
   "author": "",
   "license": "ISC",

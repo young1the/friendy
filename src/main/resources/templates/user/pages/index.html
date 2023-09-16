@@ -5,17 +5,23 @@
       layout:fragment="content"
 >
 <style>
-    .ken_success {
+    .ken {
         width: 100px;
         height: 100px;
+    }
+
+    .ken--success {
         background: url("/user/images/ken_success.png");
         background-size: cover;
     }
 
-    .ken_failed {
-        width: 100px;
-        height: 100px;
+    .ken--failed {
         background: url("/user/images/ken_failed.png");
+        background-size: cover;
+    }
+
+    .ken--search {
+        background: url("/user/images/ken_search.png");
         background-size: cover;
     }
 
@@ -27,8 +33,11 @@
         gap: 16px;
     }
 
-    .currentPositionButton {
+    .controlPanel {
         position: absolute;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
         bottom: 32px;
         right: 32px;
         z-index: 2000;
@@ -37,81 +46,34 @@
 </style>
 <main>
     <div id="map" style="width:'calc(100vw-120px)'; height: 100vh; margin-left: 120px;"></div>
-    <div onclick="getGeolocation()" class="currentPositionButton">
-        <md-fab variant="primary" size="large" aria-label="Edit">
+    <div class="controlPanel">
+        <md-fab onclick="showAroundSchoolBoundary()" variant="primary" size="large" aria-label="Edit">
+            <md-icon slot="icon">conditions</md-icon>
+        </md-fab>
+        <md-fab onclick="getGeolocation()" variant="secondary" size="large" aria-label="Edit">
             <md-icon slot="icon">my_location</md-icon>
         </md-fab>
     </div>
 </main>
 <script>
-    function mapWrapper() {
-        const map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5666805, 126.9784147),
-            zoom: 10,
-            mapTypeId: naver.maps.MapTypeId.NORMAL
-        });
-        const infowindow = new naver.maps.InfoWindow();
-
-        const successTemplate = `
-        <div class="infoContainer" onclick="closeInfo()">
-            <h2>위치를 찾았어요!</h2>
-            <div class="ken_success"></div>
-             <md-filled-button>찾기</md-filled-button>
-        </div>
-    `
-
-        const failedTemplate = `
-        <div class="infoContainer" onclick="closeInfo()">
-            <h2>위치를 알 수 없어요</h2>
-            <div class="ken_failed"/>
-        </div>
-    `
-
-        function closeInfo() {
-            infowindow.close();
-        }
-
-        function onSuccessGeolocation(position) {
-            const location = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-            map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
-            infowindow.setContent(successTemplate);
-            infowindow.open(map, location);
-            console.log('Coordinates: ' + location.toString());
-        }
-
-        function onErrorGeolocation() {
-            const center = map.getCenter();
-            infowindow.setContent(failedTemplate);
-            infowindow.open(map, center);
-        }
-
-        function getGeolocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-            } else {
-                const center = map.getCenter();
-                infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
-                infowindow.open(map, center);
-            }
-        }
-
-        function windowOnLoadHandler() {
-            getGeolocation(map, infowindow);
-        }
-
-        window.onload = windowOnLoadHandler;
-
-        return {
-            getGeolocation,
-            closeInfo
-        };
-    }
-
+    const mapOption = {
+        center: new naver.maps.LatLng(37.5666805, 126.9784147),
+        zoom: 10,
+        zoomControl: true,
+        zoomControlOptions: {
+            position: naver.maps.Position.TOP_RIGHT,
+            style: naver.maps.ZoomControlStyle.SMALL
+        },
+        mapTypeId: naver.maps.MapTypeId.NORMAL
+    };
+    const mapId = 'map';
     const {
         getGeolocation,
-        closeInfo
-    } = mapWrapper();
-
+        closeInfo,
+        showAroundSchoolBoundary,
+        addMarkers,
+        clearMarkers,
+        moveToCoordinate,
+    } = mapBase(mapId, mapOption);
 </script>
 </html>
