@@ -1,9 +1,12 @@
 package com.chunjae.friendy.school.repository;
 
 import com.chunjae.friendy.school.entity.School;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,4 +21,31 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
     void unsetForeignKeyCheck();
     @Query(value = "SET FOREIGN_KEY_CHECKS = 1", nativeQuery = true)
     void setForeignKeyCheck();
+
+    @Query(value = "SELECT s FROM school s WHERE s.name LIKE %:searchKeyword%")
+    Page<School> findByName(@Param("searchKeyword") String searchKeyword, Pageable pageable);
+
+    School findByIdx(Long idx);
+
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:findBySearchKeyword% OR s.name LIKE %:findBySearchKeyword%")
+    Page<School> findBySearchKeyword(@Param("findBySearchKeyword")String findBySearchKeyword, Pageable pageable);
+
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district%")
+    Page<School> findByDistrict(@Param("district")String district, Pageable pageable);
+
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity%")
+    Page<School> findBySearchCity(@Param("searchCity")String searchCity, Pageable pageable);
+
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district% AND s.name LIKE %:searchKeyword%")
+    Page<School> findByDistrictAndName(@Param("district")String district, @Param("searchKeyword")String searchKeyword, Pageable pageable);
+
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity% and (s.district LIKE %:searchKeyword% or s.name like %:searchKeyword%)")
+    Page<School> findBySearchCityAndSearchKeyword(@Param("searchCity") String searchCity, @Param("searchKeyword") String searchKeyword, Pageable pageable);
+
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district% and (s.district LIKE %:searchKeyword% or s.name like %:searchKeyword%)")
+    Page<School> findByDistrictAndSearchKeyword(@Param("district") String district, @Param("searchKeyword") String searchKeyword, Pageable pageable);
+
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity% and s.name like %:searchKeyword%")
+    Page<School> findBySearchCityAndName(@Param("searchCity") String searchCity, @Param("searchKeyword") String searchKeyword, Pageable pageable);
+
 }

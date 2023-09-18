@@ -10,7 +10,13 @@ import lombok.Setter;
 public class SchoolAddress {
 
     @Id
+    @Column(name = "school_idx")
     private Long school_idx;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @MapsId
+    @JoinColumn(name = "school_idx")
+    private School school;
 
     @Column(nullable = false)
     private String roadAddress;
@@ -29,11 +35,5 @@ public class SchoolAddress {
 
     @Column(nullable = false, length = 11)
     private String boundaryCode;
-
-    // 학교와 주소 간의 일대일 관계 매핑
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "school_idx")
-    private School school;
 
 }

@@ -2,7 +2,7 @@ package com.chunjae.friendy.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-public class AdminUtils {
+public class RemoteIPUtils {
 
     //Header IP정보 가져오는 메서드
     public static String getRemoteIP (HttpServletRequest request){
