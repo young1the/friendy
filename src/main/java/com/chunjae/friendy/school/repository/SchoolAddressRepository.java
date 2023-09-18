@@ -39,7 +39,7 @@ public interface SchoolAddressRepository extends JpaRepository<SchoolAddress, Lo
     @Query(value = "SELECT s FROM school_address s WHERE s.roadAddress LIKE %:searchKeyword% or s.roadAddressDetail like %:searchKeyword%")
     Page<SchoolAddress> findDistrictBySearchKeyword(@Param("searchKeyword") String searchKeyword, Pageable pageable);
 
-    @Query(value = "SELECT s.idx as idx, s.name as name, a.road_address as roadAddress, a.road_zip_code as roadZipCode, a.latitude as latitude, a.longitude as longitude FROM school s inner JOIN school_address a on s.idx = a.school_idx WHERE s.name LIKE %:keyword%", nativeQuery = true)
+    @Query(value = "SELECT s.idx as idx, s.name as name, a.road_address as roadAddress, a.road_zip_code as roadZipCode, a.latitude as latitude, a.longitude as longitude, s.level_code as levelCode, s.school_code as schoolCode FROM school s inner JOIN school_address a on s.idx = a.school_idx WHERE s.name LIKE %:keyword%", nativeQuery = true)
     List<UserSearchResponseInterface> findSchoolNamesByKeyword(@Param("keyword") String keyword);
 
 }

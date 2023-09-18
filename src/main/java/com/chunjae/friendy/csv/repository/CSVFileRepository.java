@@ -1,5 +1,6 @@
 package com.chunjae.friendy.csv.repository;
 
+import com.chunjae.friendy.csv.CSVUploaderInfoInterface;
 import com.chunjae.friendy.csv.entity.CSVFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,4 +26,7 @@ public interface CSVFileRepository extends JpaRepository<CSVFile, Long> {
     CSVFile findByCurrentDataEquals(char currentData);
 
     CSVFile findByFileName(String fileName);
+
+//    @Query(value = "SELECT a.idx as idx, a.name AS name, a.id as id FROM csv_file c INNER JOIN admin a on c.admin_idx = a.idx WHERE a.id = :adminId", nativeQuery = true)
+//    CSVUploaderInfoInterface findByAdminId(@Param("adminId") String adminId);
 }

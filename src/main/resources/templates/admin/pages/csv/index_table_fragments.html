@@ -42,7 +42,7 @@
         <tr>
             <td class="first"><a th:href="${file}" th:text="${file.idx}"/></td>
             <td th:text="${file.fileName}"></td>
-            <td>.</td>
+            <td><span th:if="${file.admin != null}" th:text="${file.admin.name}"></span></td>
             <td th:text="${#temporals.format(file.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2023-09-12 12:53</td>
             <td>
                 <button th:if="${#strings.equals(file.currentData, 'N')}" type="button"
