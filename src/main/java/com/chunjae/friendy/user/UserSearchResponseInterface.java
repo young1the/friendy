@@ -8,5 +8,7 @@ public interface UserSearchResponseInterface {
     String getRoadZipCode();
     String getLatitude();
     String getLongitude();
+    String getLevelCode();
+    String getSchoolCode();
 
 }

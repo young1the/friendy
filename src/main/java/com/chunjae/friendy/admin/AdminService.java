@@ -53,6 +53,7 @@ public class AdminService implements UserDetailsService {
 
     public Admin createAdmin(AdminCreateRequest adminCreateRequest){
 
+
         AdminRole adminRole = adminRoleRepository.findById(adminCreateRequest.getAdminRole())
                 .orElseThrow(() -> new UsernameNotFoundException("AdminRole not found"));
 
@@ -62,7 +63,8 @@ public class AdminService implements UserDetailsService {
         admin.setName(adminCreateRequest.getName());
         admin.setEmpNumber(adminCreateRequest.getEmpNumber());
         admin.setAdminRoleIndex(adminRole);
-        this.adminRepository.save(admin);
+
+        adminRepository.save(admin);
         return admin;
     }
 
