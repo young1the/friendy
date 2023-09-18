@@ -177,7 +177,7 @@
                     <md-icon>Search</md-icon>
                 </button>
                 <input id="otherInput" class="searchField__input" type="text">
-                <div class="cancelIcon" onclick="cancelButtonHandler()">
+                <div class="cancelIcon" onclick="cancelOtherButtonHandler()">
                     <md-icon>cancel</md-icon>
                 </div>
             </form>
@@ -190,6 +190,10 @@
 
         function cancelButtonHandler() {
             const searchInput = document.getElementById("searchInput");
+            searchInput.value = "";
+        }
+        function cancelOtherButtonHandler() {
+            const searchInput = document.getElementById("otherInput");
             searchInput.value = "";
         }
 
@@ -205,6 +209,8 @@
                 const {name, idx, latitude, longitude, roadAddress, roadZipCode} = info;
                 const child = document.createElement('md-list-item');
                 child.setAttribute('headline', name);
+                child.setAttribute('style', 'font-weight: bold;')
+                child.setAttribute('trailing-supporting-text', roadAddress);
                 child.setAttribute('onclick', `infoWindowOnClickHandler("${name}", ${idx} ,${latitude},${longitude}, "${roadAddress}", ${roadZipCode})`)
                 searchListContainer.appendChild(child);
             }
@@ -290,7 +296,7 @@
         async function searchSubmitHandler() {
             const searchInput = document.getElementById("searchInput");
             if (!searchInput.value) return;
-            const response = await fetch("/user/search", {
+            const response = await fetch("/elem/search", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -306,8 +312,7 @@
         async function otherSubmitHandler() {
             const searchInput = document.getElementById("otherInput");
             if (!searchInput.value) return;
-            // TODO: middle/search
-            const response = await fetch("/user/search", {
+            const response = await fetch("/middle/search", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -317,10 +322,25 @@
                 })
             });
             const schoolList = await response.json();
-            renderSearchList(schoolList)
+            renderOtherList(schoolList)
+        }
+
+        function renderOtherList(searchList) {
+            const portal = document.getElementById('otherFieldPortal');
+            const previous = portal.getElementsByTagName('md-list');
+            const searchListContainer = document.createElement('md-list');
+            searchListContainer.setAttribute('style', 'min-width: 100%');
+            fillSearchList(searchListContainer, searchList);
+            if (previous.length > 0) {
+                portal.replaceChild(searchListContainer, previous[0]);
+            } else {
+                portal.appendChild(searchListContainer);
+            }
+            addMarkers(searchList);
         }
 
         renderSearchList();
+        renderOtherList();
 
     </script>
 
