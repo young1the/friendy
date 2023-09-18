@@ -56,7 +56,4 @@ public class School {
     @OneToOne(mappedBy = "school", cascade = CascadeType.ALL)
     private SchoolAddress address;
 
-    @Column(nullable = false)
-    private String district;
-
 }

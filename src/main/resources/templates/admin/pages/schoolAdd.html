@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/layout}"
+      layout:fragment="content"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학교 등록</title>
+</head>
+<body>
+<main>
+    <h1 class="page_tit">학교 등록</h1>
+    <br>
+    <form action="/school/add" method="post">
+        <div class="form-grid">
+            <div class="form-row">
+                <label for="schoolCode">정보공시 학교 코드</label>
+                <input type="text" id="schoolCode" name="schoolCode">
+            </div>
+            <div class="form-row">
+                <label for="name">학교명</label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div class="form-row">
+                <label for="levelCode">학교급코드</label>
+                <input type="text" id="levelCode" name="levelCode">
+            </div>
+            <div class="form-row">
+                <label for="cityEduOffice">시도교육청</label>
+                <input type="text" id="cityEduOffice" name="cityEduOffice">
+            </div>
+            <div class="form-row">
+                <label for="districtEduOffice">지역교육청</label>
+                <input type="text" id="districtEduOffice" name="districtEduOffice">
+            </div>
+            <div class="form-row">
+                <label for="establishment">설립 구분</label>
+                <input type="text" id="establishment" name="establishment">
+            </div>
+            <div class="form-row">
+                <label for="dayNight">주야 구분</label>
+                <input type="text" id="dayNight" name="dayNight">
+            </div>
+            <div class="form-row">
+                <label for="roadAddress">도로명 주소</label>
+                <input type="text" id="roadAddress" name="roadAddress">
+            </div>
+            <div class="form-row">
+                <label for="roadZipCode">우편번호</label>
+                <input type="text" id="roadZipCode" name="roadZipCode">
+            </div>
+            <div class="form-row">
+                <label for="roadAddressDetail">상세주소</label>
+                <input type="text" id="roadAddressDetail" name="roadAddressDetail">
+            </div>
+            <div class="form-row">
+                <label for="latitude">위도</label>
+                <input type="text" id="latitude" name="latitude">
+            </div>
+            <div class="form-row">
+                <label for="longitude">경도</label>
+                <input type="text" id="longitude" name="longitude">
+            </div>
+            <div class="form-row">
+                <label for="boundaryCode">법정동코드</label>
+                <input type="text" id="boundaryCode" name="boundaryCode">
+            </div>
+            <div class="form-row">
+                <label for="tel">전화번호</label>
+                <input type="text" id="tel" name="tel">
+            </div>
+            <div class="form-row">
+                <label for="url">홈페이지 주소</label>
+                <input type="text" id="url" name="url">
+            </div>
+            <div class="form-row">
+                <label for="fax">팩스번호</label>
+                <input type="text" id="fax" name="fax">
+            </div>
+            <div class="form-row">
+                <label for="gender">남녀공학 구분</label>
+                <input type="text" id="gender" name="gender">
+            </div>
+            <div class="form-row">
+                <label for="district">지역</label>
+                <input type="text" id="district" name="district">
+            </div>
+        </div>
+        <div class="btn_wrap mt40 justify_center" style="text-align: center; margin-top: 20px;">
+            <input type="submit" class="btn2 w180 btn_color2" value="등록" />
+        </div>
+    </form>
+</main>
+</body>
+</html>

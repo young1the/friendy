@@ -1,5 +1,51 @@
 @charset "utf-8";
 
+/* 학교 정보 스타일링 */
+.school-info {
+    margin-top: 20px;
+}
+.infoWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.infoContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    max-width: 80%;
+    text-align: left;
+    align-items: center;
+}
+
+.info-label {
+    font-weight: bold;
+    flex-basis: 40%;
+}
+
+.info-value {
+    flex-basis: 55%;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+/* 지도 스타일링 */
+#map {
+    width: 100%;
+    height: 400px;
+}
+
 /* 상단 공통 영역 include */
 
 .itemScan { max-width: 100%; }
@@ -39,9 +85,19 @@
 .center{text-align: center !important;}
 
 /* layout */
-body { background-color: #f6f6f6;}
+body { background-color: #f6f6f6; margin: 0;}
+.page_tit {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+}
 #wrap { padding-bottom: 40px;}
-.container{position: relative; width: 1200px; margin:0 auto;}
+.container{position: relative; width: 1200px; margin:0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;}
 .containerPop{position: relative; width: 1600px; margin:0 auto;}
 .container .page_tit { font-size: 24px; line-height: 35px; color: #000000; font-weight: 600; padding-top: 40px; padding-bottom: 24px;}
 .navigation { position: relative; width: 283px; min-height:784px; background-color: #ffffff; padding: 12px 0; border: 1px solid #cccccc; border-radius: 4px;}
@@ -88,6 +144,21 @@ body { background-color: #f6f6f6;}
 #content
 #content_wide { width: 1200px; margin: 0 auto;}
 
+/* 폼 스타일링 */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.form-row {
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
 /* 버튼 */
 .btn{display: inline-block; text-align: center; font-size: 14px; height:32px; line-height:30px; border:1px solid #000; border-radius: 4px; text-decoration: none; font-weight: 400; background-color: #ffffff;}
 .btn2{display: inline-block; text-align: center; font-size: 14px; height:32px; line-height:30px; border:1px solid #000; border-radius: 4px; text-decoration: none;}
@@ -126,6 +197,12 @@ body { background-color: #f6f6f6;}
 .btn_left_right .blr_left a{margin-right:5px;}
 .btn_left_right .blr_right{right:0; position: absolute;}
 .btn_left_right .blr_right a{margin-left:5px;}
+
+/* 호버 */
+.btn2:hover {
+    background-color: #388e3c;
+    color: #fff;
+}
 
 /* 페이지네이션 */
 .paging{text-align:center; font-size:0; margin-bottom: 40px;}
@@ -314,6 +391,16 @@ table .select_default{width:35%;}
 .tbl_list tbody td .info{color:#666;}
 .tbl_list tbody td.none{text-align:center !important;padding:50px 0;}
 
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
 .tbl_list tr.main_unit td{background:#ecf9ff;}
 .tbl_list tr.main_unit td strong{color:#333;font-weight:600;}
 .tbl_list tr.main_unit td.title strong{display:inline-block;width:417px;}
@@ -336,6 +423,12 @@ table .select_default{width:35%;}
 .main_table tfoot tr td.first { text-align: center;}
 .main_table tfoot tr td { text-align: right;}
 
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 input[type="text"].hasDatepicker { text-decoration: underline;}
 input[type="text"].hasDatepicker::placeholder { text-decoration: underline;}
 
@@ -491,6 +584,11 @@ input[type="text"].hasDatepicker::placeholder { text-decoration: underline;}
 .swiper-button-next:after { background-image: url('../images/ic_next.svg'); border-radius:0 4px 4px 0;}
 
 
+/* 등록 버튼 스타일링 */
+.btn_wrap {
+    text-align: center;
+    margin-top: 20px;
+}
 
 .view_boxPop { position: relative; min-height:790px; min-width: 785px; background-color: #ffffff; padding: 13px 0 26px; border: 1px solid #cccccc; border-radius: 4px;}
 .view_boxPop .btn_wrap {padding: 0 21px 0 21px;}
