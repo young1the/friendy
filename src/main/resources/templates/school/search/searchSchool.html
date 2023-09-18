@@ -23,11 +23,11 @@
         <!-- 상단 공통 영역 -->
         <div data-include-path="include/html/inc_header.html"></div>
         <!-- 상단 공통 영역 -->
-        <div class="container">
+        <div class="container" >
             <h2 class="page_tit">학교 정보 검색</h2>
 
             <!-- 컨텐츠 영역 -->
-            <div id="content_wide">
+            <div id="content_wide" >
                 <div class="con_case">
                     <div class="tabmenu">
                         <ul>
@@ -40,11 +40,10 @@
                                     <form action="/school/search" method="get" id="searchForm">
                                         <div class="search_box mt20">
                                             <div class="terms_list justify_between">
-                                                <div class="terms">
+                                                <div class="terms" style="width: 355px">
                                                     <h4>지역</h4>
                                                     <select class="select_box" id="city" onchange="updateDistrict()"
                                                             name="searchCity" style="width: 125px">
-<!--                                                        <option disabled="disabled">시/도</option>-->
                                                         <option value="전체">전체</option>
                                                         <option value="서울특별시">서울특별시</option>
                                                         <option value="부산광역시">부산광역시</option>
@@ -96,8 +95,10 @@
                                         <p class="total mt10">총 <span th:text="${schools.totalElements} + '개'"></span>
                                         </p>
                                         <div>
-                                            <a class="btn w120 btn_color3" href="#none">엑셀파일 다운로드</a>
+                                            <a class="btn w120 btn_color2" href="/school/add">학교등록</a>
+                                            <a class="btn w120 btn_color3" href="/admin/csv">엑셀파일 관리</a>
                                         </div>
+
                                     </div>
                                     <div style="width: 100%; overflow: auto">
                                         <table class="tbl_list mt15" style="table-layout: auto">
@@ -142,7 +143,7 @@
                                                 <td th:text="${school.cityEduOffice}" class="column"></td>
                                                 <td th:text="${school.districtEduOffice}" class="column">지역교육청</td>
                                                 <td th:text="${school.schoolCode}" class="column">정보공시 학교코드</td>
-                                                <td th:text="${school.name}" class="column">학교명</td>
+                                                <td><a th:href="@{/school/detail(idx= ${school.idx})}" th:text="${school.name}" class="column" style="color: #488fc3"></a></td>
                                                 <td th:text="${school.levelCode}" class="column">학교급코드</td>
                                                 <td th:text="${school.establishment}" class="column">설립구분</td>
                                                 <td th:text="${school.dayNight}" class="column">주야구분</td>

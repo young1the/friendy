@@ -130,7 +130,6 @@ public class SchoolSearchService {
     private SearchSchoolDTO toDTO(School school){
         SchoolAddress schoolAddress = school.getAddress();
         SearchSchoolDTO searchSchoolDTO = new SearchSchoolDTO();
-
         searchSchoolDTO.setSchoolCode(school.getSchoolCode());
         searchSchoolDTO.setCityEduOffice(school.getCityEduOffice());
         searchSchoolDTO.setDayNight(school.getDayNight());
@@ -150,6 +149,8 @@ public class SchoolSearchService {
         searchSchoolDTO.setRoadAddress(schoolAddress.getRoadAddress());
         searchSchoolDTO.setRoadAddressDetail(schoolAddress.getRoadAddressDetail());
         searchSchoolDTO.setRoadZipCode(schoolAddress.getRoadZipCode());
+        searchSchoolDTO.setIdx(school.getIdx());
+        searchSchoolDTO.setSchool_idx(schoolAddress.getSchool_idx());
 
         return searchSchoolDTO;
     }

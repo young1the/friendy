@@ -10,6 +10,10 @@ import lombok.Setter;
 @Slf4j
 public class SearchSchoolDTO {
 
+    private Long idx;
+
+    private Long school_idx;
+
     private String cityEduOffice;
 
     private String districtEduOffice;
