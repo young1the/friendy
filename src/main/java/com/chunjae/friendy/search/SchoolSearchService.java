@@ -1,6 +1,13 @@
 package com.chunjae.friendy.search;
 
-import com.chunjae.friendy.school.*;
+import com.chunjae.friendy.school.entity.School;
+import com.chunjae.friendy.school.entity.SchoolAddress;
+import com.chunjae.friendy.school.repository.SchoolAddressRepository;
+import com.chunjae.friendy.school.repository.SchoolRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,29 +26,102 @@ public class SchoolSearchService {
         this.schoolRepository = schoolRepository;
     }
 
-    @Transactional
-    public List<SearchSchoolDTO> getAllSchools(){
 
-        List<School> schools = schoolRepository.findAll();
+    @Transactional
+    public Page<SearchSchoolDTO> findAll(Pageable pageable) {
+        Page<SchoolAddress> schoolPage = schoolAddressRepository.findAll(pageable);
+
         List<SearchSchoolDTO> searchSchoolDTOList = new ArrayList<>();
 
-        for (School school: schools) {
+        for (SchoolAddress schoolAddress : schoolPage) {
+            School school = schoolAddress.getSchool();
             SearchSchoolDTO searchSchoolDTO = toDTO(school);
             searchSchoolDTOList.add(searchSchoolDTO);
         }
 
-        return searchSchoolDTOList;
+        return new PageImpl<>(searchSchoolDTOList, pageable, schoolPage.getTotalElements());
     }
 
     @Transactional
-    public List<SearchSchoolDTO> getSchoolByName(String city, String district, String name){
+    public Page<SearchSchoolDTO> getSchoolBySearchKeyword(String searchCity, String searchDistrict,  String searchOption, String searchKeyword, Pageable pageable) {
 
-        List<School> schools = schoolRepository.findAllByName(city,district,name);
-        List<SearchSchoolDTO> searchSchoolDTOList = new ArrayList<>();
+        String district = searchCity + " " + searchDistrict;
+        Page<SearchSchoolDTO> searchSchoolDTOList;
 
-        for (School school: schools) {
-            SearchSchoolDTO searchSchoolDTO = toDTO(school);
-            searchSchoolDTOList.add(searchSchoolDTO);
+        if ("전체".equals(searchCity)) {
+            switch (searchOption) {
+                case "전체":
+                    Page<School> schoolPage = searchKeyword.isEmpty() ? schoolRepository.findAll(pageable)
+                            : schoolRepository.findBySearchKeyword(searchKeyword, pageable);
+                    searchSchoolDTOList = schoolPage.map(this::toDTO);
+                    break;
+                case "name":
+                    Page<School> schoolPageName = searchKeyword.isEmpty() ? schoolRepository.findAll(pageable)
+                            : schoolRepository.findByName(searchKeyword, pageable);
+                    searchSchoolDTOList = schoolPageName.map(this::toDTO);
+                    break;
+                case "address":
+                    Page<SchoolAddress> schoolAddressPage = searchKeyword.isEmpty() ? schoolAddressRepository.findAll(pageable)
+                            : schoolAddressRepository.findDistrictBySearchKeyword(searchKeyword, pageable);
+                    searchSchoolDTOList = schoolAddressPage.map(schoolAddress -> toDTO(schoolAddress.getSchool()));
+                    break;
+                default:
+                    // 등록자 검색
+
+                    searchSchoolDTOList = Page.empty();
+            }
+        } else {
+            if (!"전체".equals(searchDistrict)){
+                switch (searchOption){
+                    // 전x - 전x (district) - 전
+                    case "전체":
+                        Page<School> schoolPage = searchKeyword.isEmpty() ? schoolRepository.findByDistrict(district, pageable)
+                                : schoolRepository.findByDistrictAndSearchKeyword(district, searchKeyword, pageable);
+                        searchSchoolDTOList = schoolPage.map(this::toDTO);
+                        break;
+                    // 전x - 전x (district)- 명
+                    case "name":
+                        Page<School> schoolPageName = searchKeyword.isEmpty() ? schoolRepository.findByDistrict(district, pageable)
+                                : schoolRepository.findByDistrictAndName(district, searchKeyword, pageable);
+                        searchSchoolDTOList = schoolPageName.map(this::toDTO);
+                        break;
+                    // 전x - 전x (district)- 주
+                    case "address":
+                        Page<SchoolAddress> schoolAddressPage = searchKeyword.isEmpty() ? schoolAddressRepository.findByDistrict(district, pageable)
+                                : schoolAddressRepository.findByDistrictAndSearchKeyword(district, searchKeyword, pageable);
+                        searchSchoolDTOList = schoolAddressPage.map(schoolAddress -> toDTO(schoolAddress.getSchool()));
+                        break;
+                    default:
+                        // 등록자 검색
+
+                        searchSchoolDTOList = Page.empty();
+                }
+            } else {
+                switch (searchOption){
+                    // 전x (searchCity) - 전  - 전
+                    case "전체":
+                        Page<School> schoolPage = searchKeyword.isEmpty() ? schoolRepository.findBySearchCity(searchCity, pageable)
+                                : schoolRepository.findBySearchCityAndSearchKeyword(searchCity, searchKeyword, pageable);
+                        searchSchoolDTOList = schoolPage.map(this::toDTO);
+                        break;
+                    // 전x (searchCity) - 전 - 명
+                    case "name":
+                        Page<School> schoolPageName = searchKeyword.isEmpty() ? schoolRepository.findBySearchCity(searchCity, pageable)
+                                : schoolRepository.findBySearchCityAndName(searchCity, searchKeyword, pageable);
+                        searchSchoolDTOList = schoolPageName.map(this::toDTO);
+                        break;
+                    // 전x (searchCity) - 전 - 주
+                    case "address":
+                        Page<SchoolAddress> schoolAddressPage = searchKeyword.isEmpty() ? schoolAddressRepository.findBySearchCity(searchCity, pageable)
+                                : schoolAddressRepository.findBySearchCityAndSearchKeyword(searchCity, searchKeyword, pageable);
+                        searchSchoolDTOList = schoolAddressPage.map(schoolAddress -> toDTO(schoolAddress.getSchool()));
+                        break;
+                    default:
+                        // 등록자 검색
+
+                        searchSchoolDTOList = Page.empty();
+                }
+            }
         }
 
         return searchSchoolDTOList;
@@ -63,6 +143,7 @@ public class SchoolSearchService {
         searchSchoolDTO.setName(school.getName());
         searchSchoolDTO.setTel(school.getTel());
         searchSchoolDTO.setUrl(school.getUrl());
+        searchSchoolDTO.setDistrict(school.getDistrict());
         searchSchoolDTO.setBoundaryCode(schoolAddress.getBoundaryCode());
         searchSchoolDTO.setLatitude(schoolAddress.getLatitude());
         searchSchoolDTO.setLongitude(schoolAddress.getLongitude());

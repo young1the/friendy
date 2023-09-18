@@ -1,12 +1,9 @@
 package com.chunjae.friendy.search;
 
 
-import com.chunjae.friendy.school.School;
-import com.chunjae.friendy.school.SchoolAddress;
 import groovy.util.logging.Slf4j;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -25,7 +22,7 @@ public class SearchSchoolDTO {
 
     private String establishment;
 
-    private char dayNight;
+    private String dayNight;
 
     private String tel;
 
@@ -33,9 +30,11 @@ public class SearchSchoolDTO {
 
     private String url;
 
-    private char gender;
+    private String gender;
 
     private char deletedYn;
+
+    private String district;
 
     private String boundaryCode;
 
