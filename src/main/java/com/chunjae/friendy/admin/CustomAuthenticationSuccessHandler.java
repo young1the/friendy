@@ -27,7 +27,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         //사용자의 IP 주소 가져오기
-        String ipAddr = AdminUtils.getRemoteIP(request);
+        String ipAddr = RemoteIPUtils.getRemoteIP(request);
 
         //사용자 log기록
         AdminLog adminLog =  new AdminLog();
