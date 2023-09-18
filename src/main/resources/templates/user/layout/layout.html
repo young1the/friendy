@@ -11,9 +11,9 @@
     <th:block th:replace="~{user/fragments/meta/js :: js}"></th:block>
 </head>
 <body>
+<th:block layout:fragment="content"></th:block>
 <nav>
     <th:block th:replace="~{user/fragments/components/SideMenuBar :: SideMenuBar}"></th:block>
 </nav>
-<th:block layout:fragment="content"></th:block>
 </body>
 </html>

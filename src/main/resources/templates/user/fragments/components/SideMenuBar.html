@@ -16,6 +16,7 @@
             display: flex;
             height: 100vh;
             z-index: 1000;
+            top: 0;
         }
 
         .navbar {
@@ -79,7 +80,7 @@
             padding: 16px;
         }
 
-        #search, #history {
+        #search, #history, #other {
             width: 0px;
         }
 
@@ -130,9 +131,13 @@
                         <md-icon>Search</md-icon>
                         <span class="nav__span">학교 검색</span>
                     </a>
-                    <a class="nav" href="#" onclick="openOffCanvas('history')">
+                    <a class="nav" href="#" onclick="openOffCanvas('history');renderHistoryList();">
                         <md-icon>history</md-icon>
                         <span class="nav__span">검색기록</span>
+                    </a>
+                    <a class="nav" href="#" onclick="openOffCanvas('other');renderHistoryList();">
+                        <md-icon>other_houses</md-icon>
+                        <span class="nav__span">다른 학교 검색</span>
                     </a>
                 </div>
                 <div class="navContainer">
@@ -148,44 +153,113 @@
 
         <!--offcanvas-->
         <div id="search" class="offcanvas">
-            <md-tabs>
-                <md-primary-tab inline-icon>
-                    <md-icon slot="icon">abc</md-icon>
-                    학교명
-                </md-primary-tab>
-                <md-primary-tab inline-icon>
-                    <md-icon slot="icon">explore</md-icon>
-                    지역
-                </md-primary-tab>
-            </md-tabs>
-            <div class="searchField">
-                <div class="searchIcon">
+            <form id="searchField" class="searchField" onsubmit="searchSubmitHandler()">
+                <button class="searchIcon">
                     <md-icon>Search</md-icon>
-                </div>
+                </button>
                 <input id="searchInput" class="searchField__input" type="text">
-                <div class="cancelIcon">
+                <div class="cancelIcon" onclick="cancelButtonHandler()">
                     <md-icon>cancel</md-icon>
                 </div>
-            </div>
+            </form>
+            <div id="searchFieldPortal"></div>
         </div>
         <div id="history" class="offcanvas">
-            <md-list style="min-width: 100%;">
-                <md-list-item headline="검색기록" noninteractive>
-                    <md-icon style="cursor:pointer" slot="end">Delete</md-icon>
-                </md-list-item>
-                <md-divider></md-divider>
-                <md-list-item headline="가디초">
-                </md-list-item>
-                <md-list-item headline="Elizabeth Mitchell">
-                </md-list-item>
-                <md-list-item headline="Andrew Jackubowicz">
-                </md-list-item>
-            </md-list>
+            <md-list-item headline="검색기록" noninteractive>
+                <md-icon style="cursor:pointer" slot="end" onclick="dropHistory();clearHistoryList();">Delete</md-icon>
+            </md-list-item>
+            <md-divider></md-divider>
+            <div id="historyListPortal"></div>
+        </div>
+        <div id="other" class="offcanvas">
+            <form id="otherField" class="searchField" onsubmit="otherSubmitHandler()">
+                <button class="searchIcon">
+                    <md-icon>Search</md-icon>
+                </button>
+                <input id="otherInput" class="searchField__input" type="text">
+                <div class="cancelIcon" onclick="cancelButtonHandler()">
+                    <md-icon>cancel</md-icon>
+                </div>
+            </form>
+            <div id="otherFieldPortal"></div>
         </div>
         <!--offcanvas-->
     </nav>
 
     <script>
+
+        function cancelButtonHandler() {
+            const searchInput = document.getElementById("searchInput");
+            searchInput.value = "";
+        }
+
+        function fillSearchList(searchListContainer, searchList) {
+            if (!searchList || searchList.length === 0) {
+                const noItem = document.createElement('md-list-item');
+                noItem.setAttribute('headline', '검색 결과가 없습니다.');
+                noItem.setAttribute('noninteractive', "true");
+                searchListContainer.appendChild(noItem);
+                return;
+            }
+            for (const info of searchList) {
+                const {name, idx, latitude, longitude, roadAddress, roadZipCode} = info;
+                const child = document.createElement('md-list-item');
+                child.setAttribute('headline', name);
+                child.setAttribute('onclick', `infoWindowOnClickHandler("${name}", ${idx} ,${latitude},${longitude}, "${roadAddress}", ${roadZipCode})`)
+                searchListContainer.appendChild(child);
+            }
+        }
+
+        function infoWindowOnClickHandler(name, idx, latitude, longitude, roadAddress, roadZipCode) {
+            moveToCoordinate(latitude, longitude);
+            addHistory({name, idx, latitude, longitude, roadAddress, roadZipCode});
+        }
+
+        function renderSearchList(searchList) {
+            const portal = document.getElementById('searchFieldPortal');
+            const previous = portal.getElementsByTagName('md-list');
+            const searchListContainer = document.createElement('md-list');
+            searchListContainer.setAttribute('style', 'min-width: 100%');
+            fillSearchList(searchListContainer, searchList);
+            if (previous.length > 0) {
+                portal.replaceChild(searchListContainer, previous[0]);
+            } else {
+                portal.appendChild(searchListContainer);
+            }
+            addMarkers(searchList);
+        }
+
+        function renderHistoryList() {
+            const historyListObj = getHistoryFromLocalStorage();
+            if (!historyListObj) {
+                clearHistoryList()
+                return;
+            }
+            const historyContainer = document.getElementById("history")
+            const historyList = Object.values(historyListObj);
+            const portal = document.getElementById('historyListPortal');
+            const newPortal = document.createElement('div');
+            newPortal.setAttribute('id', 'historyListPortal');
+            const historyListContainer = document.createElement('md-list');
+            historyListContainer.setAttribute('style', 'min-width: 100%');
+            fillSearchList(historyListContainer, historyList);
+            newPortal.appendChild(historyListContainer);
+            historyContainer.replaceChild(newPortal, portal);
+            addMarkers(historyList);
+        }
+
+        function clearHistoryList() {
+            const historyContainer = document.getElementById("history")
+            const portal = document.getElementById('historyListPortal');
+            const newPortal = document.createElement('div');
+            newPortal.setAttribute('id', 'historyListPortal');
+            const noItem = document.createElement('md-list-item');
+            noItem.setAttribute('headline', '검색 기록이 없습니다.');
+            noItem.setAttribute('noninteractive', "true");
+            newPortal.appendChild(noItem);
+            historyContainer.replaceChild(newPortal, portal);
+        }
+
         function open(elem) {
             elem.style.width = "420px";
             elem.style.marginLeft = "120px";
@@ -200,8 +274,8 @@
             const offcanvas = document.getElementById(name);
             closeAllCanvas();
             const map = document.getElementById("map");
-            map.addEventListener('click', ()=>{
-               close(offcanvas);
+            map.addEventListener('click', () => {
+                close(offcanvas);
             })
             open(offcanvas);
         }
@@ -212,6 +286,41 @@
                 close(other);
             }
         }
+
+        async function searchSubmitHandler() {
+            const searchInput = document.getElementById("searchInput");
+            if (!searchInput.value) return;
+            const response = await fetch("/user/search", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    keyword: searchInput.value,
+                })
+            });
+            const schoolList = await response.json();
+            renderSearchList(schoolList)
+        }
+
+        async function otherSubmitHandler() {
+            const searchInput = document.getElementById("otherInput");
+            if (!searchInput.value) return;
+            // TODO: middle/search
+            const response = await fetch("/user/search", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    keyword: searchInput.value,
+                })
+            });
+            const schoolList = await response.json();
+            renderSearchList(schoolList)
+        }
+
+        renderSearchList();
 
     </script>
 

@@ -8,6 +8,7 @@ function mapBase(mapElemId, mapOption) {
         <div class="infoContainer" onclick="closeInfo()">
             <h2>위치를 찾았어요!</h2>
             <div class="ken ken--success"></div>
+            <md-filled-button onclick="addMarkers();">알겠어!</md-filled-button>
         </div>
     `
 
@@ -25,24 +26,36 @@ function mapBase(mapElemId, mapOption) {
         </div>
     `
 
-    function moveToCoordinate(coordinate) {
-        const location = new naver.maps.LatLng(coordinate.latitude, coordinate.longitude);
+    const schoolTemplate = (school) => {
+        const {name, idx, roadAddress} = school;
+        return `
+            <div style="padding: 16px;">
+                <a style="font-weight: bold; font-size: 20px" href="/school/${idx}">${name}</a>
+                <p>${roadAddress}</p>
+            </div>
+        `;
+    }
+
+    function moveToCoordinate(latitude, longitude) {
+        const location = new naver.maps.LatLng(latitude, longitude);
+        map.setZoom(15);
         map.setCenter(location);
     }
 
     function showMarker(marker) {
-        if (marker.setMap()) return;
-        marker.setMap(map);
+        if (marker) {
+            marker.setMap(map);
+        }
     }
 
     function hideMarker(marker) {
-        if (!marker.setMap()) return;
-        marker.setMap(null);
+        if (marker) {
+            marker.setMap(null);
+        }
     }
 
-    function getMarkerClickHandler(index) {
+    function getMarkerClickHandler(marker, infoWindow) {
         return function (e) {
-            const { marker, infoWindow } = markers[index];
             if (infoWindow.getMap()) {
                 infoWindow.close();
             } else {
@@ -51,50 +64,46 @@ function mapBase(mapElemId, mapOption) {
         }
     }
 
-    function updateMarkers(markers) {
+    function updateMarkers() {
         const mapBounds = map.getBounds();
         for (let i = 0; i < markers.length; i++) {
             const {marker} = markers[i]
             const position = marker.getPosition();
             if (mapBounds.hasLatLng(position)) {
-                showMarker(map, marker);
+                showMarker(marker);
             } else {
-                hideMarker(map, marker);
+                hideMarker(marker);
             }
         }
     }
 
-    function addMarkers() {
-        if (markers.length > 0) clearMarkers();
-
-        // TODO: location 받기
-        const bounds = map.getBounds(),
-            southWest = bounds.getSW(),
-            northEast = bounds.getNE(),
-            lngSpan = northEast.lng() - southWest.lng(),
-            latSpan = northEast.lat() - southWest.lat();
-
-        for (let i = 0; i < 10; ++i) {
+    function addMarkers(schoolList) {
+        if (markers.length > 0) {
+            clearMarkers();
+        }
+        if (!schoolList || schoolList.length === 0) {
+            return;
+        }
+        for (const school of schoolList) {
+            const {name, idx, latitude, longitude, roadAddress, roadZipCode} = school;
             // TODO : location 받기
-            const position = new naver.maps.LatLng(
-                southWest.lat() + latSpan * Math.random(),
-                southWest.lng() + lngSpan * Math.random());
-
+            const position = new naver.maps.LatLng(latitude, longitude);
             const marker = new naver.maps.Marker({
                 map: map,
                 position: position,
                 zIndex: 100
             });
             const infoWindow = new naver.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:10px;">b>"' + i + '"</b>.</div>'
+                content: schoolTemplate(school),
             });
-            naver.maps.Event.addListener(marker, 'click', getMarkerClickHandler(i));
+            naver.maps.Event.addListener(marker, 'click', getMarkerClickHandler(marker, infoWindow));
             markers.push({marker, infoWindow});
         }
+        updateMarkers();
     }
 
-    function clearMarkers () {
-        for (let i=0, ii=markers.length; i<ii; ++i) {
+    function clearMarkers() {
+        for (let i = 0, ii = markers.length; i < ii; ++i) {
             let {marker, infoWindow} = markers[i];
             naver.maps.Event.clearInstanceListeners(marker);
             marker.setMap(null);
@@ -114,7 +123,7 @@ function mapBase(mapElemId, mapOption) {
         aroundCircle = new naver.maps.Circle({
             map: map,
             center: center,
-            radius: 20000,
+            radius: 5000,
             fillColor: 'var(--md-ref-palette-primary90)',
             fillOpacity: 0.8,
         });
@@ -122,17 +131,25 @@ function mapBase(mapElemId, mapOption) {
         mainInfoWindow.open(map, center);
     }
 
+    function hideAroundSchoolBoundary() {
+        closeInfo();
+        if (aroundCircle) {
+            aroundCircle.setMap(null);
+            aroundCircle = null;
+        }
+    }
+
     function closeInfo() {
-        mainInfoWindow.close();
+        if (mainInfoWindow) mainInfoWindow.close();
     }
 
     function onSuccessGeolocation(position) {
+        hideAroundSchoolBoundary();
         const location = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
         map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
         map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
         mainInfoWindow.setContent(successTemplate);
         mainInfoWindow.open(map, location);
-        console.log('Coordinates: ' + location.toString());
     }
 
     function onErrorGeolocation() {
@@ -152,7 +169,7 @@ function mapBase(mapElemId, mapOption) {
     function windowOnLoadHandler() {
         getGeolocation(map, mainInfoWindow);
         naver.maps.Event.addListener(map, 'idle', function () {
-            updateMarkers(map, markers);
+            updateMarkers();
         });
     }
 

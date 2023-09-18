@@ -54,3 +54,8 @@ a {
 a:visited {
     font: inherit;
 }
+
+button {
+    border: none;
+    background: inherit;
+}

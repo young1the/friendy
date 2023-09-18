@@ -6,12 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 public class UserSearchController {
 
-    private final UserSearchServiece userSearchServiece;
+    private final UserSearchService userSearchServiece;
 
     @GetMapping("/user/search")
     public String showSearchForm(){
@@ -20,14 +21,8 @@ public class UserSearchController {
 
     @PostMapping("/user/search")
     @ResponseBody
-    public ResponseEntity<List<UserSearchResponseInterface>> showSearch(@RequestParam String keyword){
-
-        List<UserSearchResponseInterface> resultSearch = userSearchServiece.searchKeyword(keyword);
-
-        if(resultSearch.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-
+    public ResponseEntity<List<UserSearchResponseInterface>> showSearch(@RequestBody UserSearchRequestDTO dto){
+        List<UserSearchResponseInterface> resultSearch = userSearchServiece.searchKeyword(dto.getKeyword());
         return ResponseEntity.ok(resultSearch);
     }
 
