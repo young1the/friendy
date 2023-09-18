@@ -32,7 +32,6 @@ public class SchoolSearchController {
             schools = schoolSearchService.findAll(pageable);
         }
 
-
         // 페이징 처리
         int nowPage = schools.getPageable().getPageNumber() + 1;
         int totalPages = schools.getTotalPages();
