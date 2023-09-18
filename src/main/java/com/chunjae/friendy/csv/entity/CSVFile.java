@@ -1,5 +1,6 @@
 package com.chunjae.friendy.csv.entity;
 
+import com.chunjae.friendy.admin.entity.Admin;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,9 +21,9 @@ public class CSVFile {
 
     private String fileName;
 
-//    @ManyToOne
-//    @JoinColumn(name = "admin_idx")
-//    private Admin admin;
+    @ManyToOne
+    @JoinColumn(name = "admin_idx")
+    private Admin admin;
 
     @CreationTimestamp
     @Column(nullable = false)

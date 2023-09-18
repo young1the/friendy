@@ -1,6 +1,7 @@
 package com.chunjae.friendy.admin;
 
 import com.chunjae.friendy.admin.dto.AdminCreateRequest;
+import com.chunjae.friendy.admin.entity.Admin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,9 @@ public class AdminController {
     }
 
     @PostMapping("/signup")
-    public String signup(AdminCreateRequest adminCreateRequest){
+    public String signup(@ModelAttribute("adminCreateRequest") AdminCreateRequest adminCreateRequest){
 
-        adminService.createAdmin(adminCreateRequest);
+        Admin admin = adminService.createAdmin(adminCreateRequest);
 
         return "redirect:/login";
     }
