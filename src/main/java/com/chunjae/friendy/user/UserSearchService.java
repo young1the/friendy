@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserSearchServiece {
+public class UserSearchService {
 
     private final SchoolAddressRepository schoolAddressRepository;
     private final RestTemplate restTemplate;

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:fragment="SideMenuBar()">
+    <style>
+        :root {
+            --md-icon-font: 'Material Symbols Rounded';
+            --md-outlined-text-field-container-shape: 24px;
+            --md-filled-button-container-shape: 24px;
+            --md-filled-tonal-button-container-color: var(--md-ref-palette-primary50);
+            --md-filled-tonal-button-label-text-color: var(--md-ref-palette-primary100);
+        }
+
+        .sidebar {
+            position: fixed;
+            display: flex;
+            height: 100vh;
+            z-index: 1000;
+            top: 0;
+        }
+
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+            overflow: hidden;
+            border-right: 1px solid var(--md-sys-color-outline-variant);
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            z-index: 1;
+        }
+
+        .navWrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 16px;
+        }
+
+        .navContainer {
+            display: flex;
+            flex-direction: column;
+            padding-left: 16px;
+            padding-right: 16px;
+            align-items: center;
+            margin-top: 12px;
+            gap: 16px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 12px;
+            gap: 4px;
+            color: inherit;
+        }
+
+        .nav__span {
+            font-size: 12px;
+        }
+
+        .nav:hover {
+            background: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .offcanvas {
+            position: fixed;
+            height: 100vh;
+            transition: all 0.25s;
+            border-top-right-radius: 8px;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            border-right: 1px solid var(--md-sys-color-outline-variant);
+            padding: 16px;
+        }
+
+        #search, #history, #other {
+            width: 0px;
+        }
+
+        .searchField {
+            margin-top: 16px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .searchField__input {
+            width: 100%;
+            font-size: 16px;
+            padding: 16px;
+            padding-left: 52px;
+            border: 2px solid var(--md-source);
+            border-radius: 8px;
+        }
+
+        .searchIcon {
+            position: absolute;
+            left: 16px;
+        }
+
+        .cancelIcon {
+            color: var(--md-sys-color-outline-variant-dark);
+            position: absolute;
+            right: 16px;
+        }
+
+        h1 {
+            font-weight: var(--md-sys-typescale-title-large-font-weight);
+            font-size: var(--md-sys-typescale-title-large-font-size);
+        }
+    </style>
+    <nav class="sidebar">
+        <div class="navbar">
+            <div class="navWrapper">
+                <div class="navContainer">
+                    <a class="nav" href="#" onclick="closeAllCanvas()">
+                        <md-icon>home</md-icon>
+                        <span class="nav__span">프렌디</span>
+                    </a>
+                    <md-divider></md-divider>
+                    <a class="nav" href="#" onclick="openOffCanvas('search')">
+                        <md-icon>Search</md-icon>
+                        <span class="nav__span">학교 검색</span>
+                    </a>
+                    <a class="nav" href="#" onclick="openOffCanvas('history');renderHistoryList();">
+                        <md-icon>history</md-icon>
+                        <span class="nav__span">검색기록</span>
+                    </a>
+                    <a class="nav" href="#" onclick="openOffCanvas('other');">
+                        <md-icon>other_houses</md-icon>
+                        <span class="nav__span">다른 학교 검색</span>
+                    </a>
+                </div>
+                <div class="navContainer">
+                    <md-divider></md-divider>
+                    <a class="nav" href="/admin">
+                        <md-icon>code</md-icon>
+                        <span class="nav__span">프렌디</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <!--offcanvas-->
+        <div id="search" class="offcanvas">
+            <form id="searchField" class="searchField" onsubmit="searchSubmitHandler()">
+                <button class="searchIcon">
+                    <md-icon>Search</md-icon>
+                </button>
+                <input id="searchInput" class="searchField__input" type="text">
+                <div class="cancelIcon" onclick="cancelButtonHandler()">
+                    <md-icon>cancel</md-icon>
+                </div>
+            </form>
+            <div id="searchFieldPortal"></div>
+        </div>
+        <div id="history" class="offcanvas">
+            <md-list-item headline="검색기록" noninteractive>
+                <md-icon style="cursor:pointer" slot="end" onclick="dropHistory();clearHistoryList();">Delete</md-icon>
+            </md-list-item>
+            <md-divider></md-divider>
+            <div id="historyListPortal"></div>
+        </div>
+        <div id="other" class="offcanvas">
+            <form id="otherField" class="searchField" onsubmit="otherSubmitHandler()">
+                <button class="searchIcon">
+                    <md-icon>Search</md-icon>
+                </button>
+                <input id="otherInput" class="searchField__input" type="text">
+                <div class="cancelIcon" onclick="cancelOtherButtonHandler()">
+                    <md-icon>cancel</md-icon>
+                </div>
+            </form>
+            <div id="otherFieldPortal"></div>
+        </div>
+        <!--offcanvas-->
+    </nav>
+
+    <script>
+
+        function cancelButtonHandler() {
+            const searchInput = document.getElementById("searchInput");
+            searchInput.value = "";
+        }
+        function cancelOtherButtonHandler() {
+            const searchInput = document.getElementById("otherInput");
+            searchInput.value = "";
+        }
+
+        function fillSearchList(searchListContainer, searchList) {
+            if (!searchList || searchList.length === 0) {
+                const noItem = document.createElement('md-list-item');
+                noItem.setAttribute('headline', '검색 결과가 없습니다.');
+                noItem.setAttribute('noninteractive', "true");
+                searchListContainer.appendChild(noItem);
+                return;
+            }
+            for (const info of searchList) {
+                const {name, idx, latitude, longitude, road_address, road_zip_code} = info;
+                const child = document.createElement('md-list-item');
+                child.setAttribute('headline', name);
+                child.setAttribute('style', 'font-weight: bold;')
+                child.setAttribute('trailing-supporting-text', road_address);
+                child.setAttribute('onclick', `infoWindowOnClickHandler("${name}", ${idx} ,${latitude},${longitude}, "${road_address}", ${road_zip_code})`)
+                searchListContainer.appendChild(child);
+            }
+        }
+
+        function infoWindowOnClickHandler(name, idx, latitude, longitude, road_address, road_zip_code) {
+            moveToCoordinate(latitude, longitude);
+            addHistory({name, idx, latitude, longitude, road_address, road_zip_code});
+        }
+
+        function renderSearchList(searchList) {
+            const portal = document.getElementById('searchFieldPortal');
+            const previous = portal.getElementsByTagName('md-list');
+            const searchListContainer = document.createElement('md-list');
+            searchListContainer.setAttribute('style', 'min-width: 100%');
+            fillSearchList(searchListContainer, searchList);
+            if (previous.length > 0) {
+                portal.replaceChild(searchListContainer, previous[0]);
+            } else {
+                portal.appendChild(searchListContainer);
+            }
+            addMarkers(searchList);
+        }
+
+        function renderHistoryList() {
+            const historyListObj = getHistoryFromLocalStorage();
+            if (!historyListObj) {
+                clearHistoryList()
+                return;
+            }
+            const historyContainer = document.getElementById("history")
+            const historyList = Object.values(historyListObj);
+            const portal = document.getElementById('historyListPortal');
+            const newPortal = document.createElement('div');
+            newPortal.setAttribute('id', 'historyListPortal');
+            const historyListContainer = document.createElement('md-list');
+            historyListContainer.setAttribute('style', 'min-width: 100%');
+            fillSearchList(historyListContainer, historyList);
+            newPortal.appendChild(historyListContainer);
+            historyContainer.replaceChild(newPortal, portal);
+            addMarkers(historyList);
+        }
+
+        function clearHistoryList() {
+            const historyContainer = document.getElementById("history")
+            const portal = document.getElementById('historyListPortal');
+            const newPortal = document.createElement('div');
+            newPortal.setAttribute('id', 'historyListPortal');
+            const noItem = document.createElement('md-list-item');
+            noItem.setAttribute('headline', '검색 기록이 없습니다.');
+            noItem.setAttribute('noninteractive', "true");
+            newPortal.appendChild(noItem);
+            historyContainer.replaceChild(newPortal, portal);
+        }
+
+        function open(elem) {
+            elem.style.width = "420px";
+            elem.style.marginLeft = "120px";
+        }
+
+        function close(elem) {
+            elem.style.width = "0px";
+            elem.style.marginLeft = "-120px";
+        }
+
+        function openOffCanvas(name) {
+            const offcanvas = document.getElementById(name);
+            closeAllCanvas();
+            const map = document.getElementById("map");
+            map.addEventListener('click', () => {
+                close(offcanvas);
+            })
+            open(offcanvas);
+        }
+
+        function closeAllCanvas() {
+            const others = document.getElementsByClassName("offcanvas");
+            for (const other of others) {
+                close(other);
+            }
+        }
+
+        async function searchSubmitHandler() {
+            const searchInput = document.getElementById("searchInput");
+            if (!searchInput.value) return;
+            const response = await fetch("/elem/search", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    keyword: searchInput.value,
+                })
+            });
+            const schoolList = await response.json();
+            renderSearchList(schoolList)
+        }
+
+        async function otherSubmitHandler() {
+            const searchInput = document.getElementById("otherInput");
+            if (!searchInput.value) return;
+            const response = await fetch("/middle/search", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    keyword: searchInput.value,
+                })
+            });
+            const schoolList = await response.json();
+            renderOtherList(schoolList)
+        }
+
+        function renderOtherList(searchList) {
+            const portal = document.getElementById('otherFieldPortal');
+            const previous = portal.getElementsByTagName('md-list');
+            const searchListContainer = document.createElement('md-list');
+            searchListContainer.setAttribute('style', 'min-width: 100%');
+            fillSearchList(searchListContainer, searchList);
+            if (previous.length > 0) {
+                portal.replaceChild(searchListContainer, previous[0]);
+            } else {
+                portal.appendChild(searchListContainer);
+            }
+            addMarkers(searchList);
+        }
+
+        renderSearchList();
+        renderOtherList();
+
+    </script>
+
+</th:block>
+</html>
