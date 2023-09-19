@@ -7,7 +7,6 @@ import com.chunjae.friendy.school.repository.SchoolRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -144,8 +143,8 @@ public class SchoolSearchService {
         searchSchoolDTO.setUrl(school.getUrl());
         searchSchoolDTO.setDistrict(school.getDistrict());
         searchSchoolDTO.setBoundaryCode(schoolAddress.getBoundaryCode());
-        searchSchoolDTO.setLatitude(schoolAddress.getLatitude());
-        searchSchoolDTO.setLongitude(schoolAddress.getLongitude());
+        searchSchoolDTO.setLatitude(String.valueOf(schoolAddress.getLatitude()));
+        searchSchoolDTO.setLongitude(String.valueOf(schoolAddress.getLongitude()));
         searchSchoolDTO.setRoadAddress(schoolAddress.getRoadAddress());
         searchSchoolDTO.setRoadAddressDetail(schoolAddress.getRoadAddressDetail());
         searchSchoolDTO.setRoadZipCode(schoolAddress.getRoadZipCode());

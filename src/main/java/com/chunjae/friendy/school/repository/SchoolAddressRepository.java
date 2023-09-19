@@ -1,7 +1,6 @@
 package com.chunjae.friendy.school.repository;
 
 import com.chunjae.friendy.school.entity.SchoolAddress;
-import com.chunjae.friendy.search.AddressDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.chunjae.friendy.user.UserSearchResponseInterface;
@@ -42,4 +41,18 @@ public interface SchoolAddressRepository extends JpaRepository<SchoolAddress, Lo
     @Query(value = "SELECT sa FROM school_address sa join school s on s.idx = sa.school_idx WHERE s.district LIKE %:searchCity% and (sa.roadAddress LIKE %:searchKeyword or sa.roadAddressDetail LIKE %:searchKeyword%)")
     Page<SchoolAddress> findBySearchCityAndSearchKeywordUsingJoin(@Param("searchCity") String searchCity, @Param("searchKeyword") String searchKeyword, Pageable pageable);
 
+    @Query(value = "SELECT * FROM school_address " +
+            "WHERE longitude < :maxLongitude AND longitude > :minLongitude " +
+            "AND latitude < :maxLatitude AND latitude > :minLatitude", nativeQuery = true)
+    List<SchoolAddress> findSchoolsInRadius(
+            @Param("maxLongitude") double maxLongitude,
+            @Param("minLongitude") double minLongitude,
+            @Param("maxLatitude") double maxLatitude,
+            @Param("minLatitude") double minLatitude
+    );
+
+    List<SchoolAddress> findByLatitudeBetweenAndLongitudeBetween(
+            double minLatitude, double maxLatitude,
+            double minLongitude, double maxLongitude
+    );
 }

@@ -135,7 +135,7 @@
                         <md-icon>history</md-icon>
                         <span class="nav__span">검색기록</span>
                     </a>
-                    <a class="nav" href="#" onclick="openOffCanvas('other');renderHistoryList();">
+                    <a class="nav" href="#" onclick="openOffCanvas('other');">
                         <md-icon>other_houses</md-icon>
                         <span class="nav__span">다른 학교 검색</span>
                     </a>
@@ -206,19 +206,19 @@
                 return;
             }
             for (const info of searchList) {
-                const {name, idx, latitude, longitude, roadAddress, roadZipCode} = info;
+                const {name, idx, latitude, longitude, road_address, road_zip_code} = info;
                 const child = document.createElement('md-list-item');
                 child.setAttribute('headline', name);
                 child.setAttribute('style', 'font-weight: bold;')
-                child.setAttribute('trailing-supporting-text', roadAddress);
-                child.setAttribute('onclick', `infoWindowOnClickHandler("${name}", ${idx} ,${latitude},${longitude}, "${roadAddress}", ${roadZipCode})`)
+                child.setAttribute('trailing-supporting-text', road_address);
+                child.setAttribute('onclick', `infoWindowOnClickHandler("${name}", ${idx} ,${latitude},${longitude}, "${road_address}", ${road_zip_code})`)
                 searchListContainer.appendChild(child);
             }
         }
 
-        function infoWindowOnClickHandler(name, idx, latitude, longitude, roadAddress, roadZipCode) {
+        function infoWindowOnClickHandler(name, idx, latitude, longitude, road_address, road_zip_code) {
             moveToCoordinate(latitude, longitude);
-            addHistory({name, idx, latitude, longitude, roadAddress, roadZipCode});
+            addHistory({name, idx, latitude, longitude, road_address, road_zip_code});
         }
 
         function renderSearchList(searchList) {
@@ -273,7 +273,7 @@
 
         function close(elem) {
             elem.style.width = "0px";
-            elem.style.marginLeft = "0px";
+            elem.style.marginLeft = "-120px";
         }
 
         function openOffCanvas(name) {

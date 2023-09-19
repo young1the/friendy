@@ -2,7 +2,7 @@ package com.chunjae.friendy.user;
 
 public interface UserSearchResponseInterface {
 
-    String getIdx();
+    Long getIdx();
     String getName();
     String getRoadAddress();
     String getRoadZipCode();
