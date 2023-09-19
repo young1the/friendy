@@ -25,31 +25,31 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
     @Query(value = "SET FOREIGN_KEY_CHECKS = 1", nativeQuery = true)
     void setForeignKeyCheck();
 
-    @Query(value = "SELECT s FROM school s WHERE s.name LIKE %:searchKeyword%")
+    @Query(value = "SELECT s FROM school s WHERE s.name LIKE %:searchKeyword% and s.deletedYn='N'")
     Page<School> findByName(@Param("searchKeyword") String searchKeyword, Pageable pageable);
 
     School findByIdx(Long idx);
 
 
-    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:findBySearchKeyword% OR s.name LIKE %:findBySearchKeyword%")
+    @Query(value = "SELECT s FROM school s WHERE (s.district LIKE %:findBySearchKeyword% OR s.name LIKE %:findBySearchKeyword%) and s.deletedYn='N'")
     Page<School> findBySearchKeyword(@Param("findBySearchKeyword")String findBySearchKeyword, Pageable pageable);
 
-    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district%")
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district% and s.deletedYn='N'")
     Page<School> findByDistrict(@Param("district")String district, Pageable pageable);
 
-    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity%")
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity% and s.deletedYn='N'")
     Page<School> findBySearchCity(@Param("searchCity")String searchCity, Pageable pageable);
 
-    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district% AND s.name LIKE %:searchKeyword%")
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district% AND s.name LIKE %:searchKeyword% and s.deletedYn='N'")
     Page<School> findByDistrictAndName(@Param("district")String district, @Param("searchKeyword")String searchKeyword, Pageable pageable);
 
-    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity% and (s.district LIKE %:searchKeyword% or s.name like %:searchKeyword%)")
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity% and (s.district LIKE %:searchKeyword% or s.name like %:searchKeyword%) and s.deletedYn='N'")
     Page<School> findBySearchCityAndSearchKeyword(@Param("searchCity") String searchCity, @Param("searchKeyword") String searchKeyword, Pageable pageable);
 
-    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district% and (s.district LIKE %:searchKeyword% or s.name like %:searchKeyword%)")
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:district% and (s.district LIKE %:searchKeyword% or s.name like %:searchKeyword%) and s.deletedYn='N'")
     Page<School> findByDistrictAndSearchKeyword(@Param("district") String district, @Param("searchKeyword") String searchKeyword, Pageable pageable);
 
-    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity% and s.name like %:searchKeyword%")
+    @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity% and s.name like %:searchKeyword% and s.deletedYn='N'")
     Page<School> findBySearchCityAndName(@Param("searchCity") String searchCity, @Param("searchKeyword") String searchKeyword, Pageable pageable);
 
 

@@ -56,7 +56,7 @@ public class SchoolController {
             schoolService.createLog(schoolIdx, adminId);
         }
 
-        return "redirect:/school/add";
+        return "redirect:/school/search";
     }
 
     @GetMapping("/update-form")
@@ -87,7 +87,7 @@ public class SchoolController {
     @GetMapping("/delete")
     public String delete(@RequestParam long idx) {
         schoolService.delete(idx);
-        return "redirect:/";
+        return "redirect:/school/search";
     }
 
     // 학교 정보 상세 조회 (user)

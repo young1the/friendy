@@ -30,7 +30,7 @@ public class UserSearchController {
     @PostMapping("/middle/search/{keyword}")
     @ResponseBody
     public ResponseEntity<List<CustomMiddleSearchResponse>> showMiddleSearch(@PathVariable String keyword){
-        String requestURL = "http://10.41.1.55:8080/middle/search/" + keyword;
+        String requestURL = "https://midd.genia-academy.net/middle/search/" + keyword;
         List<MiddleSearchResponse> middleResponse = userSearchServiece.getSearchListFromMiddleServer(requestURL);
 
         List<CustomMiddleSearchResponse> customResponse = new ArrayList<>();
@@ -54,7 +54,7 @@ public class UserSearchController {
     @ResponseBody
     public ResponseEntity<List<CustomHighSearchResponse>> showHighSearch(@PathVariable String keyword){
 
-        String requestURL = "http://10.41.0.174:8080/search/" + keyword;
+        String requestURL = "https://high.genia-academy.net/search/" + keyword;
         List<HighSearchResponse> highResponses = userSearchServiece.getSearchListFromHighServer(requestURL);
 
         List<CustomHighSearchResponse> customResponse = new ArrayList<>();
