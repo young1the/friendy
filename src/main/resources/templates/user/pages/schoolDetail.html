@@ -10,166 +10,158 @@
 </head>
 <body>
 <h2 th:align="center" th:text="${school.name}"></h2>
-  <div class="container" th:if="${school}">
-      <table class="detail-table" border="1">
-        <caption></caption>
-        <tr>
-          <th>정보공시 학교 코드</th>
-          <td th:text="${school.schoolCode}"></td>
-          <th>학교명</th>
-          <td th:text="${school.name}"></td>
-        </tr>
-        <tr>
-          <th>시도교육청</th>
-          <td th:text="${school.cityEduOffice}"></td>
-          <th>지역교육청</th>
-          <td th:text="${school.districtEduOffice}"></td>
-        </tr>
-        <tr>
-          <th>설립 구분</th>
-          <td th:text="${school.establishment}"></td>
-          <th>주야 구분</th>
-          <td th:text="${school.dayNight}"></td>
-        </tr>
-        <tr th:if="${school.address}">
-          <th>도로명 주소</th>
-          <td th:text="${school.address.roadAddress}"></td>
-          <th>우편번호</th>
-          <td th:text="${school.address.roadZipCode}"></td>
-        </tr>
-        <tr>
-          <th>전화번호</th>
-          <td th:text="${school.tel}"></td>
-          <th>홈페이지 주소 </th>
-          <td th:text="${school.url}"></td>
-        </tr>
-        <tr>
-          <th>팩스번호</th>
-          <td th:text="${school.fax}"></td>
-          <th>남녀공학 구분</th>
-          <td th:text="${school.gender}"></td>
-        </tr>
-      </table>
-    </div>
-  <div class="container">
+<div class="container" th:if="${school}">
+  <table class="detail-table" border="1">
+    <caption></caption>
+    <tr>
+      <th>정보공시 학교 코드</th>
+      <td th:text="${school.schoolCode}"></td>
+      <th>학교명</th>
+      <td th:text="${school.name}"></td>
+    </tr>
+    <tr>
+      <th>시도교육청</th>
+      <td th:text="${school.cityEduOffice}"></td>
+      <th>지역교육청</th>
+      <td th:text="${school.districtEduOffice}"></td>
+    </tr>
+    <tr>
+      <th>설립 구분</th>
+      <td th:text="${school.establishment}"></td>
+      <th>주야 구분</th>
+      <td th:text="${school.dayNight}"></td>
+    </tr>
+    <tr th:if="${school.address}">
+      <th>도로명 주소</th>
+      <td th:text="${school.address.roadAddress}"></td>
+      <th>우편번호</th>
+      <td th:text="${school.address.roadZipCode}"></td>
+    </tr>
+    <tr>
+      <th>전화번호</th>
+      <td th:text="${school.tel}"></td>
+      <th>홈페이지 주소 </th>
+      <td th:text="${school.url}"></td>
+    </tr>
+    <tr>
+      <th>팩스번호</th>
+      <td th:text="${school.fax}"></td>
+      <th>남녀공학 구분</th>
+      <td th:text="${school.gender}"></td>
+    </tr>
+  </table>
+</div>
+<div class="container">
   <div id="map" class="map-container" style="width: 60%; height: 480px;">
-  <script type="text/javascript" th:src="@{'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapApiKey}}"></script>
+    <script type="text/javascript" th:src="@{'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapApiKey}}"></script>
     </script>
-  <script>
-    var latitude = [[${location.latitude}]];
-    var longitude = [[${location.longitude}]];
+    <script>
+      var latitude = [[${location.latitude}]];
+      var longitude = [[${location.longitude}]];
 
-    var map = new naver.maps.Map('map', {
-      center: new naver.maps.LatLng(latitude, longitude),
-      scaleControl: false,
-      logoControl: false,
-      mapDataControl: false,
-      zoomControl: true,
-      minZoom: 6,
-      zoom: 15
-    });
+      var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(latitude, longitude),
+        scaleControl: false,
+        logoControl: false,
+        mapDataControl: false,
+        zoomControl: true,
+        minZoom: 6,
+        zoom: 15
+      });
 
-    // 마커 찍기
-    var marker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(latitude, longitude),
-      map: map
-    });
+      // 마커 찍기
+      var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(latitude, longitude),
+        map: map
+      });
 
-    // 정보 창을 만들어 학교명과 주소를 표시
-    var infoWindow = new naver.maps.InfoWindow({
-      content:'<div>' +
-              '<strong>학교명:</strong> [[${school.name}]]<br>' +
-              '<strong>주소:</strong> [[${school.address.getRoadAddress()}]]' +
-              '</div>'
-    });
+      // 정보 창을 만들어 학교명과 주소를 표시
+      var infoWindow = new naver.maps.InfoWindow({
+        content:'<div>' +
+                '<strong>학교명:</strong> [[${school.name}]]<br>' +
+                '<strong>주소:</strong> [[${school.address.getRoadAddress()}]]' +
+                '</div>'
+      });
 
-    // 처음부터 정보 창 열기
-    infoWindow.open(map, marker);
-  </script>
+      // 처음부터 정보 창 열기
+      infoWindow.open(map, marker);
+    </script>
   </div>
   <div class="container weather-widget" style="width: 40%;">
     <ul>
-        <script th:inline="javascript" th:each="item : ${weatherResponseDTO.response.body.items.item}">
-          var currentDate = new Date();
-          var currentHour = new Date().getHours();
-          var currentTime = (currentHour < 10 ? '0' : '') + currentHour + '00';
+      <script th:inline="javascript" th:each="item : ${weatherResponseDTO.response.body.items.item}">
+        var currentDate = new Date();
+        var currentHour = new Date().getHours();
+        var currentTime = (currentHour < 10 ? '0' : '') + currentHour + '00';
 
-          var year = currentDate.getFullYear();
-          var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로
-          var day = currentDate.getDate().toString().padStart(2, '0'); // 날짜를 두 자리로
-          var formattedDate = year + month + day; // yyyyMMdd 형식으로 만들기
+        var year = currentDate.getFullYear();
+        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로
+        var day = currentDate.getDate().toString().padStart(2, '0'); // 날짜를 두 자리로
+        var formattedDate = year + month + day; // yyyyMMdd 형식으로 만들기
 
-          var fcstTime = [[${item.fcstTime}]];
-          var fcstDate = [[${item.fcstDate}]];
+        var fcstTime = [[${item.fcstTime}]];
+        var fcstDate = [[${item.fcstDate}]];
 
-          /* 현재 시간과 API에서 받은 시간을 비교해서 필요한 데이터만 표시 */
-          if (currentTime === fcstTime && formattedDate === fcstDate) {
-            /* 현재 시간과 일치하는 경우에만 데이터 표시 */
-            var currentCategory = [[${item.category}]];
-            var currentValue = [[${item.fcstValue}]];
+        /* 현재 시간과 API에서 받은 시간을 비교해서 필요한 데이터만 표시 */
+        if (currentTime === fcstTime && formattedDate === fcstDate) {
+          /* 현재 시간과 일치하는 경우에만 데이터 표시 */
+          var currentCategory = [[${item.category}]];
+          var currentValue = [[${item.fcstValue}]];
 
-            /* 원하는 카테고리 필터링 */
-            if (currentCategory) {
-              if (currentCategory === "POP" || currentCategory === "REH" || currentCategory === "SKY" || currentCategory === "TMP" || currentCategory === "TMN" || currentCategory === "TMX") {
+          /* 원하는 카테고리 필터링 */
+          if (currentCategory) {
+            if (currentCategory === "POP" || currentCategory === "REH" || currentCategory === "SKY" || currentCategory === "TMP") {
 
-                switch (currentCategory) {
-                  case "POP":
-                    document.write('<span class="weather-info"><img src="/images/umbrella.svg" alt="강수확률"></span>');
-                    currentCategory = "강수확률";
-                    currentValue += "%";
-                    break;
-                  case "REH":
-                    document.write('<span class="weather-info"><img src="/images/moisture.svg" alt="습도"></span>');
-                    currentCategory = "습도";
-                    currentValue += "%";
-                    break;
-                  case "SKY":
-                    currentCategory = "하늘 상태";
-                    switch (currentValue) {
-                        case "1":
-                          document.write('<span class="weather-info"><img src="/images/sun.svg" alt="맑음"></span>');
-                          currentValue = "맑음";
-                          break;
-                        case "3":
-                          document.write('<span class="weather-info"><img src="/images/clouds.svg" alt="구름많음"></span>');
-                          currentValue = "구름많음";
-                          break;
-                        case "4":
-                          document.write('<span class="weather-info"><img src="/images/cloud-fog.svg" alt="흐림"></span>');
-                          currentValue = "흐림";
-                          break;
-                        default:
-                          break;
-                      }
-                    break;
-                  case "TMP":
-                    document.write('<span class="weather-info"><img src="/images/temperature.svg" alt="기온"></span>');
-                    currentCategory = "기온";
-                    currentValue += "℃";
-                    break;
-                  case "TMN":
-                    currentCategory = "최저 기온";
-                    currentValue += "℃";
-                    break;
-                  case "TMX":
-                    currentCategory = "최고 기온";
-                    currentValue += "℃";
-                    break;
-                  default:
-                    break;
-                }
-                document.write('<span class="page_tit">' + currentValue + '</span></p>');
-                document.write('<br>');
+              switch (currentCategory) {
+                case "POP":
+                  document.write('<span class="weather-info"><img src="/images/umbrella.svg" alt="강수확률"></span>');
+                  currentCategory = "강수확률";
+                  currentValue += "%";
+                  break;
+                case "REH":
+                  document.write('<span class="weather-info"><img src="/images/moisture.svg" alt="습도"></span>');
+                  currentCategory = "습도";
+                  currentValue += "%";
+                  break;
+                case "SKY":
+                  currentCategory = "하늘 상태";
+                  switch (currentValue) {
+                    case "1":
+                      document.write('<span class="weather-info"><img src="/images/sun.svg" alt="맑음"></span>');
+                      currentValue = "맑음";
+                      break;
+                    case "3":
+                      document.write('<span class="weather-info"><img src="/images/clouds.svg" alt="구름많음"></span>');
+                      currentValue = "구름많음";
+                      break;
+                    case "4":
+                      document.write('<span class="weather-info"><img src="/images/cloud-fog.svg" alt="흐림"></span>');
+                      currentValue = "흐림";
+                      break;
+                    default:
+                      break;
+                  }
+                  break;
+                case "TMP":
+                  document.write('<span class="weather-info"><img src="/images/temperature.svg" alt="기온"></span>');
+                  currentCategory = "기온";
+                  currentValue += "℃";
+                  break;
+                default:
+                  break;
               }
+              document.write('<span class="page_tit">' + currentValue + '</span></p>');
+              document.write('<br>');
             }
           }
-        </script>
+        }
+      </script>
     </ul>
   </div>
-  </div>
-  <div class="button">
-    <a class="btn" href="http://localhost:8080/">검색 페이지로</a>
-  </div>
-  <br><br>
+</div>
+<div class="button">
+  <a class="btn" href="/">검색 페이지로</a>
+</div>
+<br><br>
 </body>
 </html>

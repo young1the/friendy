@@ -41,7 +41,7 @@ public class UserSearchService {
     public List<HighSearchResponse> getSearchListFromHighServer(String requestURL) {
 
         ResponseEntity<List<HighSearchResponse>> response = restTemplate.exchange(
-                requestURL, HttpMethod.POST, null, new ParameterizedTypeReference<List<HighSearchResponse>>() {
+                requestURL, HttpMethod.GET, null, new ParameterizedTypeReference<List<HighSearchResponse>>() {
                 });
         if(response.getStatusCode().is2xxSuccessful()){
             return response.getBody();

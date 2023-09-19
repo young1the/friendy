@@ -80,7 +80,7 @@
             padding: 16px;
         }
 
-        #search, #history, #other {
+        #search, #history, #other, #high {
             width: 0px;
         }
 
@@ -122,22 +122,26 @@
         <div class="navbar">
             <div class="navWrapper">
                 <div class="navContainer">
-                    <a class="nav" href="#" onclick="closeAllCanvas()">
+                    <a class="nav" onclick="closeAllCanvas()">
                         <md-icon>home</md-icon>
                         <span class="nav__span">프렌디</span>
                     </a>
                     <md-divider></md-divider>
-                    <a class="nav" href="#" onclick="openOffCanvas('search')">
+                    <a class="nav" onclick="openOffCanvas('search')">
                         <md-icon>Search</md-icon>
                         <span class="nav__span">학교 검색</span>
                     </a>
-                    <a class="nav" href="#" onclick="openOffCanvas('history');renderHistoryList();">
+                    <a class="nav" onclick="openOffCanvas('history');renderHistoryList();">
                         <md-icon>history</md-icon>
                         <span class="nav__span">검색기록</span>
                     </a>
-                    <a class="nav" href="#" onclick="openOffCanvas('other');">
+                    <a class="nav" onclick="openOffCanvas('other');">
                         <md-icon>other_houses</md-icon>
-                        <span class="nav__span">다른 학교 검색</span>
+                        <span class="nav__span">중학교 검색</span>
+                    </a>
+                    <a class="nav" onclick="openOffCanvas('high');">
+                        <md-icon>school</md-icon>
+                        <span class="nav__span">고등학교 검색</span>
                     </a>
                 </div>
                 <div class="navContainer">
@@ -153,7 +157,7 @@
 
         <!--offcanvas-->
         <div id="search" class="offcanvas">
-            <form id="searchField" class="searchField" onsubmit="searchSubmitHandler()">
+            <form id="searchField" class="searchField" onsubmit="searchSubmitHandler(event)">
                 <button class="searchIcon">
                     <md-icon>Search</md-icon>
                 </button>
@@ -172,7 +176,7 @@
             <div id="historyListPortal"></div>
         </div>
         <div id="other" class="offcanvas">
-            <form id="otherField" class="searchField" onsubmit="otherSubmitHandler()">
+            <form id="otherField" class="searchField" onsubmit="otherSubmitHandler(event)">
                 <button class="searchIcon">
                     <md-icon>Search</md-icon>
                 </button>
@@ -183,6 +187,18 @@
             </form>
             <div id="otherFieldPortal"></div>
         </div>
+        <div id="high" class="offcanvas">
+            <form id="highField" class="searchField" onsubmit="highSubmitHandler(event)">
+                <button class="searchIcon">
+                    <md-icon>Search</md-icon>
+                </button>
+                <input id="highInput" class="searchField__input" type="text">
+                <div class="cancelIcon" onclick="cancelOtherButtonHandler()">
+                    <md-icon>cancel</md-icon>
+                </div>
+            </form>
+            <div id="highFieldPortal"></div>
+        </div>
         <!--offcanvas-->
     </nav>
 
@@ -192,6 +208,7 @@
             const searchInput = document.getElementById("searchInput");
             searchInput.value = "";
         }
+
         function cancelOtherButtonHandler() {
             const searchInput = document.getElementById("otherInput");
             searchInput.value = "";
@@ -206,19 +223,20 @@
                 return;
             }
             for (const info of searchList) {
-                const {name, idx, latitude, longitude, road_address, road_zip_code} = info;
+                const {name, idx, latitude, longitude, road_address, road_zip_code, level_code} = info;
                 const child = document.createElement('md-list-item');
                 child.setAttribute('headline', name);
                 child.setAttribute('style', 'font-weight: bold;')
                 child.setAttribute('trailing-supporting-text', road_address);
-                child.setAttribute('onclick', `infoWindowOnClickHandler("${name}", ${idx} ,${latitude},${longitude}, "${road_address}", ${road_zip_code})`)
+                child.setAttribute('onclick', `infoWindowOnClickHandler("${name}", ${idx} ,${latitude},${longitude}, "${road_address}", ${road_zip_code}, ${level_code})`)
                 searchListContainer.appendChild(child);
             }
         }
 
-        function infoWindowOnClickHandler(name, idx, latitude, longitude, road_address, road_zip_code) {
+        function infoWindowOnClickHandler(name, idx, latitude, longitude, road_address, road_zip_code, level_code) {
+            console.log(level_code);
             moveToCoordinate(latitude, longitude);
-            addHistory({name, idx, latitude, longitude, road_address, road_zip_code});
+            addHistory({name, idx, latitude, longitude, road_address, road_zip_code, level_code});
         }
 
         function renderSearchList(searchList) {
@@ -232,7 +250,7 @@
             } else {
                 portal.appendChild(searchListContainer);
             }
-            addMarkers(searchList);
+            addMarkers(searchList, true);
         }
 
         function renderHistoryList() {
@@ -251,7 +269,7 @@
             fillSearchList(historyListContainer, historyList);
             newPortal.appendChild(historyListContainer);
             historyContainer.replaceChild(newPortal, portal);
-            addMarkers(historyList);
+            addMarkers(historyList, true);
         }
 
         function clearHistoryList() {
@@ -273,7 +291,7 @@
 
         function close(elem) {
             elem.style.width = "0px";
-            elem.style.marginLeft = "-120px";
+            elem.style.marginLeft = "-240px";
         }
 
         function openOffCanvas(name) {
@@ -293,7 +311,8 @@
             }
         }
 
-        async function searchSubmitHandler() {
+        async function searchSubmitHandler(event) {
+            event.preventDefault();
             const searchInput = document.getElementById("searchInput");
             if (!searchInput.value) return;
             const response = await fetch("/elem/search", {
@@ -306,10 +325,11 @@
                 })
             });
             const schoolList = await response.json();
-            renderSearchList(schoolList)
+            renderSearchList(schoolList, true)
         }
 
-        async function otherSubmitHandler() {
+        async function otherSubmitHandler(event) {
+            event.preventDefault();
             const searchInput = document.getElementById("otherInput");
             if (!searchInput.value) return;
             const response = await fetch("/middle/search", {
@@ -322,11 +342,25 @@
                 })
             });
             const schoolList = await response.json();
-            renderOtherList(schoolList)
+            renderOtherList(schoolList, 'otherFieldPortal', false);
         }
 
-        function renderOtherList(searchList) {
-            const portal = document.getElementById('otherFieldPortal');
+        async function highSubmitHandler(event) {
+            event.preventDefault();
+            const searchInput = document.getElementById("highInput");
+            if (!searchInput.value) return;
+            const response = await fetch(`/high/school/search/${searchInput.value}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            const schoolList = await response.json();
+            renderOtherList(schoolList, 'highFieldPortal', false);
+        }
+
+        function renderOtherList(searchList, portalName) {
+            const portal = document.getElementById(portalName);
             const previous = portal.getElementsByTagName('md-list');
             const searchListContainer = document.createElement('md-list');
             searchListContainer.setAttribute('style', 'min-width: 100%');
