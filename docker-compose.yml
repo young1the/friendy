@@ -1,0 +1,13 @@
+version: "3"
+services:
+  friendy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - "./storage:/storage"
+    ports:
+      - 80:8080
+    env_file:
+      - .env
