@@ -1,6 +1,9 @@
 package com.chunjae.friendy.user;
 
 import com.chunjae.friendy.school.repository.SchoolAddressRepository;
+import com.chunjae.friendy.user.dto.HighSearchResponse;
+import com.chunjae.friendy.user.dto.MiddleSearchResponse;
+import com.chunjae.friendy.user.dto.UserSearchResponseInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -35,4 +38,15 @@ public class UserSearchService {
         }
     }
 
+    public List<HighSearchResponse> getSearchListFromHighServer(String requestURL) {
+
+        ResponseEntity<List<HighSearchResponse>> response = restTemplate.exchange(
+                requestURL, HttpMethod.POST, null, new ParameterizedTypeReference<List<HighSearchResponse>>() {
+                });
+        if(response.getStatusCode().is2xxSuccessful()){
+            return response.getBody();
+        }else{
+            throw new RuntimeException("HTTP request failed with status code: " + response.getStatusCode());
+        }
+    }
 }

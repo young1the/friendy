@@ -3,7 +3,7 @@ package com.chunjae.friendy.school.repository;
 import com.chunjae.friendy.school.entity.SchoolAddress;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.chunjae.friendy.user.UserSearchResponseInterface;
+import com.chunjae.friendy.user.dto.UserSearchResponseInterface;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

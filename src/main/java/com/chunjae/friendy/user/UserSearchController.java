@@ -1,18 +1,12 @@
 package com.chunjae.friendy.user;
 
+import com.chunjae.friendy.user.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -45,12 +39,35 @@ public class UserSearchController {
             customResponse.add(CustomMiddleSearchResponse.builder()
                     .idx(m.getSchoolId())
                     .name(m.getScName())
-                    .roadAddress(m.getRnDetailAddress())
+                    .roadAddress(m.getRnAddress())
                     .roadZipCode(m.getRnPostalCode())
                     .latitude(m.getLatitude())
                     .longitude(m.getLongitude())
                     .levelCode(m.getScGradeCode())
                     .schoolCode(m.getSdScCode())
+                    .build());
+        }
+        return ResponseEntity.ok(customResponse);
+    }
+
+    @PostMapping("/high/school/search")
+    @ResponseBody
+    public ResponseEntity<List<CustomHighSearchResponse>> showHighSearch(@RequestParam String keyword){
+
+        String requestURL = "http://10.41.0.174:8080/high/school/search?keyword=" + keyword;
+        List<HighSearchResponse> highResponses = userSearchServiece.getSearchListFromHighServer(requestURL);
+
+        List<CustomHighSearchResponse> customResponse = new ArrayList<>();
+
+        for (HighSearchResponse h : highResponses){
+            customResponse.add(CustomHighSearchResponse.builder()
+                    .idx(String.valueOf(h.getIdx()))
+                    .name(h.getSchoolName())
+                    .roadAddress(h.getStreetAddr())
+//                    .latitude()
+//                    .longitude()
+                    .levelCode("04")
+//                    .schoolCode()
                     .build());
         }
         return ResponseEntity.ok(customResponse);

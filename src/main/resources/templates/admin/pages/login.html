@@ -4,7 +4,6 @@
       layout:decorate="~{admin/layout/layout}"
       layout:fragment="content"
 >
-
 <!--content-->
 <main>
 <!--    <form th:action="@{/login}" method="post" th:align="center">-->
@@ -66,4 +65,16 @@
     </form>
 </main>
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    /* Thymeleaf에서 변수 사용하여 로그인 상태 확인 */
+    var isAuthenticated = /*[[${#authorization.expression('isAuthenticated()')}]]*/ false;
+
+    /* Alert 창을 띄울 조건 검사 */
+    if (isAuthenticated) {
+        alert("이미 로그인되어 있습니다.");
+        window.location.href = '/school/search';
+    }
+    /*]]>*/
+</script>
 </html>

@@ -1,4 +1,4 @@
-package com.chunjae.friendy.user;
+package com.chunjae.friendy.user.dto;
 
 public interface UserSearchResponseInterface {
 
