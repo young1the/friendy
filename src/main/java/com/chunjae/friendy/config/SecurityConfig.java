@@ -26,38 +26,40 @@ public class SecurityConfig {
     private final CustomAuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
+    public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
                 .requestMatchers(PathRequest
                         .toStaticResources()
                         .atCommonLocations())
                 .requestMatchers("/resources/templates/**")
-                .requestMatchers("/resources/static/user/**");
+                .requestMatchers("/resources/static/user/**")
+                ;
     }
 
     @Bean
-    public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/login")
-                                    ,new AntPathRequestMatcher("/")
-                                    ,new AntPathRequestMatcher("/school/user/**")
-                                    ,new AntPathRequestMatcher("/elem/**")
-                                    ,new AntPathRequestMatcher("/middle/**")
-                                    ,new AntPathRequestMatcher("/high/**"))
+                                , new AntPathRequestMatcher("/aroundSchool")
+                                , new AntPathRequestMatcher("/")
+                                , new AntPathRequestMatcher("/school/user/**")
+                                , new AntPathRequestMatcher("/elem/**")
+                                , new AntPathRequestMatcher("/middle/**")
+                                , new AntPathRequestMatcher("/high/**"))
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/login")
                         .successHandler(authenticationSuccessHandler))
-                .logout((logout)->logout
+                .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutSuccessUrl("/login"))
-                .rememberMe((rememberMe)-> rememberMe
+                .rememberMe((rememberMe) -> rememberMe
                         .rememberMeParameter("rememberMe")
                         .tokenValiditySeconds(3600)
                         .alwaysRemember(false));
@@ -67,12 +69,12 @@ public class SecurityConfig {
 
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    AuthenticationManager authenticationManager (AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
