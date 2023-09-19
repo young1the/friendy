@@ -1,8 +1,8 @@
-package com.chunjae.friendy.user;
+package com.chunjae.friendy.user.dto;
 
 public interface UserSearchResponseInterface {
 
-    String getIdx();
+    Long getIdx();
     String getName();
     String getRoadAddress();
     String getRoadZipCode();

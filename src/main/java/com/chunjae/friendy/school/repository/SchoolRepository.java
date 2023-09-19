@@ -30,6 +30,7 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
 
     School findByIdx(Long idx);
 
+
     @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:findBySearchKeyword% OR s.name LIKE %:findBySearchKeyword%")
     Page<School> findBySearchKeyword(@Param("findBySearchKeyword")String findBySearchKeyword, Pageable pageable);
 

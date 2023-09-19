@@ -1,8 +1,10 @@
 package com.chunjae.friendy.admin;
 
 import com.chunjae.friendy.admin.dto.AdminCreateRequest;
-import com.chunjae.friendy.admin.entity.Admin;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,7 @@ public class AdminController {
 
     @GetMapping("/login")
     public String login(){
-        return "admin/pages/login";
+            return "admin/pages/login";
     }
 
     @GetMapping("/signup")
@@ -31,7 +33,7 @@ public class AdminController {
     @PostMapping("/signup")
     public String signup(@ModelAttribute("adminCreateRequest") AdminCreateRequest adminCreateRequest){
 
-        Admin admin = adminService.createAdmin(adminCreateRequest);
+        adminService.createAdmin(adminCreateRequest);
 
         return "redirect:/login";
     }
