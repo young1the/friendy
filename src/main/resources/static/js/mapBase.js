@@ -104,7 +104,6 @@ function mapBase(mapElemId, mapOption) {
         }
         for (const school of schoolList) {
             const {name, idx, latitude, longitude, road_address, road_zip_code, level_code} = school;
-            // TODO : location 받기
             const position = new naver.maps.LatLng(latitude, longitude);
             const marker = new naver.maps.Marker({
                 map: map,
@@ -130,14 +129,18 @@ function mapBase(mapElemId, mapOption) {
         markers = [];
     }
 
-    function showAroundSchoolBoundary() {
-        closeInfo();
-        const center = map.getCenter();
+    function closeAroundCircle () {
         if (aroundCircle) {
             aroundCircle.setMap(null);
             aroundCircle = null;
             clearMarkers();
         }
+    }
+
+    function showAroundSchoolBoundary() {
+        closeInfo();
+        const center = map.getCenter();
+        closeAroundCircle();
         aroundCircle = new naver.maps.Circle({
             map: map,
             center: center,
@@ -201,5 +204,6 @@ function mapBase(mapElemId, mapOption) {
         clearMarkers,
         moveToCoordinate,
         getAroundSchool,
+        closeAroundCircle,
     };
 }

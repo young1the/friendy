@@ -234,7 +234,6 @@
         }
 
         function infoWindowOnClickHandler(name, idx, latitude, longitude, road_address, road_zip_code, level_code) {
-            console.log(level_code);
             moveToCoordinate(latitude, longitude);
             addHistory({name, idx, latitude, longitude, road_address, road_zip_code, level_code});
         }
@@ -313,6 +312,7 @@
 
         async function searchSubmitHandler(event) {
             event.preventDefault();
+            closeAroundCircle();
             const searchInput = document.getElementById("searchInput");
             if (!searchInput.value) return;
             const response = await fetch("/elem/search", {
@@ -330,6 +330,7 @@
 
         async function otherSubmitHandler(event) {
             event.preventDefault();
+            closeAroundCircle();
             const searchInput = document.getElementById("otherInput");
             if (!searchInput.value) return;
             const response = await fetch("/middle/search", {
@@ -347,6 +348,7 @@
 
         async function highSubmitHandler(event) {
             event.preventDefault();
+            closeAroundCircle();
             const searchInput = document.getElementById("highInput");
             if (!searchInput.value) return;
             const response = await fetch(`/high/school/search/${searchInput.value}`, {
@@ -365,7 +367,7 @@
             const searchListContainer = document.createElement('md-list');
             searchListContainer.setAttribute('style', 'min-width: 100%');
             fillSearchList(searchListContainer, searchList);
-            if (previous.length > 0) {
+            if (!previous || previous.length > 0) {
                 portal.replaceChild(searchListContainer, previous[0]);
             } else {
                 portal.appendChild(searchListContainer);
@@ -374,7 +376,6 @@
         }
 
         renderSearchList();
-        renderOtherList();
 
     </script>
 
