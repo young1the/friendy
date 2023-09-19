@@ -12,7 +12,7 @@ public class SearchSchoolDTO {
 
     private Long idx;
 
-    private Long school_idx;
+    private Long schoolIdx;
 
     private String cityEduOffice;
 

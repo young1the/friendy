@@ -1,6 +1,7 @@
 package com.chunjae.friendy.school.controller;
 
 import com.chunjae.friendy.school.dto.SchoolRequest;
+import com.chunjae.friendy.school.dto.WeatherResponseDTO;
 import com.chunjae.friendy.school.entity.School;
 import com.chunjae.friendy.school.service.SchoolService;
 import lombok.RequiredArgsConstructor;
@@ -85,9 +86,31 @@ public class SchoolController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam long idx) {
-        System.out.println("deleted");
         schoolService.delete(idx);
         return "redirect:/";
     }
 
+    // 학교 정보 상세 조회 (user)
+    @GetMapping("/user/{idx}")
+    public String userDetail(Model model, @PathVariable long idx) {
+
+        //학교의 세부 정보를 가져오기
+        School school = schoolService.detailSchool(idx);
+        model.addAttribute("school", school);
+
+        //학교 위치 가져오기
+        Map<String, Object> location = schoolService.locationSchool(idx);
+        model.addAttribute("location", location);
+
+        // API 키 전달 (지도 표시)
+        model.addAttribute("naverMapApiKey", naverMapApiKey);
+
+        // 날씨 정보를 가져오기
+        String latitude = location.get("latitude")+"";
+        String longitude = location.get("longitude")+"";
+        WeatherResponseDTO weatherResponseDTO = schoolService.getWeatherByCoordinates(latitude, longitude);
+        model.addAttribute("weatherResponseDTO", weatherResponseDTO);
+
+        return "user/pages/schoolDetail";
+    }
 }

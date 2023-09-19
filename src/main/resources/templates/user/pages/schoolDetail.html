@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{admin/layout/layout}"
-      layout:fragment="content"
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
 >
-<!--content-->
-<main>
+<head>
+  <title>학교 상세 정보</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/detail.css}">
+</head>
+<body>
+<h2 th:align="center" th:text="${school.name}"></h2>
   <div class="container" th:if="${school}">
-    <h1 class="page_tit">학교 상세 보기(사용자 ver)</h1>
-      <table class="tbl_list mt15 mb40 main_table" border="1" align="center">
+      <table class="detail-table" border="1">
         <caption></caption>
         <tr>
           <th>정보공시 학교 코드</th>
@@ -48,8 +51,8 @@
         </tr>
       </table>
     </div>
-  <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-  <div id="map" style="width: 60%; height: 400px;">
+  <div class="container">
+  <div id="map" class="map-container" style="width: 60%; height: 480px;">
   <script type="text/javascript" th:src="@{'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapApiKey}}"></script>
     </script>
   <script>
@@ -80,18 +83,11 @@
               '</div>'
     });
 
-    // 마커를 클릭하면 정보 창 열기
-    naver.maps.Event.addListener(marker, "click", function (e) {
-      infoWindow.open(map, marker);
-    });
-
-    // 지도를 클릭하면 정보 창 닫기
-    naver.maps.Event.addListener(map, "click", function (e) {
-      infoWindow.close();
-    });
+    // 처음부터 정보 창 열기
+    infoWindow.open(map, marker);
   </script>
   </div>
-  <div class="container" style="width: 40%; margin-left: 150px">
+  <div class="container weather-widget" style="width: 40%;">
     <ul>
         <script th:inline="javascript" th:each="item : ${weatherResponseDTO.response.body.items.item}">
           var currentDate = new Date();
@@ -102,7 +98,6 @@
           var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로
           var day = currentDate.getDate().toString().padStart(2, '0'); // 날짜를 두 자리로
           var formattedDate = year + month + day; // yyyyMMdd 형식으로 만들기
-          console.log("Formatted Date: " + formattedDate);
 
           var fcstTime = [[${item.fcstTime}]];
           var fcstDate = [[${item.fcstDate}]];
@@ -119,10 +114,12 @@
 
                 switch (currentCategory) {
                   case "POP":
+                    document.write('<span class="weather-info"><img src="/images/umbrella.svg" alt="강수확률"></span>');
                     currentCategory = "강수확률";
                     currentValue += "%";
                     break;
                   case "REH":
+                    document.write('<span class="weather-info"><img src="/images/moisture.svg" alt="습도"></span>');
                     currentCategory = "습도";
                     currentValue += "%";
                     break;
@@ -130,15 +127,15 @@
                     currentCategory = "하늘 상태";
                     switch (currentValue) {
                         case "1":
-                          document.write('<img style="width: 6%;" src="/images/sun.svg" alt="맑음">');
+                          document.write('<span class="weather-info"><img src="/images/sun.svg" alt="맑음"></span>');
                           currentValue = "맑음";
                           break;
                         case "3":
-                          document.write('<img style="width: 6%;" src="/images/clouds.svg" alt="구름많음">');
+                          document.write('<span class="weather-info"><img src="/images/clouds.svg" alt="구름많음"></span>');
                           currentValue = "구름많음";
                           break;
                         case "4":
-                          document.write('<img style="width: 6%;" src="/images/cloud-fog.svg" alt="흐림">');
+                          document.write('<span class="weather-info"><img src="/images/cloud-fog.svg" alt="흐림"></span>');
                           currentValue = "흐림";
                           break;
                         default:
@@ -146,6 +143,7 @@
                       }
                     break;
                   case "TMP":
+                    document.write('<span class="weather-info"><img src="/images/temperature.svg" alt="기온"></span>');
                     currentCategory = "기온";
                     currentValue += "℃";
                     break;
@@ -160,7 +158,6 @@
                   default:
                     break;
                 }
-                document.write('<span class="page_tit">' + currentCategory + '</span></p>');
                 document.write('<span class="page_tit">' + currentValue + '</span></p>');
                 document.write('<br>');
               }
@@ -170,9 +167,9 @@
     </ul>
   </div>
   </div>
-  <div class="btn_wrap mt40 justify_center">
-    <a class="btn2 w180 btn_color2" href="#none">이전 페이지로</a>
+  <div class="button">
+    <a class="btn" href="http://localhost:8080/">검색 페이지로</a>
   </div>
   <br><br>
-</main>
+</body>
 </html>

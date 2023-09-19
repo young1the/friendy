@@ -149,7 +149,7 @@ public class SchoolSearchService {
         searchSchoolDTO.setRoadAddressDetail(schoolAddress.getRoadAddressDetail());
         searchSchoolDTO.setRoadZipCode(schoolAddress.getRoadZipCode());
         searchSchoolDTO.setIdx(school.getIdx());
-        searchSchoolDTO.setSchool_idx(schoolAddress.getSchool_idx());
+        searchSchoolDTO.setSchoolIdx(schoolAddress.getSchool_idx());
 
         return searchSchoolDTO;
     }

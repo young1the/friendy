@@ -28,10 +28,10 @@ public class SchoolAddress {
     private String roadZipCode;
 
     @Column(nullable = false, length = 20)
-    private double latitude;
+    private String latitude;
 
     @Column(nullable = false, length = 20)
-    private double longitude;
+    private String longitude;
 
     @Column(nullable = false, length = 11)
     private String boundaryCode;

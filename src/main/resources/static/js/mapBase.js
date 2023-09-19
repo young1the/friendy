@@ -30,7 +30,7 @@ function mapBase(mapElemId, mapOption) {
         const {name, idx, road_address} = school;
         return `
             <div style="padding: 16px;">
-                <a style="font-weight: bold; font-size: 20px" href="/school/${idx}">${name}</a>
+                <a style="font-weight: bold; font-size: 20px" href="/school/user/${idx}">${name}</a>
                 <p>${road_address}</p>
             </div>
         `;
