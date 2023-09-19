@@ -27,10 +27,11 @@ function mapBase(mapElemId, mapOption) {
     `
 
     const schoolTemplate = (school) => {
-        const {name, idx, road_address} = school;
+        const {name, idx, road_address, level_code} = school;
+        const tag = +level_code === 2 ? "a" : "h4";
         return `
             <div style="padding: 16px;">
-                <a style="font-weight: bold; font-size: 20px" href="/school/user/${idx}">${name}</a>
+                <${tag} style="font-weight: bold; font-size: 20px" href="/school/user/${idx}">${name}</${tag}>
                 <p>${road_address}</p>
             </div>
         `;
@@ -102,7 +103,7 @@ function mapBase(mapElemId, mapOption) {
             return;
         }
         for (const school of schoolList) {
-            const {name, idx, latitude, longitude, road_address, road_zip_code} = school;
+            const {name, idx, latitude, longitude, road_address, road_zip_code, level_code} = school;
             // TODO : location 받기
             const position = new naver.maps.LatLng(latitude, longitude);
             const marker = new naver.maps.Marker({
