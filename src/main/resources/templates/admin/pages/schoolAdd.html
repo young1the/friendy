@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/layout}"
+      layout:fragment="content"
+>
+<style>
+    input{
+        width: 100% ;
+    }
+
+    table td{
+        height: 40px;
+    }
+
+</style>
+<main>
+    <div id="wrap">
+        <!-- 상단 공통 영역 -->
+        <div data-include-path="include/html/inc_header.html"></div>
+        <!-- 상단 공통 영역 -->
+        <div class="container">
+            <form action="/school/add" method="post">
+                <h1 class="page_tit">학교 정보 등록</h1>
+                <!-- 네비게이션 영역 -->
+                <div class="navigation">
+                    <!-- 정보 입력 -->
+                    <h2>학교 등급 선택</h2>
+                    <div class="tabmenu">
+                        <div id="content_wide">
+                            <div class="con_case" style="margin-right: 25px">
+                                <div class="paper_info mb45" align="center">
+                                    <ul style="display: table-caption">
+                                        <li id="tab1" class="tab_btn" style="width: 17rem; margin-bottom: 15px">
+                                            <input type="radio" name="tabmenu" id="tmenu1" class="tab">
+                                            <label class="tlabel2 label" for="tmenu1">초등</label>
+                                        </li>
+                                        <li id="tab2" class="tab_btn" style="width: 17rem; margin-bottom: 15px">
+                                            <input type="radio" name="tabmenu" id="tmenu2" class="tab">
+                                            <label class="tlabel2 label" for="tmenu2">중등</label>
+                                        </li>
+                                        <li id="tab3" class="tab_btn" style="width: 17rem">
+                                            <input type="radio" name="tabmenu" id="tmenu3" class="tab">
+                                            <label class="tlabel2 label" for="tmenu3">고등</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 네비게이션 영역 -->
+
+                <!-- 컨텐츠 영역 -->
+                <div id="content">
+                    <div class="con_case">
+                        <!-- 미리보기 -->
+                        <div class="view_box">
+                            <div align="center">
+                                <table style="width: 50%">
+                                    <tr>
+                                        <td>정보공시 학교 코드</td>
+                                        <td><input type="text" id="schoolCode" name="schoolCode"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>학교명</td>
+                                        <td>
+                                            <input type="text" id="name" name="name">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>학교급코드</td>
+                                        <td>
+                                            <input type="text" id="levelCode" name="levelCode">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>시도교육청</td>
+                                        <td>
+                                            <input type="text" id="cityEduOffice" name="cityEduOffice">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>지역교육청</td>
+                                        <td>
+                                            <input type="text" id="districtEduOffice" name="districtEduOffice">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>설립 구분</td>
+                                        <td>
+                                            <input type="text" id="establishment" name="establishment">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>주야 구분</td>
+                                        <td>
+                                            <input type="text" id="dayNight" name="dayNight"></td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>도로명 주소</td>
+                                        <td>
+                                            <input type="text" id="roadAddress" name="roadAddress">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>우편번호</td>
+                                        <td>
+                                            <input type="text" id="roadZipCode" name="roadZipCode">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>상세주소</td>
+                                        <td>
+                                            <input type="text" id="roadAddressDetail" name="roadAddressDetail">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>위도</td>
+                                        <td>
+                                            <input type="text" id="latitude" name="latitude">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>경도</td>
+                                        <td>
+                                            <input type="text" id="longitude" name="longitude">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>법정동코드
+                                        </td>
+                                        <td><input type="text" id="boundaryCode" name="boundaryCode"></td>
+                                    </tr>
+                                    <tr>
+                                        <td> 전화번호
+                                        </td>
+                                        <td><input type="text" id="tel" name="tel"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>홈페이지 주소
+                                        </td>
+                                        <td><input type="text" id="url" name="url"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>팩스번호
+                                        </td>
+                                        <td><input type="text" id="fax" name="fax"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>남녀공학 구분
+                                        </td>
+                                        <td><input type="text" id="gender" name="gender"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>지역
+                                        </td>
+                                        <td><input type="text" id="district" name="district"></td>
+                                    </tr>
+                                </table>
+                                <div class="btn_wrap justify_center mt25">
+                                    <input type="submit" class="btn2 w180 btn_color2" value="등록"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <!--    <div id="wrap">-->
+    <!--        &lt;!&ndash; 상단 공통 영역 &ndash;&gt;-->
+    <!--        <div data-include-path="include/html/inc_header.html"></div>-->
+    <!--        &lt;!&ndash; 상단 공통 영역 &ndash;&gt;-->
+    <!--        <div class="container" >-->
+    <!--            <h2 class="page_tit">학교 정보 등록</h2>-->
+    <!--            &lt;!&ndash; 컨텐츠 영역 &ndash;&gt;-->
+    <!--            <div id="content_wide" >-->
+    <!--                <div class="con_case">-->
+    <!--                    <div class="tabmenu">-->
+    <!--                        <ul>-->
+    <!--                            <li id="tab1" class="tab_btn">-->
+    <!--                                <div class="tab_con">-->
+    <!--                                    <form action="/school/add" method="post">-->
+    <!--                                        <div class="form-grid">-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="schoolCode">정보공시 학교 코드</label>-->
+    <!--                                                    <input type="text" id="schoolCode" name="schoolCode">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="name">학교명</label>-->
+    <!--                                                    <input type="text" id="name" name="name">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="levelCode">학교급코드</label>-->
+    <!--                                                    <input type="text" id="levelCode" name="levelCode">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="cityEduOffice">시도교육청</label>-->
+    <!--                                                    <input type="text" id="cityEduOffice" name="cityEduOffice">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="districtEduOffice">지역교육청</label>-->
+    <!--                                                    <input type="text" id="districtEduOffice" name="districtEduOffice">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="establishment">설립 구분</label>-->
+    <!--                                                    <input type="text" id="establishment" name="establishment">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="dayNight">주야 구분</label>-->
+    <!--                                                    <input type="text" id="dayNight" name="dayNight">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="roadAddress">도로명 주소</label>-->
+    <!--                                                    <input type="text" id="roadAddress" name="roadAddress">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="roadZipCode">우편번호</label>-->
+    <!--                                                    <input type="text" id="roadZipCode" name="roadZipCode">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="roadAddressDetail">상세주소</label>-->
+    <!--                                                    <input type="text" id="roadAddressDetail" name="roadAddressDetail">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="latitude">위도</label>-->
+    <!--                                                    <input type="text" id="latitude" name="latitude">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="longitude">경도</label>-->
+    <!--                                                    <input type="text" id="longitude" name="longitude">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="boundaryCode">법정동코드</label>-->
+    <!--                                                    <input type="text" id="boundaryCode" name="boundaryCode">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="tel">전화번호</label>-->
+    <!--                                                    <input type="text" id="tel" name="tel">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="url">홈페이지 주소</label>-->
+    <!--                                                    <input type="text" id="url" name="url">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="fax">팩스번호</label>-->
+    <!--                                                    <input type="text" id="fax" name="fax">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="gender">남녀공학 구분</label>-->
+    <!--                                                    <input type="text" id="gender" name="gender">-->
+    <!--                                                </div>-->
+    <!--                                                <div>-->
+    <!--                                                    <label for="district">지역</label>-->
+    <!--                                                    <input type="text" id="district" name="district">-->
+    <!--                                                </div>-->
+    <!--                                            </div>-->
+    <!--                                        <div class="btn_wrap mt40 justify_center" style="text-align: center; margin-top: 20px;">-->
+    <!--                                            <input type="submit" class="btn2 w180 btn_color2" value="등록"/>-->
+    <!--                                        </div>-->
+    <!--                                    </form>-->
+    <!--                                </div>-->
+    <!--                            </li>-->
+    <!--                        </ul>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+</main>
+
+</html>

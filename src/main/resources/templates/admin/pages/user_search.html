@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/layout}"
+      layout:fragment="content"
+>
+
+<!--content-->
+<main>
+    <form th:action="@{/elem/search}" method="post" th:align="center">
+        <div class="mb-3">
+            <label for="keyword" class="form-label"></label>
+            <input type="text" name="keyword" id="keyword" class="form-control">
+            <button type="submit" class="btn btn-primary">검색</button>
+        </div>
+<!--        <div class="mb-3" th:each="rs : ${resultSearch}">-->
+<!--            <span th:text="${rs}">학교명</span><span>초등학교</span>-->
+<!--            <span>학교주소</span>-->
+<!--        </div>-->
+    </form>
+
+</main>
+
+</html>

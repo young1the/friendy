@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/layout}"
+      layout:fragment="content"
+>
+<style>
+    table {
+        margin-top: 10rem;
+        width: 100%;
+    }
+
+    .column {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-width: 100px; /* 열의 최소 너비 */
+        max-width: 300px; /* 열의 최대 너비 */
+    }
+</style>
+<main>
+    <div id="wrap">
+        <!-- 상단 공통 영역 -->
+        <div data-include-path="include/html/inc_header.html"></div>
+        <!-- 상단 공통 영역 -->
+        <div class="container" >
+            <h2 class="page_tit">학교 정보 검색</h2>
+
+            <!-- 컨텐츠 영역 -->
+            <div id="content_wide" >
+                <div class="con_case">
+                    <div class="tabmenu">
+                        <ul>
+                            <li id="tab1" class="tab_btn">
+                                <input type="radio" checked name="tabmenu" id="tmenu1" class="tab">
+                                <label class="tlabel1 label" for="tmenu1">초등</label>
+                                <div class="tab_con">
+                                    <p class="info mt15">* 학교 정보를 확인할 수 있습니다.</p>
+                                    <!-- 검색박스 -->
+                                    <form action="/school/search" method="get" id="searchForm">
+                                        <div class="search_box mt20">
+                                            <div class="terms_list justify_between">
+                                                <div class="terms" style="width: 355px">
+                                                    <h4>지역</h4>
+                                                    <select class="select_box" id="city" onchange="updateDistrict()"
+                                                            name="searchCity" style="width: 125px">
+                                                        <option value="전체">전체</option>
+                                                        <option value="서울특별시">서울특별시</option>
+                                                        <option value="부산광역시">부산광역시</option>
+                                                        <option value="대구광역시">대구광역시</option>
+                                                        <option value="인천광역시">인천광역시</option>
+                                                        <option value="대전광역시">대전광역시</option>
+                                                        <option value="광주광역시">광주광역시</option>
+                                                        <option value="울산광역시">울산광역시</option>
+                                                        <option value="세종특별자치시">세종특별자치시</option>
+                                                        <option value="경기도">경기도</option>
+                                                        <option value="강원특별자치도">강원특별자치도</option>
+                                                        <option value="충청북도">충청북도</option>
+                                                        <option value="충청남도">충청남도</option>
+                                                        <option value="전라북도">전라북도</option>
+                                                        <option value="전라남도">전라남도</option>
+                                                        <option value="경상북도">경상북도</option>
+                                                        <option value="경상남도">경상남도</option>
+                                                        <option value="제주특별자치도">제주특별자치도</option>
+                                                    </select>
+                                                    <select class="select_box ml05 w140" id="district"
+                                                            name="searchDistrict">
+                                                        <option selected="selected" disabled="disabled">시/군/구</option>
+                                                    </select>
+                                                </div>
+                                                <div class="terms" style="margin-right: 4rem; width: 455px">
+                                                    <h4>검색</h4>
+                                                    <div class="check_box" style="display: flex">
+                                                        <select class="select_box ml05 w140" name="searchOption">
+                                                            <option value="전체" selected="selected">전체</option>
+                                                            <option value="name">학교명</option>
+                                                            <option value="address">학교 주소</option>
+                                                            <option value="userName">등록자</option>
+                                                        </select>
+                                                        <input class="ml05 w400" type="text" name="searchKeyword"
+                                                               placeholder="키워드를 입력해주세요."
+                                                               th:value="${param.searchKeyword}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="btn_wrap mt40 justify_center" style="margin-bottom: 17px;">
+                                                    <input type="submit" class="btn2 w140 btn_color2" value="검색">
+                                                    <input type="reset" class="btn2 w80 btn_line ml15" value="초기화"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- 검색결과 -->
+                                    <div class="justify_between">
+                                        <p class="total mt10">총 <span th:text="${schools.totalElements} + '개'"></span>
+                                        </p>
+                                        <div>
+                                            <a class="btn w120 btn_color2" href="/school/add">학교등록</a>
+                                            <a class="btn w120 btn_color3" href="/admin/csv">엑셀파일 관리</a>
+                                        </div>
+
+                                    </div>
+                                    <div style="width: 100%; overflow: auto">
+                                        <table class="tbl_list mt15" style="table-layout: auto">
+                                            <caption></caption>
+                                            <colgroup>
+                                                <col width="4%">
+                                                <col width="7%">
+                                                <col width="7%">
+                                                <col width="7%">
+                                                <col width="7%">
+                                                <col width="7%">
+                                                <col/>
+                                                <col width="10%">
+                                                <col width="10%">
+                                                <col width="13%">
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" class="first column">지역</th>
+                                                <th scope="col" class="column">시도교육청</th>
+                                                <th scope="col" class="column">지역교육청</th>
+                                                <th scope="col" class="column">정보공시 학교코드</th>
+                                                <th scope="col" class="column">학교명</th>
+                                                <th scope="col" class="column">학교급코드</th>
+                                                <th scope="col" class="column">설립구분</th>
+                                                <th scope="col" class="column">주야구분</th>
+                                                <th scope="col" class="column">법정동코드</th>
+                                                <th scope="col" class="column">학교도로명 우편번호</th>
+                                                <th scope="col" class="column">학교도로명 주소</th>
+                                                <th scope="col" class="column">학교도로명 상세주소</th>
+                                                <th scope="col" class="column">전화번호</th>
+                                                <th scope="col" class="column">팩스번호</th>
+                                                <th scope="col" class="column">홈페이지 주소</th>
+                                                <th scope="col" class="column">남녀공학 구분</th>
+                                                <th scope="col" class="column">위도</th>
+                                                <th scope="col" class="column">경도</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody style="overflow-x: auto; width: 100%">
+                                            <tr th:each="school : ${schools}">
+                                                <td class="first column" th:text="${school.district}"></td>
+                                                <td th:text="${school.cityEduOffice}" class="column"></td>
+                                                <td th:text="${school.districtEduOffice}" class="column">지역교육청</td>
+                                                <td th:text="${school.schoolCode}" class="column">정보공시 학교코드</td>
+                                                <td><a th:href="@{/school/detail(idx= ${school.idx})}" th:text="${school.name}" class="column" style="color: #488fc3"></a></td>
+                                                <td th:text="${school.levelCode}" class="column">학교급코드</td>
+                                                <td th:text="${school.establishment}" class="column">설립구분</td>
+                                                <td th:text="${school.dayNight}" class="column">주야구분</td>
+                                                <td th:text="${school.boundaryCode}" class="column">법정동코드</td>
+                                                <td th:text="${school.roadZipCode}" class="column">학교도로명 우편번호</td>
+                                                <td th:text="${school.roadAddress}" class="column">학교도로명 주소</td>
+                                                <td th:text="${school.roadAddressDetail}" class="column">학교도로명 상세주소</td>
+                                                <td th:text="${school.tel}" class="column">전화번호</td>
+                                                <td th:text="${school.fax}" class="column">팩스번호</td>
+                                                <td th:text="${school.url}" class="column">홈페이지 주소</td>
+                                                <td th:text="${school.gender}" class="column">남녀공학 구분</td>
+                                                <td th:text="${school.latitude}" class="column">위도</td>
+                                                <td th:text="${school.longitude}" class="column">경도</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 페이징 -->
+                                    <div class="paging mt32">
+                                        <th:block>
+                                            <a href="javascript:void(0);" class="pprev"
+                                               th:href="@{/school/search(searchCity= ${param.searchCity},searchDistrict= ${param.searchDistrict},searchOption= ${param.searchOption}, searchKeyword = ${param.searchKeyword}, page =${startPage -11})}"><<</a>
+                                        </th:block>
+                                        <th:block>
+                                            <a href="javascript:void(0);" class="prev"
+                                               th:href="@{/school/search(searchCity= ${param.searchCity},searchDistrict= ${param.searchDistrict},searchOption= ${param.searchOption}, searchKeyword = ${param.searchKeyword} , page = ${nowPage - 2})}"> < </a>
+                                        </th:block>
+                                        <th:block th:each="page : ${#numbers.sequence(startPage - 1, endPage - 1)}">
+                                            <a th:if="${page != nowPage - 1}" th:href="@{/school/search(searchCity=${param.searchCity},searchDistrict=${param.searchDistrict},searchOption=${param.searchOption}, searchKeyword=${param.searchKeyword}, page=${page})}" th:text="${page + 1}"></a>
+                                            <a th:if="${page == nowPage - 1}" th:text="${page + 1}" style="font-weight: bold; color: red; font-size: 13px"></a>
+                                        </th:block>
+                                        <th:block>
+                                            <a href="javascript:void(0);" class="next"
+                                               th:href="@{/school/search(searchCity= ${param.searchCity},searchDistrict= ${param.searchDistrict},searchOption= ${param.searchOption}, searchKeyword = ${param.searchKeyword} , page = ${nowPage})}"> > </a>
+                                        </th:block>
+                                        <th:block>
+                                            <a href="javascript:void(0);" class="nnext"
+                                               th:href="@{/school/search(searchCity= ${param.searchCity},searchDistrict= ${param.searchDistrict},searchOption= ${param.searchOption}, searchKeyword = ${param.searchKeyword}, page = ${endPage})}">>></a>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </li>
+                            <li id="tab2" class="tab_btn">
+                                <input type="radio" name="tabmenu" id="tmenu2" class="tab">
+                                <label class="tlabel2 label" for="tmenu2">중등</label>
+                            </li>
+                            <li id="tab3" class="tab_btn">
+                                <input type="radio" name="tabmenu" id="tmenu3" class="tab">
+                                <label class="tlabel2 label" for="tmenu3">고등</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+
+    // 테이블 넓이 조절
+    const minColumnWidth = 100;
+
+    const maxColumnWidth = 300;
+
+    const columns = document.querySelectorAll(".column");
+    function adjustColumnWidth() {
+        columns.forEach((column) => {
+            const text = column.textContent;
+            const width = Math.min(maxColumnWidth, Math.max(minColumnWidth, text.length * 10));
+            column.style.width = width + "px";
+
+            if (text.length > 20) {
+                column.style.textDecoration = "underline";
+            } else {
+                column.style.textDecoration = "none";
+            }
+        });
+    }
+
+    window.onload = adjustColumnWidth;
+    window.addEventListener("resize", adjustColumnWidth);
+
+
+    //검색 버튼 눌렀을 때 검색 조건들 저장시키기(+불러오기) + 동적으로 시/군/구 변경
+    window.onload = function () {
+        const citySelect = document.getElementById('city');
+        const districtSelect = document.getElementById('district');
+        const optionSelect = document.getElementsByName('searchOption')[0];
+        const keywordInput = document.getElementsByName('searchKeyword')[0];
+
+        // 이전에 저장된 데이터 가져오기
+        const selectedCity = sessionStorage.getItem('selectedCity');
+        const selectedDistrict = sessionStorage.getItem('selectedDistrict');
+        const selectedOption = sessionStorage.getItem('selectedOption');
+        const selectedKeyword = sessionStorage.getItem('selectedKeyword');
+
+        // 가져온 값이 있다면 적용
+        if (selectedCity) {
+            citySelect.value = selectedCity;
+        }
+
+        if (selectedDistrict) {
+            districtSelect.value = selectedDistrict;
+        }
+
+        if (selectedOption) {
+            optionSelect.value = selectedOption;
+        }
+
+        if (selectedKeyword) {
+            keywordInput.value = selectedKeyword;
+        }
+
+        // 시/도 선택 시 데이터 저장 및 시/군/구 옵션 업데이트
+        citySelect.addEventListener('change', function () {
+            sessionStorage.setItem('selectedCity', this.value);
+            updateDistrict(); // 선택된 시/도에 따라 시/군/구 업데이트
+        });
+
+        // 검색 옵션 선택 시 데이터 저장
+        optionSelect.addEventListener('change', function () {
+            sessionStorage.setItem('selectedOption', this.value);
+        });
+
+        // 키워드 입력 시 데이터 저장
+        keywordInput.addEventListener('input', function () {
+            sessionStorage.setItem('selectedKeyword', this.value);
+        });
+
+        // 초기에 구/군을 업데이트
+        updateDistrict();
+    };
+
+    // 검색 버튼 클릭 시 폼 제출
+    document.querySelector('input[type="submit"]').addEventListener('click', function () {
+        document.getElementById('searchForm').submit();
+    });
+
+    // 동적으로 시/군/구 옵션 업데이트
+    function updateDistrict() {
+
+        const citySelect = document.getElementById('city');
+        const districtSelect = document.getElementById('district');
+
+        // 기존 구/군 옵션들을 제거
+        while (districtSelect.options.length > 0) {
+            districtSelect.remove(0);
+        }
+
+        const selectedCity = citySelect.value;
+        if (selectedCity === '전체') {
+            const seoulDistricts = ["전체"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '서울특별시') {
+            const seoulDistricts = ["전체", "종로구", "중구", "용산구", "성동구", "광진구", "동대문구", "중랑구", "성북구", "강북구", "도봉구", "노원구", "은평구", "서대문구", "마포구", "양천구", "강서구", "구로구", "금천구", "영등포구", "동작구", "관악구", "서초구", "강남구", "송파구", "강동구"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '부산광역시') {
+            const seoulDistricts = ["전체", "중구", "서구", "동구", "영도구", "부산진구", "동래구", "남구", "북구", "해운대구", "사하구", "금정구", "강서구", "연제구", "수영구", "사상구", "기장군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '대구광역시') {
+            const seoulDistricts = ["전체", "중구", "동구", "서구", "남구", "북구", "수성구", "달서구", "달성군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '인천광역시') {
+            const seoulDistricts = ["전체", "중구", "동구", "미추홀구", "연수구", "남동구", "부평구", "계양구", "서구"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '대전광역시') {
+            const seoulDistricts = ["전체", "중구", "동구", "서구", "남구", "북구", "수성구", "달서구", "달성군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '광주광역시') {
+            const seoulDistricts = ["전체", "동구", "서구", "남구", "북구", "광산구"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '울산광역시') {
+            const seoulDistricts = ["전체", "중구", "남구", "동구", "북구", "울주군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '세종특별자치시') {
+            const seoulDistricts = ["전체"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '경기도') {
+            const seoulDistricts = ["전체", "수원시", "성남시", "안양시", "안산시", "용인시", "부천시", "광명시", "평택시", "동두천시", "안성시", "과천시", "구리시", "남양주시", "시흥시", "군포시", "의왕시", "하남시", "이천시", "과천시", "파주시", "양주시", "여주시", "양평군", "가평군", "연천군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '강원특별자치도') {
+            const seoulDistricts = ["전체", "춘천시", "원주시", "강릉시", "동해시", "태백시", "속초시", "삼척시", "홍천군", "횡성군", "영월군", "평창군", "정선군", "철원군", "화천군", "양구군", "인제군", "고성군", "양양군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '충청북도') {
+            const seoulDistricts = ["전체", "청주시", "충주시", "제천시", "보은군", "옥천군", "영동군", "진천군", "괴산군", "음성군", "단양군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '충청남도') {
+            const seoulDistricts = ["전체", "천안시", "공주시", "보령시", "아산시", "서산시", "논산시", "계룡시", "당진시", "금산군", "부여군", "서천군", "청양군", "홍성군", "예산군", "태안군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '전라북도') {
+            const seoulDistricts = ["전체", "전주시", "군산시", "익산시", "정읍시", "남원시", "김제시", "완주군", "진안군", "무주군", "장수군", "임실군", "순창군", "고창군", "부안군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '전라남도') {
+            const seoulDistricts = ["전체", "목포시", "여수시", "순천시", "나주시", "광양시", "담양군", "곡성군", "구례군", "고흥군", "보성군", "화순군", "장흥군", "강진군", "해남군", "영암군", "무안군", "함평군", "영광군", "장성군", "완도군", "진도군", "신안군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '경상북도') {
+            const seoulDistricts = ["전체", "포항시", "경주시", "김천시", "안동시", "구미시", "영주시", "영천시", "상주시", "문경시", "경산시", "군위군", "의성군", "청송군", "영양군", "영덕군", "청도군", "고령군", "성주군", "칠곡군", "예천군", "봉화군", "울진군", "울릉군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '경상남도') {
+            const seoulDistricts = ["전체", "창원시", "진주시", "통영시", "사천시", "김해시", "밀양시", "거제시", "양산시", "의령군", "함안군", "창녕군", "고성군", "남해군", "하동군", "산청군", "함양군", "거창군", "합천군"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+
+        if (selectedCity === '제주특별자치도') {
+            const seoulDistricts = ["전체", "제주시", "서귀포시"];
+            for (let i = 0; i < seoulDistricts.length; i++) {
+                const option = document.createElement('option');
+                option.text = seoulDistricts[i];
+                option.value = seoulDistricts[i];
+                districtSelect.add(option);
+            }
+        }
+    }
+</script>
+</html>

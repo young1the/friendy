@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/school_detail_layout}"
+      layout:fragment="content"
+>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학교 수정</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<main>
+  <h1 class="page_tit">학교 수정</h1>
+  <br>
+  <form th:action="@{/school/update(idx=${school.idx})}" th:object="${school}" method="post">
+    <div class="form-grid">
+      <div class="form-row" th:if="${school}">
+        <label for="schoolCode">정보공시 학교 코드</label>
+        <input type="text" id="schoolCode" name="schoolCode" class="input-field" th:field="*{schoolCode}">
+      </div>
+      <div class="form-row">
+        <label for="name">학교명</label>
+        <input type="text" id="name" name="name" class="input-field" th:field="*{name}" />
+      </div>
+      <div class="form-row">
+        <label for="levelCode">학교급코드</label>
+        <input type="text" id="levelCode" name="levelCode" class="input-field" th:field="*{levelCode}" />
+      </div>
+      <div class="form-row">
+        <label for="cityEduOffice">시도교육청</label>
+        <input type="text" id="cityEduOffice" name="cityEduOffice" class="input-field" th:field="*{cityEduOffice}" />
+      </div>
+      <div class="form-row">
+        <label for="districtEduOffice">지역교육청</label>
+        <input type="text" id="districtEduOffice" name="districtEduOffice" class="input-field" th:field="*{districtEduOffice}" />
+      </div>
+      <div class="form-row">
+        <label for="establishment">설립 구분</label>
+        <input type="text" id="establishment" name="establishment" class="input-field" th:field="*{establishment}" />
+      </div>
+      <div class="form-row">
+        <label for="dayNight">주야 구분</label>
+        <input type="text" id="dayNight" name="dayNight" class="input-field" th:field="*{dayNight}" />
+      </div>
+      <div class="form-row" th:if="${school.address}">
+        <label for="roadAddress">도로명 주소</label>
+        <input type="text" id="roadAddress" name="roadAddress" class="input-field" th:value="*{address.roadAddress}" />
+      </div>
+      <div class="form-row" th:if="${school.address}">
+        <label for="roadZipCode">우편번호</label>
+        <input type="text" id="roadZipCode" name="roadZipCode" class="input-field" th:value="*{address.roadZipCode}" />
+      </div>
+      <div class="form-row" th:if="${school.address}">
+        <label for="roadAddressDetail">상세주소</label>
+        <input type="text" id="roadAddressDetail" name="roadAddressDetail" class="input-field" th:value="*{address.roadAddressDetail}" />
+      </div>
+      <div class="form-row" th:if="${school.address}">
+        <label for="latitude">위도</label>
+        <input type="text" id="latitude" name="latitude" class="input-field" th:value="*{address.latitude}" />
+      </div>
+      <div class="form-row" th:if="${school.address}">
+        <label for="longitude">경도</label>
+        <input type="text" id="longitude" name="longitude" class="input-field" th:value="*{address.longitude}" />
+      </div>
+      <div class="form-row" th:if="${school.address}">
+        <label for="boundaryCode">법정동코드</label>
+        <input type="text" id="boundaryCode" name="boundaryCode" class="input-field" th:value="*{address.boundaryCode}" />
+      </div>
+      <div class="form-row">
+        <label for="tel">전화번호</label>
+        <input type="text" id="tel" name="tel" class="input-field" th:field="*{tel}" />
+      </div>
+      <div class="form-row">
+        <label for="url">홈페이지 주소</label>
+        <input type="text" id="url" name="url" class="input-field" th:field="*{url}" />
+      </div>
+      <div class="form-row">
+        <label for="fax">팩스번호</label>
+        <input type="text" id="fax" name="fax" class="input-field" th:field="*{fax}" />
+      </div>
+      <div class="form-row">
+        <label for="gender">남녀공학 구분</label>
+        <input type="text" id="gender" name="gender" class="input-field" th:field="*{gender}" />
+      </div>
+      <div class="form-row">
+        <label for="district">지역</label>
+        <input type="text" id="district" name="district" class="input-field" th:field="*{district}" />
+      </div>
+
+    </div>
+    <div class="btn_wrap mt40 justify_center" style="text-align: center; margin-top: 20px;">
+    </div>      <input type="submit" class="btn2 w180 btn_color2" value="등록" />
+
+  </form>
+</main>
+<script>
+  // jQuery를 사용하여 input 이벤트 핸들러 추가
+  $(document).ready(function () {
+    $('.input-field').on('input', function () {
+      // 해당 입력 필드의 값을 읽어옴
+      var newValue = $(this).val();
+      // 동일한 입력 필드의 값을 업데이트
+      $(this).siblings('.input-field').val(newValue);
+    });
+  });
+</script>
+</body>
+</html>
