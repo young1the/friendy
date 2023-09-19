@@ -28,7 +28,7 @@ public class CSVController {
         this.csvService = csvService;
     }
 
-    @GetMapping("")
+    @GetMapping("/manage")
     public String index(Model model) {
         List<CSVFile> csvFileList = csvService.loadAll();
         CSVFile currentFile = csvService.findByCurrentData();
