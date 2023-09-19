@@ -1,15 +1,21 @@
 package com.chunjae.friendy.school.service;
 
 
+import com.chunjae.friendy.admin.entity.Admin;
+import com.chunjae.friendy.admin.repository.AdminRepository;
 import com.chunjae.friendy.school.dto.SchoolRequest;
 import com.chunjae.friendy.school.entity.School;
 import com.chunjae.friendy.school.entity.SchoolAddress;
+import com.chunjae.friendy.school.entity.SchoolLog;
 import com.chunjae.friendy.school.repository.SchoolAddressRepository;
+import com.chunjae.friendy.school.repository.SchoolLogRepository;
 import com.chunjae.friendy.school.repository.SchoolRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +25,8 @@ public class SchoolService {
 
     private final SchoolRepository schoolRepository;
     private final SchoolAddressRepository schoolAddressRepository;
+    private final SchoolLogRepository schoolLogRepository;
+    private final AdminRepository adminRepository;
 
     //학교 엔티티와 주소 엔티티 함께 조회
     public School detailSchool(long idx) {
@@ -55,9 +63,11 @@ public class SchoolService {
     }
     
     @Autowired
-    public SchoolService(SchoolRepository schoolRepository, SchoolAddressRepository schoolAddressRepository) {
+    public SchoolService(SchoolRepository schoolRepository, SchoolAddressRepository schoolAddressRepository, SchoolLogRepository schoolLogRepository, AdminRepository adminRepository) {
         this.schoolRepository = schoolRepository;
         this.schoolAddressRepository = schoolAddressRepository;
+        this.schoolLogRepository = schoolLogRepository;
+        this.adminRepository = adminRepository;
     }
     private void mapSchoolByRequest(School school,SchoolRequest request) {
         school.setCityEduOffice(request.getCityEduOffice());
@@ -126,4 +136,29 @@ public class SchoolService {
         school.setDeletedYn('Y');
         schoolRepository.save(school);
     }
+
+    public void createLog(Long schoolIdx, String adminId) {
+        Long adminIdx = adminRepository.findByUsername(adminId).getIdx();
+
+        SchoolLog schoolLog = new SchoolLog();
+        schoolLog.setCreatedAt(LocalDateTime.now());
+        schoolLog.setSchoolIdx(schoolRepository.findByIdx(schoolIdx));
+        schoolLog.setAdminIdx(adminRepository.findByIdx(adminIdx));
+        schoolLog.setModifiedAt(null);
+        schoolLogRepository.save(schoolLog);
+
+    }
+
+    public void updateLog(Long schoolIdx, String adminId) {
+        Long adminIdx = adminRepository.findByUsername(adminId).getIdx();
+
+        SchoolLog schoolLog = new SchoolLog();
+        schoolLog.setCreatedAt(null);
+        schoolLog.setSchoolIdx(schoolRepository.findByIdx(schoolIdx));
+        schoolLog.setAdminIdx(adminRepository.findByIdx(adminIdx));
+        schoolLog.setModifiedAt(LocalDateTime.now());
+        schoolLogRepository.save(schoolLog);
+
+    }
+
 }

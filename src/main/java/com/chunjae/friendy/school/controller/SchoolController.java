@@ -5,6 +5,7 @@ import com.chunjae.friendy.school.entity.School;
 import com.chunjae.friendy.school.service.SchoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,9 +45,16 @@ public class SchoolController {
     public String add(){ return "admin/pages/schoolAdd"; }
 
     @PostMapping("/add")
-    public String add(SchoolRequest schoolRequest, Model model) {
+    public String add(SchoolRequest schoolRequest, Model model, Authentication authentication) {
         School school = schoolService.addSchool(schoolRequest);
         model.addAttribute("school", school);
+
+        if(school != null){
+            String adminId = authentication.getName();
+            Long schoolIdx = school.getIdx();
+            schoolService.createLog(schoolIdx, adminId);
+        }
+
         return "redirect:/school/add";
     }
 
@@ -61,9 +69,15 @@ public class SchoolController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam long idx, @ModelAttribute SchoolRequest updateRequest) {
+    public String update(@RequestParam long idx, @ModelAttribute SchoolRequest updateRequest, Authentication authentication) {
         // 학교 정보 업데이트
-        schoolService.update(idx, updateRequest);
+        School school = schoolService.update(idx, updateRequest);
+
+        if(school != null){
+            String adminId = authentication.getName();
+//            Long schoolIdx = school.getIdx();
+            schoolService.updateLog(idx, adminId);
+        }
 
         // 업데이트 후에 어떤 페이지로 리다이렉트할지 리턴
         return "redirect:/school/detail?idx=" + idx;

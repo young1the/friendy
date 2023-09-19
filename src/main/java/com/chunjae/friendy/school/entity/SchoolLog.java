@@ -3,9 +3,14 @@ package com.chunjae.friendy.school.entity;
 import com.chunjae.friendy.admin.entity.Admin;
 import com.chunjae.friendy.school.entity.School;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity(name = "school_log")
 public class SchoolLog {
 
@@ -21,10 +26,12 @@ public class SchoolLog {
         @JoinColumn(name = "admin_idx")
         private Admin adminIdx;
 
-        @Column(nullable = false)
-        private LocalDate createdAt;
+        @Column
+        private LocalDateTime createdAt;
 
-        @Column(nullable = false)
-        private LocalDate modifiedAt;
+        @Column
+        private LocalDateTime modifiedAt;
+
+
 
 }
