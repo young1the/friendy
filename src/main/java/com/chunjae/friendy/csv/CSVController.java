@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,9 @@ public class CSVController {
     }
 
     @PostMapping("/upload")
-    public String addCSVFile(@RequestParam("csvFile") MultipartFile file) throws StorageException {
-        csvService.store(file);
+    public String addCSVFile(@RequestParam("csvFile") MultipartFile file, Authentication authentication) throws StorageException {
+        String adminId = authentication.getName();
+        csvService.store(file, adminId);
         return "redirect:/admin/csv";
     }
 

@@ -12,21 +12,21 @@ public class School {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
-    
+
     @Column(nullable = false, length = 20)
     private String cityEduOffice;
 
     @Column(nullable = false, length = 20)
     private String districtEduOffice;
-    
+
     @Column(nullable = false, unique = true, length = 10)
-   private String schoolCode;
-    
+    private String schoolCode;
+
     @Column(nullable = false, length = 50)
     private String name;
-    
+
     @Column(nullable = false, length = 2)
-   private String levelCode;
+    private String levelCode;
 
     @Column(nullable = false, length = 5)
     private String establishment;

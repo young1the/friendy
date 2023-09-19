@@ -1,5 +1,7 @@
 package com.chunjae.friendy.csv;
 
+import com.chunjae.friendy.admin.entity.Admin;
+import com.chunjae.friendy.admin.repository.AdminRepository;
 import com.chunjae.friendy.csv.entity.CSVFile;
 import com.chunjae.friendy.csv.repository.CSVFileRepository;
 import com.chunjae.friendy.csv.utils.CSVParser;
@@ -29,6 +31,7 @@ import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.nio.file.Path;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -38,17 +41,20 @@ public class CSVService {
     private final SchoolRepository schoolRepository;
     private final SchoolAddressRepository schoolAddressRepository;
     private final Path storagePath = StoragePath.INSTANCE.getStorageLocation();
+    private final AdminRepository adminRepository;
 
     @Autowired
-    public CSVService(CSVFileRepository csvFileRepository, SchoolRepository schoolRepository, SchoolAddressRepository schoolAddressRepository) {
+    public CSVService(CSVFileRepository csvFileRepository, SchoolRepository schoolRepository, SchoolAddressRepository schoolAddressRepository, AdminRepository adminRepository) {
         this.csvFileRepository = csvFileRepository;
         this.schoolRepository = schoolRepository;
         this.schoolAddressRepository = schoolAddressRepository;
+        this.adminRepository = adminRepository;
     }
 
     public CSVFile findByCurrentData() {
         return csvFileRepository.findByCurrentDataEquals('Y');
     }
+
 
     private void storeToLocal(MultipartFile file) {
         try {
@@ -68,21 +74,23 @@ public class CSVService {
         }
     }
 
-    private void storeToDataBase(MultipartFile file) {
+    private void storeToDataBase(MultipartFile file, String adminId) {
         csvFileRepository.save(
                 CSVFile.builder()
                         .fileName(file.getOriginalFilename())
                         .currentData('N')
+                        .admin(adminRepository.findByUsername(adminId))
                         .build()
         );
     }
 
-    public void store(MultipartFile file) throws StorageException {
+    public void store(MultipartFile file, String adminId) throws StorageException {
         if (file.isEmpty()) {
             throw new StorageException("Failed to store empty file.");
         }
+
         storeToLocal(file);
-        storeToDataBase(file);
+        storeToDataBase(file, adminId);
     }
 
     public List<CSVFile> loadAll() {

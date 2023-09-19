@@ -8,6 +8,10 @@
 <main>
   <div class="container" th:if="${school}">
   <h1 class="page_tit">학교 상세 보기</h1>
+      <div style="display: flex; justify-content: flex-end;">
+          <a class="btn4 btn_color2" style="margin-right: 10px; padding: 10px 20px; cursor: pointer; border-radius: 5px;" th:href="@{/school/update-form(idx=${school.idx})}">수정</a>
+          <a class="btn4 btn_color1" style="padding: 10px 20px; cursor: pointer; border-radius: 5px;">삭제</a>
+      </div>
   <table class="tbl_list mt15 mb40 main_table" border="1" align="center">
     <caption></caption>
     <tr>
@@ -49,47 +53,47 @@
   </table>
   </div>
   <div class="container" align="center" id="map" style="width: 80%; height: 400px;">
-  <script type="text/javascript" th:src="'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapApiKey}"></script>
+    <script type="text/javascript" th:src="'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=' + ${naverMapApiKey}"></script>
     </script>
-  <script>
-    var latitude = [[${location.latitude}]];
-    var longitude = [[${location.longitude}]]
+    <script>
+      var latitude = [[${location.latitude}]];
+      var longitude = [[${location.longitude}]]
 
-    var map = new naver.maps.Map('map', {
-      center: new naver.maps.LatLng(latitude, longitude),
-      scaleControl: false,
-      logoControl: false,
-      mapDataControl: false,
-      zoomControl: true,
-      minZoom: 6,
-      zoom: 15
-    });
+      var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(latitude, longitude),
+        scaleControl: false,
+        logoControl: false,
+        mapDataControl: false,
+        zoomControl: true,
+        minZoom: 6,
+        zoom: 15
+      });
 
-    // 마커 찍기
-    var marker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(latitude, longitude),
-      map: map
-    });
+      // 마커 찍기
+      var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(latitude, longitude),
+        map: map
+      });
 
-    // 정보 창을 만들어 학교명과 주소를 표시
-    var infoWindow = new naver.maps.InfoWindow({
-      content:'<div>' +
-              '<strong>학교명:</strong> [[${school.name}]]<br>' +
-              '<strong>주소:</strong> [[${school.address.getRoadAddress()}]]' +
-              '</div>'
-    });
+      // 정보 창을 만들어 학교명과 주소를 표시
+      var infoWindow = new naver.maps.InfoWindow({
+        content:'<div>' +
+                '<strong>학교명:</strong> [[${school.name}]]<br>' +
+                '<strong>주소:</strong> [[${school.address.getRoadAddress()}]]' +
+                '</div>'
+      });
 
-    // 마커를 클릭하면 정보 창 열기
-    naver.maps.Event.addListener(marker, "click", function (e) {
-      infoWindow.open(map, marker);
-    });
+      // 마커를 클릭하면 정보 창 열기
+      naver.maps.Event.addListener(marker, "click", function (e) {
+        infoWindow.open(map, marker);
+      });
 
-    // 지도를 클릭하면 정보 창 닫기
-    naver.maps.Event.addListener(map, "click", function (e) {
-      infoWindow.close();
-    });
+      // 지도를 클릭하면 정보 창 닫기
+      naver.maps.Event.addListener(map, "click", function (e) {
+        infoWindow.close();
+      });
 
-  </script>
+    </script>
   </div>
   <div class="btn_wrap mt40 justify_center">
     <a class="btn2 w180 btn_color2" href="#none">이전 페이지로</a>&nbsp;&nbsp;
