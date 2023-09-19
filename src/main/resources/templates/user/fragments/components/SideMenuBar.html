@@ -333,14 +333,11 @@
             closeAroundCircle();
             const searchInput = document.getElementById("otherInput");
             if (!searchInput.value) return;
-            const response = await fetch("/middle/search", {
+            const response = await fetch(`/middle/search/${searchInput.value}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    keyword: searchInput.value,
-                })
             });
             const schoolList = await response.json();
             renderOtherList(schoolList, 'otherFieldPortal', false);
@@ -351,7 +348,7 @@
             closeAroundCircle();
             const searchInput = document.getElementById("highInput");
             if (!searchInput.value) return;
-            const response = await fetch(`/high/school/search/${searchInput.value}`, {
+            const response = await fetch(`/high/search/${searchInput.value}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
