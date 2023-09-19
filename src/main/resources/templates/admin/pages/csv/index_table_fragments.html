@@ -58,7 +58,7 @@
             <td>
                 <ul class="buttonContainer">
                     <li>
-                        <a th:href="${file.fileName}" class="buttonContainer__button btn">다운로드</a>
+                        <a th:href="/admin/csv/${file.fileName}" class="buttonContainer__button btn">다운로드</a>
                     </li>
                     <li>
                         <button type="button" th:attr="onclick=|deleteFileHandler('${file.fileName}')|"
