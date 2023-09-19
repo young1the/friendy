@@ -27,7 +27,6 @@ public class CoordinateController {
         List<SchoolAddress> schoolsNearby = schoolService.findSchoolsInRadius(latitude, longitude, radius);
 
         List<CoordinateDTO> coordinateDTOS = new ArrayList<>();
-
         for (SchoolAddress schoolAddress : schoolsNearby) {
             CoordinateDTO coordinateDTO = new CoordinateDTO(schoolAddress.getSchool_idx(), schoolAddress.getSchool().getName(), schoolAddress.getRoadAddress(), schoolAddress.getRoadZipCode(), schoolAddress.getLatitude(), schoolAddress.getLongitude());
             coordinateDTOS.add(coordinateDTO);

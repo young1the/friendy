@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MapController {
     @GetMapping("/")
     public String index() {
-        return "/user/pages/index";
+        return "user/pages/index";
     }
 }

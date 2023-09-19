@@ -140,7 +140,7 @@ function mapBase(mapElemId, mapOption) {
         aroundCircle = new naver.maps.Circle({
             map: map,
             center: center,
-            radius: 5000,
+            radius: 3000,
             fillColor: 'var(--md-ref-palette-primary90)',
             fillOpacity: 0.8,
         });

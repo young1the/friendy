@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SchoolService {
@@ -27,7 +28,8 @@ public class SchoolService {
     //학교 엔티티와 주소 엔티티 함께 조회
     public School detailSchool(long idx) {
         return schoolRepository.findById(idx)
-                .map(school -> { school.getAddress();
+                .map(school -> {
+                    school.getAddress();
                     return school;
                 })
                 .orElse(null);
@@ -63,7 +65,8 @@ public class SchoolService {
         this.schoolRepository = schoolRepository;
         this.schoolAddressRepository = schoolAddressRepository;
     }
-    private void mapSchoolByRequest(School school,SchoolRequest request) {
+
+    private void mapSchoolByRequest(School school, SchoolRequest request) {
         school.setCityEduOffice(request.getCityEduOffice());
         school.setDistrictEduOffice(request.getDistrictEduOffice());
         school.setSchoolCode(request.getSchoolCode());
@@ -78,7 +81,7 @@ public class SchoolService {
         school.setDistrict(request.getDistrict());
     }
 
-    private void mapSchoolAddressByRequest(SchoolAddress schoolAddress, SchoolRequest request){
+    private void mapSchoolAddressByRequest(SchoolAddress schoolAddress, SchoolRequest request) {
         schoolAddress.setRoadAddress(request.getRoadAddress());
         schoolAddress.setRoadAddressDetail(request.getRoadAddressDetail());
         schoolAddress.setRoadZipCode(request.getRoadZipCode());
@@ -107,7 +110,6 @@ public class SchoolService {
     }
 
 
-
     public School update(Long idx, SchoolRequest schoolRequest) {
         Optional<School> schoolOptional = schoolRepository.findById(idx);
         if (schoolOptional.isPresent()) {
@@ -130,21 +132,22 @@ public class SchoolService {
         school.setDeletedYn('Y');
         schoolRepository.save(school);
     }
+
     // 주어진 좌표와 반경 내의 학교 주소 검색
     public List<SchoolAddress> findSchoolsInRadius(double latitude, double longitude, double radius) {
         // CoordinateUtil 클래스를 이용하여 주어진 좌표와 반경 내의 좌표 범위 계산
-        Coordinate pivot = new Coordinate(latitude,longitude);
+        Coordinate pivot = new Coordinate(latitude, longitude);
         Coordinate maxCoordinate = CoordinateUtil.getMaxCoordinateByKM(pivot, radius);
         Coordinate minCoordinate = CoordinateUtil.getMinCoordinateByKM(pivot, radius);
 
         // 좌표 범위 내의 학교 주소 검색
         return schoolAddressRepository.findByLatitudeBetweenAndLongitudeBetween(
-               minCoordinate.getLatitude(),
-               maxCoordinate.getLatitude(),
-               minCoordinate.getLongitude(),
-               maxCoordinate.getLongitude()
-        );
-
+                minCoordinate.getLatitude(),
+                maxCoordinate.getLatitude(),
+                minCoordinate.getLongitude(),
+                maxCoordinate.getLongitude()
+        ).stream().filter(ele -> CoordinateUtil.isInArea(new Coordinate(latitude, longitude), new Coordinate(ele.getLatitude(), ele.getLongitude()), 3.0))
+                .collect(Collectors.toList());
     }
 
 }
