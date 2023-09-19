@@ -41,7 +41,7 @@ public class CSVController {
     public String addCSVFile(@RequestParam("csvFile") MultipartFile file, Authentication authentication) throws StorageException {
         String adminId = authentication.getName();
         csvService.store(file, adminId);
-        return "redirect:/admin/csv";
+        return "redirect:/admin/csv/manage";
     }
 
     @PostMapping("/{filename:.+}")
