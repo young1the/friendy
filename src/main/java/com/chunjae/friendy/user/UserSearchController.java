@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserSearchController {
 
-    private final UserSearchServiece userSearchServiece;
+    private final UserSearchService userSearchServiece;
 
     @GetMapping("/elem/search")
     public String showSearchForm(){
@@ -28,22 +28,15 @@ public class UserSearchController {
 
     @PostMapping("/elem/search")
     @ResponseBody
-    public ResponseEntity<List<UserSearchResponseInterface>> showElemSearch(@RequestParam String keyword){
-
-        List<UserSearchResponseInterface> resultSearch = userSearchServiece.searchKeyword(keyword);
-
-        if(resultSearch.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-
+    public ResponseEntity<List<UserSearchResponseInterface>> showSearch(@RequestBody UserSearchRequestDTO dto){
+        List<UserSearchResponseInterface> resultSearch = userSearchServiece.searchKeyword(dto.getKeyword());
         return ResponseEntity.ok(resultSearch);
     }
 
     @PostMapping("/middle/search")
     @ResponseBody
-    public ResponseEntity<List<CustomMiddleSearchResponse>> showMiddleSearch(@RequestParam String keyword){
-
-        String requestURL = "http://10.41.1.94:8080/middle/search?keyword=" + keyword;
+    public ResponseEntity<List<CustomMiddleSearchResponse>> showMiddleSearch(@RequestBody UserSearchRequestDTO dto){
+        String requestURL = "http://10.41.1.94:8080/middle/search?keyword=" + dto.getKeyword();
         List<MiddleSearchResponse> middleResponse = userSearchServiece.getSearchListFromMiddleServer(requestURL);
 
         List<CustomMiddleSearchResponse> customResponse = new ArrayList<>();
@@ -60,15 +53,7 @@ public class UserSearchController {
                     .schoolCode(m.getSdScCode())
                     .build());
         }
-
-        if(customResponse.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-
         return ResponseEntity.ok(customResponse);
-
     }
-
-
 
 }

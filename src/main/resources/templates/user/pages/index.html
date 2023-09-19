@@ -4,53 +4,77 @@
       layout:decorate="~{user/layout/layout}"
       layout:fragment="content"
 >
-<div id="map" style="width:100%;height:400px;"></div>
+<style>
 
+    .ken {
+        width: 100px;
+        height: 100px;
+    }
+
+    .ken--success {
+        background: url("/user/images/ken_success.png");
+        background-size: cover;
+    }
+
+    .ken--failed {
+        background: url("/user/images/ken_failed.png");
+        background-size: cover;
+    }
+
+    .ken--search {
+        background: url("/user/images/ken_search.png");
+        background-size: cover;
+    }
+
+    .infoContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .controlPanel {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        bottom: 32px;
+        right: 32px;
+        z-index: 2000;
+    }
+
+</style>
+<main>
+    <div id="map" style="width:'calc(100vw-120px)'; height: 100vh; margin-left: 120px;"></div>
+    <div class="controlPanel">
+        <md-fab onclick="showAroundSchoolBoundary()" variant="primary" size="large" aria-label="Edit">
+            <md-icon slot="icon">conditions</md-icon>
+        </md-fab>
+        <md-fab onclick="getGeolocation()" variant="secondary" size="large" aria-label="Edit">
+            <md-icon slot="icon">my_location</md-icon>
+        </md-fab>
+    </div>
+</main>
 <script>
-    var map = new naver.maps.Map('map', {
+    const mapOption = {
         center: new naver.maps.LatLng(37.5666805, 126.9784147),
         zoom: 10,
+        zoomControl: true,
+        zoomControlOptions: {
+            position: naver.maps.Position.TOP_RIGHT,
+            style: naver.maps.ZoomControlStyle.SMALL
+        },
         mapTypeId: naver.maps.MapTypeId.NORMAL
-    });
-
-    var infowindow = new naver.maps.InfoWindow();
-
-    function onSuccessGeolocation(position) {
-        var location = new naver.maps.LatLng(position.coords.latitude,
-            position.coords.longitude);
-
-        map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-        map.setZoom(10); // 지도의 줌 레벨을 변경합니다.
-
-        infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
-
-        infowindow.open(map, location);
-        console.log('Coordinates: ' + location.toString());
-    }
-
-    function onErrorGeolocation() {
-        var center = map.getCenter();
-
-        infowindow.setContent('<div style="padding:20px;">' +
-            '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>' + "latitude: " + center.lat() + "<br />longitude: " + center.lng() + '</div>');
-
-        infowindow.open(map, center);
-    }
-
-    $(window).on("load", function () {
-        if (navigator.geolocation) {
-            /**
-             * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
-             * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
-             * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
-             */
-            navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-        } else {
-            var center = map.getCenter();
-            infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
-            infowindow.open(map, center);
-        }
-    });
-
+    };
+    const mapId = 'map';
+    const {
+        getGeolocation,
+        closeInfo,
+        showAroundSchoolBoundary,
+        addMarkers,
+        clearMarkers,
+        moveToCoordinate,
+    } = mapBase(mapId, mapOption);
 </script>
 </html>

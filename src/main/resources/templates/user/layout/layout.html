@@ -7,11 +7,13 @@
     <title>유저페이지</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <th:block th:replace="~{user/fragments/css :: css}"></th:block>
-    <th:block th:replace="~{user/fragments/js :: js}"></th:block>
+    <th:block th:replace="~{user/fragments/meta/css :: css}"></th:block>
+    <th:block th:replace="~{user/fragments/meta/js :: js}"></th:block>
 </head>
 <body>
-    <header th:replace="~{user/fragments/header :: header}"></header>
-    <th:block layout:fragment="content"></th:block>
+<th:block layout:fragment="content"></th:block>
+<nav>
+    <th:block th:replace="~{user/fragments/components/SideMenuBar :: SideMenuBar}"></th:block>
+</nav>
 </body>
 </html>
