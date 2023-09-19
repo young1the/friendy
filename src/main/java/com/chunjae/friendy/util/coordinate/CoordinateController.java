@@ -35,8 +35,6 @@ public class CoordinateController {
         return ResponseEntity.ok(coordinateDTOS);
     }
 
-
-
 }
 
 

@@ -1,6 +1,9 @@
 package com.chunjae.friendy.school.repository;
 
 import com.chunjae.friendy.school.entity.School;
+import com.chunjae.friendy.school.entity.SchoolAddress;
+import com.chunjae.friendy.search.AddressDTO;
+import com.chunjae.friendy.search.SearchSchoolDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -48,5 +51,9 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
 
     @Query(value = "SELECT s FROM school s WHERE s.district LIKE %:searchCity% and s.name like %:searchKeyword%")
     Page<School> findBySearchCityAndName(@Param("searchCity") String searchCity, @Param("searchKeyword") String searchKeyword, Pageable pageable);
+
+
+
+
 
 }

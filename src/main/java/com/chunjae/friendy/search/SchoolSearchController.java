@@ -21,6 +21,7 @@ public class SchoolSearchController {
     public String searchSchools(Model model, SearchSchoolRequestDTO searchRequestDTO, @PageableDefault(size = 20, page = 0) Pageable pageable) {
         Page<SearchSchoolDTO> schools;
 
+        //검색화면 들어왔을 때 초기 화면 보이도록 함
         if (searchRequestDTO.getSearchKeyword() != null && searchRequestDTO.getSearchOption() != null
                 && searchRequestDTO.getSearchDistrict() != null && searchRequestDTO.getSearchCity() != null) {
             String searchCity = searchRequestDTO.getSearchCity();
@@ -31,7 +32,6 @@ public class SchoolSearchController {
         } else {
             schools = schoolSearchService.findAll(pageable);
         }
-
 
         // 페이징 처리
         int nowPage = schools.getPageable().getPageNumber() + 1;

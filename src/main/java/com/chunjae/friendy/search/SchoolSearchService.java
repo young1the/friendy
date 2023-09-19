@@ -86,8 +86,8 @@ public class SchoolSearchService {
                         break;
                     // 전x - 전x (district)- 주
                     case "address":
-                        Page<SchoolAddress> schoolAddressPage = searchKeyword.isEmpty() ? schoolAddressRepository.findByDistrict(district, pageable)
-                                : schoolAddressRepository.findByDistrictAndSearchKeyword(district, searchKeyword, pageable);
+                        Page<SchoolAddress> schoolAddressPage = searchKeyword.isEmpty() ? schoolAddressRepository.findByDistrictUsingJoin(district, pageable)
+                                : schoolAddressRepository.findByDistrictAndSearchKeywordUsingJoin   (district, searchKeyword, pageable);
                         searchSchoolDTOList = schoolAddressPage.map(schoolAddress -> toDTO(schoolAddress.getSchool()));
                         break;
                     default:
@@ -111,8 +111,8 @@ public class SchoolSearchService {
                         break;
                     // 전x (searchCity) - 전 - 주
                     case "address":
-                        Page<SchoolAddress> schoolAddressPage = searchKeyword.isEmpty() ? schoolAddressRepository.findBySearchCity(searchCity, pageable)
-                                : schoolAddressRepository.findBySearchCityAndSearchKeyword(searchCity, searchKeyword, pageable);
+                        Page<SchoolAddress> schoolAddressPage = searchKeyword.isEmpty() ? schoolAddressRepository.findBySearchCityUsingJoin(searchCity, pageable)
+                                : schoolAddressRepository.findBySearchCityAndSearchKeywordUsingJoin(searchCity, searchKeyword, pageable);
                         searchSchoolDTOList = schoolAddressPage.map(schoolAddress -> toDTO(schoolAddress.getSchool()));
                         break;
                     default:
@@ -129,7 +129,6 @@ public class SchoolSearchService {
     private SearchSchoolDTO toDTO(School school){
         SchoolAddress schoolAddress = school.getAddress();
         SearchSchoolDTO searchSchoolDTO = new SearchSchoolDTO();
-
         searchSchoolDTO.setSchoolCode(school.getSchoolCode());
         searchSchoolDTO.setCityEduOffice(school.getCityEduOffice());
         searchSchoolDTO.setDayNight(school.getDayNight());
@@ -149,6 +148,8 @@ public class SchoolSearchService {
         searchSchoolDTO.setRoadAddress(schoolAddress.getRoadAddress());
         searchSchoolDTO.setRoadAddressDetail(schoolAddress.getRoadAddressDetail());
         searchSchoolDTO.setRoadZipCode(schoolAddress.getRoadZipCode());
+        searchSchoolDTO.setIdx(school.getIdx());
+        searchSchoolDTO.setSchool_idx(schoolAddress.getSchool_idx());
 
         return searchSchoolDTO;
     }

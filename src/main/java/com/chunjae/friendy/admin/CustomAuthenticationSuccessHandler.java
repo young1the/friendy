@@ -36,7 +36,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         adminLog.setIpAddress(ipAddr);
         adminLogRepository.save(adminLog);
 
-        response.sendRedirect("/admin");
+        response.sendRedirect("/school/search");
 
     }
 }

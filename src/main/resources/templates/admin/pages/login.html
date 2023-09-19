@@ -7,25 +7,62 @@
 
 <!--content-->
 <main>
-    <form th:action="@{/login}" method="post" th:align="center">
-        <div th:if="${param.error}">
-            <div class="alert alert-danger">
-                사용자 ID 또는 비밀번호를 확인해 주세요.
+<!--    <form th:action="@{/login}" method="post" th:align="center">-->
+<!--        <div th:if="${param.error}">-->
+<!--            <div class="alert alert-danger">-->
+<!--                사용자 ID 또는 비밀번호를 확인해 주세요.-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="username" class="form-label">관리자 ID</label>-->
+<!--            <input type="text" name="username" id="username" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="password" class="form-label">비밀번호</label>-->
+<!--            <input type="password" name="password" id="password" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <input type="checkbox" name="rememberMe" id="rememberMe">-->
+<!--            <label for="rememberMe">로그인 유지 여부</label>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-primary">로그인</button>-->
+<!--    </form>-->
+
+
+    <form th:action="@{/login}" method="post">
+        <div id="wrap">
+            <div class="login_area">
+                <!-- <img src="images/logo.svg" alt="천재교육 ACA 관리자" /> -->
+                <img src="images/logo.svg" alt="천재교육"/>
+                <h1>AI 기출 서비스 가공 플랫폼</h1>
+
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">
+                        사용자 ID 또는 비밀번호를 확인해 주세요.
+                    </div>
+                </div>
+
+                <div class="login_box">
+                    <input type="text" placeholder="아이디" name="username" id="username" class="form-control"/>
+                    <input class="mt12 form-control" type="password" placeholder="비밀번호" name="password" id="password">
+                    <div class="btn_right mt15 check_box">
+                        <input type="checkbox" name="rememberMe" id="rememberMe">
+                        <label for="rememberMe" >아이디 저장</label>
+                    </div>
+                    <div class="btn_zone">
+                        <button type="submit" class="btn4 btn_color2" style="width: 100%">로그인</button>
+                    </div>
+                </div>
+
+                <p class="login_notice">
+                    <span>* </span>
+                    <span class="notice_txt">
+                    아이디/비밀번호가 기억나지 않을 경우, 담당자에게 문의하시길 바랍니다.<br/>
+                    담당자 : 김천재 (02-000-000)
+                </span>
+                </p>
             </div>
         </div>
-        <div class="mb-3">
-            <label for="username" class="form-label">관리자 ID</label>
-            <input type="text" name="username" id="username" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">비밀번호</label>
-            <input type="password" name="password" id="password" class="form-control">
-        </div>
-        <div class="mb-3">
-            <input type="checkbox" name="rememberMe" id="rememberMe">
-            <label for="rememberMe">로그인 유지 여부</label>
-        </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
     </form>
 </main>
 
