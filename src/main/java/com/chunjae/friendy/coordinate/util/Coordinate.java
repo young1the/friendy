@@ -1,4 +1,4 @@
-package com.chunjae.friendy.util.coordinate;
+package com.chunjae.friendy.coordinate.util;
 
 import com.chunjae.friendy.school.entity.School;
 import jakarta.persistence.*;

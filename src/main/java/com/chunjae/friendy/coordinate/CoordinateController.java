@@ -1,5 +1,6 @@
-package com.chunjae.friendy.util.coordinate;
+package com.chunjae.friendy.coordinate;
 
+import com.chunjae.friendy.coordinate.dto.CoordinateDTO;
 import com.chunjae.friendy.school.entity.SchoolAddress;
 import com.chunjae.friendy.school.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class CoordinateController {
 
         List<CoordinateDTO> coordinateDTOS = new ArrayList<>();
         for (SchoolAddress schoolAddress : schoolsNearby) {
-            CoordinateDTO coordinateDTO = new CoordinateDTO(schoolAddress.getSchool_idx(), schoolAddress.getSchool().getName(), schoolAddress.getRoadAddress(), schoolAddress.getRoadZipCode(), schoolAddress.getLatitude(), schoolAddress.getLongitude());
+            CoordinateDTO coordinateDTO = new CoordinateDTO(schoolAddress.getSchool_idx(), schoolAddress.getSchool().getName(), schoolAddress.getRoadAddress(), schoolAddress.getRoadZipCode(), schoolAddress.getLatitude(), schoolAddress.getLongitude(), schoolAddress.getSchool().getLevelCode());
             coordinateDTOS.add(coordinateDTO);
         }
         return ResponseEntity.ok(coordinateDTOS);

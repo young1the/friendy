@@ -1,6 +1,6 @@
 package com.chunjae.friendy.school.entity;
 
-import com.chunjae.friendy.util.coordinate.Coordinate;
+import com.chunjae.friendy.coordinate.util.Coordinate;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

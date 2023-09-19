@@ -1,4 +1,4 @@
-package com.chunjae.friendy.util.coordinate;
+package com.chunjae.friendy.coordinate.dto;
 
 import lombok.Getter;
 import org.springframework.web.bind.annotation.RequestParam;

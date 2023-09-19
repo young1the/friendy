@@ -1,4 +1,4 @@
-package com.chunjae.friendy.util.coordinate;
+package com.chunjae.friendy.coordinate.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +11,9 @@ public class CoordinateDTO {
 
     private Long idx;
     private String name;
-    private String roadAddress;
-    private String roadZipCode;
+    private String road_address;
+    private String road_zip_code;
     private String latitude;
     private String longitude;
-
+    private String level_code;
 }

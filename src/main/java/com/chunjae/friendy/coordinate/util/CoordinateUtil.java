@@ -1,4 +1,4 @@
-package com.chunjae.friendy.util.coordinate;
+package com.chunjae.friendy.coordinate.util;
 
 /**
  * 위도와 경도로 생성한 Coordinate 객체를 이용해서,

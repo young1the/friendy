@@ -1,4 +1,4 @@
-package com.chunjae.friendy.util.coordinate;
+package com.chunjae.friendy.coordinate.util;
 
 import lombok.Getter;
 import lombok.ToString;
