@@ -39,14 +39,11 @@ function deleteCookie(name) {
 }
 
 function addHistory (school) {
-    const {name, idx, latitude, longitude, roadAddress, roadZipCode} = school;
     let history = getHistoryFromLocalStorage();
     if (!history) history = {};
-    history[idx] = {
-        name, idx, latitude, longitude, roadAddress, roadZipCode
-    };
+    history[school.idx] = { ...school };
     const prevCookie = getCookie('friendy');
-    const newCookie = prevCookie ? prevCookie+","+idx : idx;
+    const newCookie = prevCookie ? prevCookie+","+school.idx : school.idx;
     setCookie('friendy', newCookie);
     addHistoryToLocalStorage(JSON.stringify(history));
     renderHistoryList();
