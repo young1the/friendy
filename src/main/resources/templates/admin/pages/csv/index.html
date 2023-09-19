@@ -99,7 +99,6 @@
         } else {
             // Use DataTransfer interface to access the file(s)
             [...event.dataTransfer.files].forEach((file, i) => {
-                console.log(`… file[${i}].name = ${file.name}`);
             });
         }
     }

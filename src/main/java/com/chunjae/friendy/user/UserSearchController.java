@@ -50,11 +50,11 @@ public class UserSearchController {
         return ResponseEntity.ok(customResponse);
     }
 
-    @PostMapping("/high/school/search")
+    @PostMapping("/high/school/search/{keyword}")
     @ResponseBody
-    public ResponseEntity<List<CustomHighSearchResponse>> showHighSearch(@RequestParam String keyword){
+    public ResponseEntity<List<CustomHighSearchResponse>> showHighSearch(@PathVariable String keyword){
 
-        String requestURL = "http://10.41.0.174:8080/high/school/search?keyword=" + keyword;
+        String requestURL = "http://10.41.0.174:8080/high/school/search/" + keyword;
         List<HighSearchResponse> highResponses = userSearchServiece.getSearchListFromHighServer(requestURL);
 
         List<CustomHighSearchResponse> customResponse = new ArrayList<>();

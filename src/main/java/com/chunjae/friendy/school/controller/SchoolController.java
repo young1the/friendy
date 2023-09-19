@@ -86,13 +86,12 @@ public class SchoolController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam long idx) {
-        System.out.println("deleted");
         schoolService.delete(idx);
         return "redirect:/";
     }
 
     // 학교 정보 상세 조회 (user)
-    @GetMapping("/{idx}")
+    @GetMapping("/user/{idx}")
     public String userDetail(Model model, @PathVariable long idx) {
 
         //학교의 세부 정보를 가져오기
@@ -107,8 +106,8 @@ public class SchoolController {
         model.addAttribute("naverMapApiKey", naverMapApiKey);
 
         // 날씨 정보를 가져오기
-        String latitude = (String) location.get("latitude");
-        String longitude = (String) location.get("longitude");
+        String latitude = location.get("latitude")+"";
+        String longitude = location.get("longitude")+"";
         WeatherResponseDTO weatherResponseDTO = schoolService.getWeatherByCoordinates(latitude, longitude);
         model.addAttribute("weatherResponseDTO", weatherResponseDTO);
 

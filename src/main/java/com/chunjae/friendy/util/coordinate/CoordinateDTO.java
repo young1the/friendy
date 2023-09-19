@@ -13,6 +13,7 @@ public class CoordinateDTO {
     private String name;
     private String roadAddress;
     private String roadZipCode;
-    private double latitude;
-    private double longitude;
+    private String latitude;
+    private String longitude;
+
 }

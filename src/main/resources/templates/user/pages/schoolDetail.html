@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 <head>
   <title>학교 상세 정보</title>
@@ -99,7 +98,6 @@
           var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로
           var day = currentDate.getDate().toString().padStart(2, '0'); // 날짜를 두 자리로
           var formattedDate = year + month + day; // yyyyMMdd 형식으로 만들기
-          console.log("Formatted Date: " + formattedDate);
 
           var fcstTime = [[${item.fcstTime}]];
           var fcstDate = [[${item.fcstDate}]];
