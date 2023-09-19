@@ -10,7 +10,7 @@
   <h1 class="page_tit">학교 상세 보기</h1>
       <div style="display: flex; justify-content: flex-end;">
           <a class="btn4 btn_color2" style="margin-right: 10px; padding: 10px 20px; cursor: pointer; border-radius: 5px;" th:href="@{/school/update-form(idx=${school.idx})}">수정</a>
-          <a class="btn4 btn_color1" style="padding: 10px 20px; cursor: pointer; border-radius: 5px;">삭제</a>
+          <a class="btn4 btn_color1" style="padding: 10px 20px; cursor: pointer; border-radius: 5px;" th:href="@{/school/delete(idx=${school.idx})}">삭제</a>
       </div>
   <table class="tbl_list mt15 mb40 main_table" border="1" align="center">
     <caption></caption>
