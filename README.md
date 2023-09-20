@@ -1,5 +1,5 @@
 # friendy
-<img src="https://github.com/young1the/friendy/assets/86599495/e038c216-38d0-4273-82ea-1641d80a7620" width="100" height="100"/>
+<img src="https://github.com/young1the/friendy/assets/86599495/159f29b0-1aff-4db3-b4b5-5179fba33fd5" width="100" height="100"/>
 
 기출 문제 학습 사이트
 
@@ -17,21 +17,25 @@
 ## 🖥 Demo
 #### 1. 관리자
 1-1. 학교 정보 검색
-![image](https://github.com/young1the/friendy/assets/86599495/ae82fc12-9e83-4cc9-b169-1df56e27674b)
+![image](https://github.com/young1the/friendy/assets/86599495/651b6bab-c10d-4609-8b86-589b3a1ec532)
 1-2. 학교 정보 상세 보기
-![3](https://github.com/young1the/friendy/assets/86599495/dc15e53f-5417-4fbb-80dd-f06c7fa06f50)
+![3](https://github.com/young1the/friendy/assets/86599495/f248d1d1-96a7-4e8d-8e17-058b57f7a805)
 1-3. 학교 등록/수정/삭제
-![Untitled (1)](https://github.com/young1the/friendy/assets/86599495/66658460-6914-472b-b8ce-22dc9f9a085b)
+![Untitled (1)](https://github.com/young1the/friendy/assets/86599495/ce1070cc-4135-4d93-9561-c8e4bc439b43)
 1-4. 학교 기본 정보 CSV 파일 관리 및 일괄 적용
-![image (11)](https://github.com/young1the/friendy/assets/86599495/4c77410e-158e-46cc-b7cf-87fbe4f5aa1a)
+![image (11)](https://github.com/young1the/friendy/assets/86599495/08f77cae-f2e8-4cb5-94d8-aabb23f0d7b7)
+
 #### 2. 유저
 2-1. 학교 검색 (초/중/고)
-![image](https://github.com/young1the/friendy/assets/86599495/fcd19e4f-d3e9-4339-bd54-a79f1b9d8cfc)
+![image](https://github.com/young1the/friendy/assets/86599495/50a02c90-7fce-4195-ab0d-c885bccf5c7b)
+
 2-2. 주변 학교 검색
-![image (4)](https://github.com/young1the/friendy/assets/86599495/fa6e24ed-112b-410b-ac28-e89949df9e22)
-![image (5)](https://github.com/young1the/friendy/assets/86599495/10940b16-01fb-42c8-95bf-d2140ba87c01)
+![image (4)](https://github.com/young1the/friendy/assets/86599495/380c6cae-90a9-4c5f-9294-9aec30f82ffb)
+![image (5)](https://github.com/young1the/friendy/assets/86599495/1af5d85f-b4a2-4eff-91a5-765ac9cbdf94)
+
+
 2-3. 학교 정보 상세 보기 및 주변 날씨 확인
-![Untitled (3)](https://github.com/young1the/friendy/assets/86599495/c79e15a4-ec32-4af9-aebc-26af058f7341)
+![Untitled (3)](https://github.com/young1the/friendy/assets/86599495/ba8ac502-5ac6-432c-bd6a-22b72bd39f5f)
 
 ## ⚡️ 사용 라이브러리
 
