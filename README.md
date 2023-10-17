@@ -30,26 +30,14 @@
 
 ## 🖥 Demo
 #### 1. 관리자
-1-1. 학교 정보 검색
-![image](https://github.com/young1the/friendy/assets/86599495/651b6bab-c10d-4609-8b86-589b3a1ec532)
-1-2. 학교 정보 상세 보기
-![3](https://github.com/young1the/friendy/assets/86599495/f248d1d1-96a7-4e8d-8e17-058b57f7a805)
-1-3. 학교 등록/수정/삭제
-![Untitled (1)](https://github.com/young1the/friendy/assets/86599495/ce1070cc-4135-4d93-9561-c8e4bc439b43)
-1-4. 학교 기본 정보 CSV 파일 관리 및 일괄 적용
-![image (11)](https://github.com/young1the/friendy/assets/86599495/08f77cae-f2e8-4cb5-94d8-aabb23f0d7b7)
+|학교 정보 검색|학교 정보 상세 보기|학교 등록/수정/삭제|학교 기본 정보 CSV 파일 관리 및 일괄 적용|
+|---|---|---|---|
+|![image](https://github.com/young1the/friendy/assets/86599495/651b6bab-c10d-4609-8b86-589b3a1ec532)|![3](https://github.com/young1the/friendy/assets/86599495/f248d1d1-96a7-4e8d-8e17-058b57f7a805)|![Untitled (1)](https://github.com/young1the/friendy/assets/86599495/ce1070cc-4135-4d93-9561-c8e4bc439b43)|![image (11)](https://github.com/young1the/friendy/assets/86599495/08f77cae-f2e8-4cb5-94d8-aabb23f0d7b7)|
 
 #### 2. 유저
-2-1. 학교 검색 (초/중/고)
-![image](https://github.com/young1the/friendy/assets/86599495/50a02c90-7fce-4195-ab0d-c885bccf5c7b)
-
-2-2. 주변 학교 검색
-![image (4)](https://github.com/young1the/friendy/assets/86599495/380c6cae-90a9-4c5f-9294-9aec30f82ffb)
-![image (5)](https://github.com/young1the/friendy/assets/86599495/1af5d85f-b4a2-4eff-91a5-765ac9cbdf94)
-
-
-2-3. 학교 정보 상세 보기 및 주변 날씨 확인
-![Untitled (3)](https://github.com/young1the/friendy/assets/86599495/ba8ac502-5ac6-432c-bd6a-22b72bd39f5f)
+|학교 검색 (초/중/고)|주변 학교 검색|학교 정보 상세 보기 및 주변 날씨 확인|
+|---|---|---|
+|![image](https://github.com/young1the/friendy/assets/86599495/50a02c90-7fce-4195-ab0d-c885bccf5c7b)|![image (4)](https://github.com/young1the/friendy/assets/86599495/380c6cae-90a9-4c5f-9294-9aec30f82ffb)|![Untitled (3)](https://github.com/young1the/friendy/assets/86599495/ba8ac502-5ac6-432c-bd6a-22b72bd39f5f)|
 
 ## 🐣 Members
 
